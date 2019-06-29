@@ -1,0 +1,88 @@
+@extends('mentor.layouts.app') @section('main-content')
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800"></h1>
+    <p class="mb-4">Murid yang ada pada daftar dibawah adalah murid yang mengikuti anda dan anda dapat <span class="badge badge-danger">mengeluarkan</span> murid anda.</p>
+    <div class="col text-right mb-3 mt-3">
+
+        <a href="{{ route('mentor.materi_upload') }}" class="btn btn-dark"> Tambah materi</a>
+    </div>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Murid</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive w-100">
+
+                <form>
+                    <div class="row">
+                        <div class="form-group row">
+                            <label for="staticEmail" class="col-md-6 col-form-label">Email</label>
+                            <div class="col-md-4">
+                                <input type="text" readonly class="form-control-plaintext" value="{{$mentor->name}}" id="staticEmail" value="email@example.com">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword" class="col-md-6 col-form-label">Password</label>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" value="{{$mentor->email}}" id="inputPassword" placeholder="Password">
+                            </div>
+                        </div>
+                    </div>
+
+                    {!! HTML::image($mentor->foto, 'Foto Profil', array('class' => 'rounded-circle text-center img-fluid gambar')) !!}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- MODAL --}}
+
+<div class="modal fade bd-example-modal-xl modal-materi" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h5 class="modal-title" style="font-size: 15px; text-align:center; font-weight:bold; text-transform:capitalize;"></h5>
+                </div>
+                <button type="button" class="close btn-tutup" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-konfirmasi" onclick="event.preventDefault();document.getElementById('form-hapus').submit();" data-dismiss="modal">Hapus</button>
+                <button type="button" class="btn btn-info btn-tutup" data-dismiss="modal">Tutup</button>
+                <form id="form-hapus" action="#" method="post">
+                    @csrf
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@endsection @section('scriptcss')
+
+<link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+<style>
+    .gambar {
+        width: 10%;
+        height: auto;
+    }
+</style>
+@endsection @section('scriptjs')
+<!-- Page level plugins -->
+<script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+<!-- Page level custom scripts -->
+<script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+@endsection
