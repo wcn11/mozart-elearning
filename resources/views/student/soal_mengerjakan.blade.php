@@ -20,7 +20,7 @@
             <div class="card-body">
                 @foreach($soal as $s)
                 <input type="hidden" name="soal_id" value="{{ $s->id }}">
-                {{ $soal->currentPage() }}. {{ $s->pertanyaan }}<br>
+                {{ $soal->currentPage() }}. {{ $s->pertanyaan }} <br>
                     <div class="form-check form-soal" data-link="{{ route('student.soal_update', $s->id) }}">
                             <input class="form-check-input jawaban1" type="radio" name="jawaban" id="exampleRadios1" value="1">
                             <label class="form-check-label" for="exampleRadios1">
@@ -59,86 +59,219 @@
     @if($soal->currentPage() == $soal_judul->jumlah_soal)
     <div class="text-center">
         <?php $id = Crypt::encrypt($soal_judul->id); ?>
-    <a class="btn btn-outline-info text-right btn-selesai" href="{{ route('student.soal_hasil',$id) }}">Selesai</a>
+    <a class="btn btn-outline-info text-right btn-selesai" href="{{ route('student.soal_edit',$id) }}">Selesai</a>
 </div>
     @else
     <div class="text-center">
-    <a class="btn btn-info text-right btn-selanjutnya" href="{{ $soal->nextPageUrl() }}">Selanjutnya</a>
+    <a class="btn btn-info text-right btn-selanjutnya" data-link="{{ $soal->nextPageUrl() }}">Selanjutnya</a>
 </div>
     @endif
+
+    <span class="bg-danger text-white p-2 rounded w-100 belum-memilih">Anda belum memilih.<br>Harap pilih salah satu dari jawaban yang disediakan!!</span>
+
 @endsection
 
 @section('scriptcss')
+<style>
+.belum-memilih{
+    position: fixed;
+    top: 0px;
+    text-align: center;
+
+    max-height: 40%;
+}
+</style>
+
 @endsection
 
 @section('scriptjs')
 <script>
     $(document).ready(function(){
-        // var jawaban = 0;
+
+        $(".belum-memilih").hide();
+        
         $(".jawaban1").click(function(){
-            jawaban = $(this).val();
-            console.log(jawaban)
+            jawaban1 = $(this).val();
+            $(".belum-memilih").hide();
+            
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type: "post",
+                url: "{{ url('/student/soal/update') }}",
+                data: {
+                    jawaban: jawaban1,
+                    soal_id: $("[name='soal_id']").val(),
+                    soal_judul_id: $("[name='soal_judul_id']").val()
+                },
+                success: function(hasil1){
+                    console.log(hasil1);
+                    // location.reload(true);
+                }
+            });
+
+            console.log(jawaban1)
         });
         $(".jawaban2").click(function(){
-            jawaban = $(this).val();
-            console.log(jawaban)
+            jawaban2 = $(this).val();
+            $(".belum-memilih").hide();
+            
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type: "post",
+                url: "{{ url('/student/soal/update') }}",
+                data: {
+                    jawaban: jawaban2,
+                    soal_id: $("[name='soal_id']").val(),
+                    soal_judul_id: $("[name='soal_judul_id']").val()
+                },
+                success: function(hasil2){
+                    console.log(hasil2);
+                    // location.reload(true);
+                }
+            });
+            console.log(jawaban2)
         });
         $(".jawaban3").click(function(){
-            jawaban = $(this).val();
-            console.log(jawaban)
+            jawaban3 = $(this).val();
+            $(".belum-memilih").hide();
+            
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type: "post",
+                url: "{{ url('/student/soal/update') }}",
+                data: {
+                    jawaban: jawaban3,
+                    soal_id: $("[name='soal_id']").val(),
+                    soal_judul_id: $("[name='soal_judul_id']").val()
+                },
+                success: function(hasil3){
+                    console.log(hasil3);
+                    // location.reload(true);
+                }
+            });
+            console.log(jawaban3)
         });
         $(".jawaban4").click(function(){
-            jawaban = $(this).val();
-            console.log(jawaban)
+            jawaban4 = $(this).val();
+            $(".belum-memilih").hide();
+            
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type: "post",
+                url: "{{ url('/student/soal/update') }}",
+                data: {
+                    jawaban: jawaban4,
+                    soal_id: $("[name='soal_id']").val(),
+                    soal_judul_id: $("[name='soal_judul_id']").val()
+                },
+                success: function(hasil4){
+                    console.log(hasil4);
+                    // location.reload(true);
+                }
+            });
+            console.log(jawaban4)
         });
         $(".jawaban5").click(function(){
-            jawaban = $(this).val();
-            console.log(jawaban)
+            jawaban5 = $(this).val();
+            $(".belum-memilih").hide();
+            
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type: "post",
+                url: "{{ url('/student/soal/update') }}",
+                data: {
+                    jawaban: jawaban5,
+                    soal_id: $("[name='soal_id']").val(),
+                    soal_judul_id: $("[name='soal_judul_id']").val()
+                },
+                success: function(hasil5){
+                    console.log(hasil5);
+                    // location.reload(true);
+                }
+            });
+            console.log(jawaban5)
         });
 
         $(".btn-selanjutnya").click(function(event){
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
 
-            $.ajax({
-                type: "post",
-                url: "{{ url('/student/soal/update') }}",
-                data: {
-                    jawaban: jawaban,
-                    soal_id: $("[name='soal_id']").val(),
-                    soal_judul_id: $("[name='soal_judul_id']").val()
-                },
-                success: function(hasil){
-                    console.log(hasil);
-                    location.reload(true);
-                }
-            });
+
+            if($("[name='jawaban']").is(":checked")){
+                console.log("ter ceklis");
+                var link = $(this).attr('data-link');
+                console.log(link);
+                $(this).attr("href", link);
+            }else{
+                console.log("belum di ceklis");
+                $(".belum-memilih").show();
+            }
+
+            // $.ajaxSetup({
+            //     headers: {
+            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //     }
+            // });
+
+            // $.ajax({
+            //     type: "post",
+            //     url: "{{ url('/student/soal/update') }}",
+            //     data: {
+            //         jawaban: jawaban,
+            //         soal_id: $("[name='soal_id']").val(),
+            //         soal_judul_id: $("[name='soal_judul_id']").val()
+            //     },
+            //     success: function(hasil){
+            //         console.log(hasil);
+            //         // location.reload(true);
+            //     }
+            // });
         });
 
-        $(".btn-selesai").click(function(event){
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+        // $(".btn-selesai").click(function(event){
+        //     $.ajaxSetup({
+        //         headers: {
+        //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //         }
+        //     });
 
-            $.ajax({
-                type: "post",
-                url: "{{ url('/student/soal/update') }}",
-                data: {
-                    jawaban: jawaban,
-                    soal_id: $("[name='soal_id']").val(),
-                    jumlah_soal: $("[name='jumlah_soal']").val(),
-                    soal_judul_id: $("[name='soal_judul_id']").val()
-                },
-                success: function(hasil){
-                    console.log(hasil);
-                }
-            });
-        });
+        //     $.ajax({
+        //         type: "post",
+        //         url: "{{ url('/student/soal/update') }}",
+        //         data: {
+        //             jawaban: jawaban,
+        //             soal_id: $("[name='soal_id']").val(),
+        //             jumlah_soal: $("[name='jumlah_soal']").val(),
+        //             soal_judul_id: $("[name='soal_judul_id']").val()
+        //         },
+        //         success: function(hasil){
+        //             console.log(hasil);
+        //         }
+        //     });
+        // });
 
     });
 </script>

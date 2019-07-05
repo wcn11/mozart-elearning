@@ -52,5 +52,7 @@ Route::group(['namespace' => 'Mentor'], function () {
 
         Route::get('profil', 'HomeController@profil')->name('mentor.profil');
         Route::post('profil/update', 'HomeController@profil_update')->name('mentor.profil_update');
+        
+        Route::get("pelajaran", 'PelajaranController@index')->name('mentor.pelajaran');
     });
 });

@@ -18,17 +18,25 @@
         <div class="card-body">
                 <div class="row">
                         <div class="row p-2">
-                                @foreach ($materi as $m)
-                            <div class="col-lg-3 col-md-4 col-xs-6 thumb p-2">
-                                    <img class="img-thumbnail"
-                                    src="https://images.pexels.com/photos/853168/pexels-photo-853168.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+
+                            @forelse ($materi as $m)
+                            <div class="col-lg-3 col-md-4 col-xs-6 thumb p-2 ">
+                                    <img class="img-fluid img-thumbnail cover" src="{{ url('images/cover_materi/'.$m->cover) }}"
                                     alt="Another alt text">
                                     <div class="card">
-                                    <p class="p-2">{{ $m->judul_materi }}</p>
-                                </div>
+                                    <p class="p-2 judul rounded">{{ $m->judul_materi }}</p>
+                                    </div>
                                     <a href="{{ route('student.materi_read', $m->id) }}"><button class="btn btn-info w-100">Baca</button></a>
+                                    
                             </div>
-                            @endforeach
+                            @empty
+                                <div class="text-center">
+                                    <div class="container">
+
+                                        <p>Mentor belum membuat materi.<br><em class="text-warning">atau refresh browser kamu.</em></p>
+                                    </div>
+                                </div>
+                            @endforelse 
                         </div>
                     </div>
         </div>
@@ -38,6 +46,24 @@
 
 
 
+@endsection
+
+@section('scriptcss')
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.1/cropper.min.css">
+<style>
+.cover{
+    width: 500px;
+height: 278px;
+}
+.judul{
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+</style>
 @endsection
 
 @section('scriptjs')

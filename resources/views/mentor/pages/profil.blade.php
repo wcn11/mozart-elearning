@@ -1,4 +1,6 @@
-@extends('mentor.layouts.app') @section('main-content')
+@extends('mentor.layouts.app') 
+
+@section('main-content')
 <!-- Begin Page Content -->
 <div class="container-fluid">
 

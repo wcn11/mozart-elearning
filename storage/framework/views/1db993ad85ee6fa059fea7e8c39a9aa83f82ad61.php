@@ -150,16 +150,16 @@
             '                <?php endif; ?>' +
             '            </div>' +
             '        </div>' +
-            '        <div class="col-md-6 grid-margin">' +
-            '            <div class="card shadow">' +
-            '                <div class="card-body">' +
-            '                    <h4 class="card-title">Penjelasan Jawaban Benar soal ke ' + i + '</h4>' +
-            '                       <em class="text-warning">kosongkan jika tidak ada</em>' +
-            '                    <textarea class="summernote" name="penjelasan[]">' +
-            '                            </textarea>' +
-            '                </div>' +
-            '            </div>' +
-            '        </div>' +
+            // '        <div class="col-md-6 grid-margin">' +
+            // '            <div class="card shadow">' +
+            // '                <div class="card-body">' +
+            // '                    <h4 class="card-title">Penjelasan Jawaban Benar soal ke ' + i + '</h4>' +
+            // '                       <em class="text-warning">kosongkan jika tidak ada</em>' +
+            // '                    <textarea class="summernote" name="penjelasan[]">' +
+            // '                            </textarea>' +
+            // '                </div>' +
+            // '            </div>' +
+            // '        </div>' +
             '    <br>'
 
 

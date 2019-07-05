@@ -9,12 +9,20 @@
     <p class="mb-4">Update makalah anda dengan sebaik baiknya, dan biarkan pada muridmu membacanya kembali.</p>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
-            <form class="form" action="{{ route('mentor.materi_upload_aksi') }}" class="col-md-12" method="POST">
+            <form class="form" action="{{ route('mentor.materi_upload_aksi') }}" class="col-md-12" method="POST" enctype="multipart/form-data">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-info">Murid</h6>
         </div>
             <div class="card-body">
-
+                    @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
                 @csrf
                 <div class="row">
                     <div class="col-md-6 grid-margin">
@@ -38,6 +46,21 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <div class="col-md-12 mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text bg-info text-white">Cover</span>
+                                        </div>
+                                        
+                                    <div class="form-row">
+                                        <input type='file' name="file" id="inputFile" />
+                                        <img id="image_upload_preview"  class="rounded-circle gambar" />    
+                                    </div>
+                                    @if ($errors->has('file'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $errors->first('file') }}</strong>
+                                        </span>
+                                    @endif
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -47,7 +70,6 @@
                             <div class="card-body">
                                 <div class="form-row">
                                     <div class="col-md-12 mb-3" style="text-align:end;">
-
                                             <div class="input-group-prepend invisible">
                                                     <span class="input-group-text bg-info text-white">Hidden</span>
                                                 </div>
@@ -57,8 +79,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text bg-info text-white">Tanggal publikasi</span>
                                         </div>
-                                        <input type="text" class="form-control" id="tanggal"
-                                             required disabled>
+                                        <input type="text" class="form-control" id="tanggal" required disabled>
                                     </div>
                                 </div>
                             </div>
@@ -89,6 +110,10 @@
         cursor: pointer;
     }
 
+    .gambar {
+        width: 20%;
+        height: auto;
+    }
 </style>
 @endsection
 
@@ -96,6 +121,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
 <script>
     $(document).ready(function () {
+        $("#inputFile").val("");
+
         $('#summernote').summernote({
             placeholder: "Masukkan materi",
             height: 500, // set editor height
@@ -116,6 +143,34 @@ today = dd + '/' + mm + '/' + yyyy + " | " + jam + ":" + menit + ":" + detik;
 $("#tanggal").val(today);
 
 });
+
+
+function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#image_upload_preview').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#inputFile").change(function () {
+        readURL(this);
+    });
+
+    $('.btn-update').click(function(){
+        var name = $("[name='name']").val();
+        var email = $("[email='email']").val();
+
+        if(name == "" && email == ""){
+            $(".modal-update").modal();
+        }else{
+            $(".form-update").submit();
+        }
+    });
 </script>
 
 @if($pesan_update = Session::get('success_update_materi'))

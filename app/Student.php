@@ -12,13 +12,14 @@ class Student extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
     protected $table = "students";
+    public $incrementing = false;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'id','name', 'email', 'password',
     ];
 
     /**

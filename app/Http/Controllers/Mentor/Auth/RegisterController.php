@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RegisterController extends Controller
 {
@@ -63,13 +65,23 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $m = Mentor::max("id");
+        $s = substr($m, 5)+1;
+        $nomor = sprintf( "%04s", $s);
         return Mentor::create([
+            
+            'id' => 
+                1
+                .substr($data['tanggal_lahir'], 8)
+                .substr($data['tanggal_daftar'], 3, -5)
+                .$nomor,
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'tanggal_lahir' => $data['tanggal_lahir']
         ]);
+        
     }
-
     /**
      * Show the application registration form.
      *

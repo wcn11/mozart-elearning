@@ -16,7 +16,7 @@
 
   <!-- Custom styles for this template-->
   <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ URL::to('bootstrap/dist/css/bootstrap.min.css') }}" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   @yield('scriptcss')
 </head>
 
@@ -77,7 +77,7 @@
         <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Soal & Latihan:</h6>
-            <a class="collapse-item" href="{{ route('mentor.soal') }}">Daftar Soal</a>
+            <a class="collapse-item" href="{{ route('student.soal') }}">Daftar Soal</a>
           </div>
         </div>
       </li>
@@ -92,7 +92,7 @@
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="/mentor/profil">
+        <a class="nav-link" href="/student/profil">
           <i class="fas fa-fw fa-table"></i>
           <span>Edit info</span></a>
       </li>
@@ -177,7 +177,6 @@
 
       </div>
       <!-- End of Main Content -->
-
       <!-- Footer -->
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
@@ -242,14 +241,6 @@
     </div>
   </div>
 
-   {{-- @if($pesan = Session::get('belum_verifikasi'))
-   <script>
-     $(document).ready(function(){
-       $(".modal-verifikasi").modal();
-     });
-   </script>
-        @endif --}}
-
   <!-- Bootstrap core JavaScript-->
   <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
   <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -266,8 +257,7 @@
     $(".modal-verifikasi").modal();
   });
 </script>
-
-        @endif
+@endif
   @yield('scriptjs')
 </body>
 

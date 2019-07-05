@@ -1,113 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <title>SB Admin 2 - Register</title>
-
-  <!-- Custom fonts for this template-->
-  <link href="<?php echo e(URL::to('vendor/fontawesome-free/css/all.min.css')); ?>" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-  <!-- Custom styles for this template-->
-  <link href="<?php echo e(URL::to('css/sb-admin-2.min.css')); ?>" rel="stylesheet">
-
+	<title>Sign Up | Student</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="<?php echo e(URL::to('loginregister/images/icons/favicon.ico')); ?>"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?php echo e(URL::to('loginregister/vendor/bootstrap/css/bootstrap.min.css')); ?>">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?php echo e(URL::to('loginregister/fonts/font-awesome-4.7.0/css/font-awesome.min.css')); ?>">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?php echo e(URL::to('loginregister/fonts/Linearicons-Free-v1.0.0/icon-font.min.css')); ?>">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?php echo e(URL::to('loginregister/fonts/iconic/css/material-design-iconic-font.min.css')); ?>">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?php echo e(URL::to('loginregister/vendor/animate/animate.css')); ?>">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="<?php echo e(URL::to('loginregister/vendor/css-hamburgers/hamburgers.min.css')); ?>">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?php echo e(URL::to('loginregister/vendor/animsition/css/animsition.min.css')); ?>">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?php echo e(URL::to('loginregister/vendor/select2/select2.min.css')); ?>">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="<?php echo e(URL::to('loginregister/vendor/daterangepicker/daterangepicker.css')); ?>">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?php echo e(URL::to('loginregister/css/util.css')); ?>">
+	<link rel="stylesheet" type="text/css" href="<?php echo e(URL::to('loginregister/css/main.css')); ?>">
+<!--===============================================================================================-->
 </head>
+<body style="background-color: #999999;">
+	
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="login100-more" style="background-image: url(<?php echo e(URL::to('images/student.jpg')); ?>);"></div>
 
-<body class="bg-gradient-primary">
+			<div class="wrap-login100 p-l-50 p-r-50 p-t-72 p-b-50">
+        <form method="POST" action="<?php echo e(route('student.register')); ?>" aria-label="<?php echo e(__('Register')); ?>">
+            <?php echo csrf_field(); ?>
+					<span class="login100-form-title p-b-59">
+						Sign Up
+          </span>
+          
+          Bukan seorang mentor ?
 
-  <div class="container">
+					<div class="wrap-input100 validate-input" data-validate="Name is required">
+						<span class="label-input100">Username</span>
+            <input id="name" placeholder="Masukkan username" type="text" class="input100 form-control<?php echo e($errors->has('name') ? ' is-invalid' : ''); ?>" name="name" value="<?php echo e(old('name')); ?>" required autofocus>
 
-    <div class="card o-hidden border-0 shadow-lg my-5">
-      <div class="card-body p-0">
-        <!-- Nested Row within Card Body -->
-        <div class="row">
-          <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
-          <div class="col-lg-7">
-            <div class="p-5">
-              <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4">Buat akun!</h1>
-              </div>
-            <form method="POST" action="<?php echo e(route('student.register')); ?>" aria-label="<?php echo e(__('Register')); ?>">
-                        <?php echo csrf_field(); ?>
-                <div class="form-group row">
-                  <div class="col-sm-6 mb-3 mb-sm-0">
-                        <input id="name" placeholder="Masukkan username" type="text" class="form-control<?php echo e($errors->has('name') ? ' is-invalid' : ''); ?>" name="name" value="<?php echo e(old('name')); ?>" required autofocus>
+            <?php if($errors->has('name')): ?>
+                <span class="invalid-feedback" role="alert">
+                    <strong><?php echo e($errors->first('name')); ?></strong>
+                </span>
+            <?php endif; ?>
+						<span class="focus-input100"></span>
+          </div>
 
-                                <?php if($errors->has('name')): ?>
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong><?php echo e($errors->first('name')); ?></strong>
-                                    </span>
-                                <?php endif; ?>
-                  </div>
-                  <div class="col-sm-6">
-                    <input id="email" type="email" placeholder="Masukkan email" class="form-control<?php echo e($errors->has('email') ? ' is-invalid' : ''); ?>" name="email" value="<?php echo e(old('email')); ?>" required>
+					<div class="wrap-input100 validate-input" data-validate="Name is required">
+						<span class="label-input100">Tanggal lahir</span>
+            <input type="date" class="form-control" name="tanggal_lahir" required>
+            <input type="hidden" name="tanggal_daftar">
+						<span class="focus-input100"></span>
+          </div>
+          
+					<div class="wrap-input100 validate-input" data-validate="Email is required">
+						<span class="label-input100">Email</span>
+            <input id="email" type="email" class="input100 form-control<?php echo e($errors->has('email') ? ' is-invalid' : ''); ?>" placeholder="Masukkan email" name="email" value="<?php echo e(old('email')); ?>" required autofocus>
 
-                                <?php if($errors->has('email')): ?>
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong><?php echo e($errors->first('email')); ?></strong>
-                                    </span>
-                                <?php endif; ?>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <input id="password" placeholder="Masukkan password" type="password" class="form-control<?php echo e($errors->has('password') ? ' is-invalid' : ''); ?>" name="password" required>
+            <?php if($errors->has('email')): ?>
+                <span class="invalid-feedback" role="alert">
+                    <strong><?php echo e($errors->first('email')); ?></strong>
+                </span>
+            <?php endif; ?>
+						<span class="focus-input100"></span>
+					</div>
 
-                                <?php if($errors->has('password')): ?>
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong><?php echo e($errors->first('password')); ?></strong>
-                                    </span>
-                                <?php endif; ?>
-                </div>
-                <div class="form-group">
-                    <input id="password-confirm"  placeholder="Ulangi password" type="password" class="form-control" name="password_confirmation" required>
-              
-                </div>
-                <button type="submit" class="btn btn-primary btn-user btn-block">
-                  Daftar akun
-                </button>
-                <hr>
-                <a class="btn btn-google btn-user btn-block">
-                  <i class="fab fa-google fa-fw"></i> Register with Google
-                </a>
-                <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                  <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
-                </a>
-              </form>
-              <hr>
-              <div class="text-center">
-                <a class="small" href="forgot-password.html">Forgot Password?</a>
-              </div>
-              <div class="text-center">
-              <a class="small" href="<?php echo e(route('student.login')); ?>">Sudah punya akun? Login!</a>
+					<div class="wrap-input100 validate-input" data-validate = "Password is required">
+            <span class="label-input100">Password</span>
+            <input id="password" type="password" class="input100 form-control<?php echo e($errors->has('password') ? ' is-invalid' : ''); ?>" placeholder="Masukkan password" name="password" required>
+
+            <?php if($errors->has('password')): ?>
+                <span class="invalid-feedback" role="alert">
+                    <strong><?php echo e($errors->first('password')); ?></strong>
+                </span>
+            <?php endif; ?>
+						
+						<span class="focus-input100"></span>
+          </div>
+
+					<div class="wrap-input100 validate-input" data-validate = "Password is required">
+            <span class="label-input100">Password</span>
+            <input id="password-confirm" type="password" placeholder="Password Confirmation" class="form-control" name="password_confirmation" required>
+
+            
+						<span class="focus-input100"></span>
+          </div>
+          
+          <div class="form-group">
+              <div class="custom-control custom-checkbox small">
+                    <input class="form-check-input" type="checkbox" name="remember" id="remember" <?php echo e(old('remember') ? 'checked' : ''); ?>>
+
+                    <label class="form-check-label" for="remember">
+                        <?php echo e(__('Remember Me')); ?>
+
+                    </label>
               </div>
             </div>
+
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button class="login100-form-btn">
+								Sign Up
+							</button>
+						</div>
+
+          <a href="<?php echo e(route('student.login')); ?>" class="dis-block txt3 hov1 p-r-30 p-t-10 p-b-10 p-l-30">
+							Sign In
+							<i class="fa fa-long-arrow-right m-l-5"></i>
+						</a>
           </div>
+          
+          <div class="text-center">
+
+              <a class="btn btn-link" href="<?php echo e(route('student.password.request')); ?>">
+                  <?php echo e(__('Forgot Your Password?')); ?>
+
+              </a>
         </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- Bootstrap core JavaScript-->
-  <script src="<?php echo e(URL::to('vendor/jquery/jquery.min.js')); ?>"></script>
-  <script src="<?php echo e(URL::to('vendor/bootstrap/js/bootstrap.bundle.min.js')); ?>"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="<?php echo e(URL::to('vendor/jquery-easing/jquery.easing.min.js')); ?>"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="<?php echo e(URL::to('js/sb-admin-2.min.js')); ?>"></script>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+<!--===============================================================================================-->
+	<script src="<?php echo e(URL::to('loginregister/vendor/jquery/jquery-3.2.1.min.js')); ?>"></script>
+<!--===============================================================================================-->
+	<script src="<?php echo e(URL::to('loginregister/vendor/animsition/js/animsition.min.js')); ?>"></script>
+<!--===============================================================================================-->
+	<script src="<?php echo e(URL::to('loginregister/vendor/bootstrap/js/popper.js')); ?>"></script>
+	<script src="<?php echo e(URL::to('loginregister/vendor/bootstrap/js/bootstrap.min.js')); ?>"></script>
+<!--===============================================================================================-->
+	<script src="<?php echo e(URL::to('loginregister/vendor/select2/select2.min.js')); ?>"></script>
+<!--===============================================================================================-->
+	<script src="<?php echo e(URL::to('loginregister/vendor/daterangepicker/moment.min.js')); ?>"></script>
+	<script src="<?php echo e(URL::to('loginregister/vendor/daterangepicker/daterangepicker.js')); ?>"></script>
+<!--===============================================================================================-->
+	<script src="<?php echo e(URL::to('loginregister/vendor/countdowntime/countdowntime.js')); ?>"></script>
+<!--===============================================================================================-->
+	<script src="<?php echo e(URL::to('loginregister/js/main.js')); ?>"></script>
 
 </body>
-
-</html>
-
-
-<?php /**PATH C:\Users\wahyu\Desktop\mozart-learn\resources\views/student/auth/register.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\Users\wahyu\Desktop\mozart-learn\resources\views/student/auth/register.blade.php ENDPATH**/ ?>

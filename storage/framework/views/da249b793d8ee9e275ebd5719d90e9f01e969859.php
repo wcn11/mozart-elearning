@@ -14,6 +14,7 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Buat soal</h6>
         </div>
+        
         <div class="card-body">
             <div class="table-responsive w-100">
                 <form class="form" action="<?php echo e(route('mentor.question_create_title')); ?>" method="POST">
@@ -41,8 +42,8 @@
                         <label for="exampleInputEmail1">Waktu mengerjakan<span class="text-danger">*</span></label>
                         <span id="pesan_error_waktu" class="text-danger"></span>
                         <br>
-                        <p class="font-italic text-warning">masukkan waktu per-jam. contoh: 5 jam </p>
-                        <input type="number" name="waktu_pengerjaan" class="form-control" min="1" max="24" value="1" id="jumlah_waktu">
+                        <p class="font-italic text-warning">masukkan waktu dalam menitr. contoh: 30 menit </p>
+                        <input type="number" name="waktu_pengerjaan" class="form-control" min="15" max="120" value="30" id="jumlah_waktu">
                     </div>
 
                     <button type="submit" class="btn btn-info">Submit</button>
@@ -82,7 +83,7 @@
                         <td style="width: 35%; text-align:left;"><?php echo e($s->judul); ?></td>
                         <td><?php echo e($s->pelajaran->nama_pelajaran); ?></td>
                         <td><?php echo e($s->jumlah_soal); ?></td>
-                        <td><?php echo e($s->waktu_pengerjaan); ?> jam</td>
+                        <td><?php echo e($s->waktu_pengerjaan); ?> menit</td>
                         <td><?php echo e($s->dibuat); ?></td>
                         <?php if(empty($s->diupdate)): ?>
                         <td> Belum pernah</td>

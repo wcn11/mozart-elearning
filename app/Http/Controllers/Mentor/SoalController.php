@@ -41,18 +41,31 @@ class SoalController extends Controller
         // return view('mentor.pages.pertanyaan.index');
     }
 
-    // public function question_create_view()
+    // public function tes(Request $request)
     // {
-    //     $pelajaran = Pelajaran::all();
-
-    //     return view('mentor.pages.question.question_create', compact('pelajaran'));
+    //     $mentor_id = Auth::guard('mentor')->user()->id;
+    //     $m = Soal_judul::max("id");
+    //     $s = substr($m, 8);
+    //     $mid = substr($mentor_id, 5, 5);
+    //     $nomor = sprintf( "%04s", $s);
     // }
 
     public function question_create_title(Request $request)
     {
         $mentor_id = Auth::guard('mentor')->user()->id;
 
+        $m = Soal_judul::max("id");
+        $s = substr($m, 5)+1;
+        $mid = substr($mentor_id, 5, 5);
+        $nomor = sprintf( "%04s", $s);
+    
+
         $sj = new Soal_judul;
+
+        $sj->id = 5
+                .$mid
+                .$request->pelajaran_id
+                .$nomor;
 
         $sj->pelajaran_id = $request->pelajaran_id;
 

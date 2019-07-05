@@ -18,8 +18,11 @@ class Mentor extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'foto',
+        'id','name', 'email', 'password', 'tanggal_lahir', 'foto',
     ];
+
+    // protected $keyType = "string";
+    public $incrementing = false;
 
     /**
      * The attributes that should be hidden for arrays.

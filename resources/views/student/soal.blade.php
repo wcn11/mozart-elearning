@@ -16,38 +16,53 @@
                 <h6 class="m-0 font-weight-bold text-info text-center"></h6>
             </div>
             <div class="card-body">
-                    <div class="table-responsive w-100">
-                            <table class="table table-bordered" id="tabel" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr style="text-align:center;">
-                                        <th>Judul Soal</th>
-                                        <th>Jumlah Soal</th>
-                                        <th>Pelajaran</th>
-                                        <th>waktu</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if(empty($soal))
-                                    <tr>
-                                        <td colspan="6" style="text-align:center;">Mentor belum membuat soal</td>
-                                    </tr>
-                                    @else
-                                    @foreach ($soal as $s)
-                                    <tr style="text-align:center;">
-                                        <td style="width: 35%; text-align:left;">{{ $s->judul }}</td>
-                                        <td>{{ $s->jumlah_soal }}</td>
-                                        <td>{{ $s->pelajaran->nama_pelajaran }}</td>
-
-                                        <td>{{ $s->waktu_pengerjaan }}</td>
-                                        <td>
-                                            <?php $id = Crypt::encrypt($s->id); ?>
-                                            <a class="btn btn-info text-white">Kerjakan</a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                    @endif
-                        </div>
+            <div class="table-responsive w-100">
+                    <table class="table table-bordered" id="tabel" width="100%" cellspacing="0">
+                        <thead>
+                            <tr style="text-align:center;">
+                                <th>Judul Soal</th>
+                                <th>Jumlah Soal</th>
+                                <th>Pelajaran</th>
+                                <th>waktu</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(empty($soal))
+                                <tr>
+                                    <td colspan="6" style="text-align:center;">Mentor belum membuat soal</td>
+                                </tr>
+                            @else
+                            @for ($i = 0; $i < count($soal); $i++)
+                            <tr style="text-align:center;">
+                                <td style="width: 35%; text-align:left;">{{ $soal[$i]['judul'] }}</td>
+                                <td>{{ $soal[$i]['jumlah_soal'] }}</td>
+                                <td>{{ $soal[$i]['pelajaran']['nama_pelajaran'] }}</td>
+                                <td>{{ $soal[$i]['waktu_pengerjaan'] }}</td>
+                                @if($status[$i]['status'] == "belum")
+                                <td>
+                                    <span class="badge badge-warning">Belum dikerjakan</span>
+                                </td>
+                                <td>
+                                    <?php $id = Crypt::encrypt($soal[$i]['id']); ?>
+                                    <a class="btn btn-info text-white" href="{{ route('student.soal_mengerjakan', $id) }}">Kerjakan</a>
+                                </td>
+                                @else
+                                <td>
+                                    <span class="badge badge-success">Selesai</span>
+                                </td>
+                                <td>
+                                    <?php //$id = Crypt::encrypt($soal[$i]['id']); ?>
+                                    <a class="btn btn-info text-white" href="{{ route('student.soal_nilai_cetak', $soal[$i]['id']) }}">Cetak</a>
+                                </td>
+                                @endif
+                            </tr>
+                            @endfor
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

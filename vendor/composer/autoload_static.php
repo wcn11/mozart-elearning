@@ -30,6 +30,10 @@ class ComposerStaticInit46bb84a4ac149cf8b8cb78cfa3591fd2
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
+        'h' => 
+        array (
+            'h4cc\\WKHTMLToPDF\\' => 17,
+        ),
         'Y' => 
         array (
             'Yajra\\DataTables\\' => 17,
@@ -102,6 +106,10 @@ class ComposerStaticInit46bb84a4ac149cf8b8cb78cfa3591fd2
             'League\\Flysystem\\' => 17,
             'Laravel\\Tinker\\' => 15,
         ),
+        'K' => 
+        array (
+            'Knp\\Snappy\\' => 11,
+        ),
         'J' => 
         array (
             'JakubOnderka\\PhpConsoleHighlighter\\' => 35,
@@ -139,6 +147,7 @@ class ComposerStaticInit46bb84a4ac149cf8b8cb78cfa3591fd2
         'B' => 
         array (
             'BeyondCode\\DumpServer\\' => 22,
+            'Barryvdh\\Snappy\\' => 16,
             'Barryvdh\\DomPDF\\' => 16,
         ),
         'A' => 
@@ -153,6 +162,10 @@ class ComposerStaticInit46bb84a4ac149cf8b8cb78cfa3591fd2
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'h4cc\\WKHTMLToPDF\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/h4cc/wkhtmltopdf-amd64',
         ),
         'Yajra\\DataTables\\' => 
         array (
@@ -310,6 +323,10 @@ class ComposerStaticInit46bb84a4ac149cf8b8cb78cfa3591fd2
         array (
             0 => __DIR__ . '/..' . '/laravel/tinker/src',
         ),
+        'Knp\\Snappy\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy',
+        ),
         'JakubOnderka\\PhpConsoleHighlighter\\' => 
         array (
             0 => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src',
@@ -378,6 +395,10 @@ class ComposerStaticInit46bb84a4ac149cf8b8cb78cfa3591fd2
         array (
             0 => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src',
         ),
+        'Barryvdh\\Snappy\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src',
+        ),
         'Barryvdh\\DomPDF\\' => 
         array (
             0 => __DIR__ . '/..' . '/barryvdh/laravel-dompdf/src',
@@ -423,6 +444,7 @@ class ComposerStaticInit46bb84a4ac149cf8b8cb78cfa3591fd2
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Hasil' => __DIR__ . '/../..' . '/app/Hasil.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
         'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
@@ -450,6 +472,8 @@ class ComposerStaticInit46bb84a4ac149cf8b8cb78cfa3591fd2
         'App\\Http\\Controllers\\Student\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Student/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\Student\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Student/Auth/VerificationController.php',
         'App\\Http\\Controllers\\Student\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/Student/HomeController.php',
+        'App\\Http\\Controllers\\Student\\MateriController' => __DIR__ . '/../..' . '/app/Http/Controllers/Student/MateriController.php',
+        'App\\Http\\Controllers\\Student\\SoalController' => __DIR__ . '/../..' . '/app/Http/Controllers/Student/SoalController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\CheckForMaintenanceMode' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckForMaintenanceMode.php',
@@ -461,13 +485,16 @@ class ComposerStaticInit46bb84a4ac149cf8b8cb78cfa3591fd2
         'App\\Http\\Middleware\\RedirectIfNotMentor' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfNotMentor.php',
         'App\\Http\\Middleware\\RedirectIfNotStudent' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfNotStudent.php',
         'App\\Http\\Middleware\\RedirectIfStudent' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfStudent.php',
+        'App\\Http\\Middleware\\StudentMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/StudentMiddleware.php',
         'App\\Http\\Middleware\\TrimStrings' => __DIR__ . '/../..' . '/app/Http/Middleware/TrimStrings.php',
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Http\\Requests\\SoalRequest' => __DIR__ . '/../..' . '/app/Http/Requests/SoalRequest.php',
         'App\\Master' => __DIR__ . '/../..' . '/app/Master.php',
         'App\\Materi' => __DIR__ . '/../..' . '/app/Materi.php',
         'App\\Mentor' => __DIR__ . '/../..' . '/app/Mentor.php',
         'App\\Mentors_student' => __DIR__ . '/../..' . '/app/Mentors_student.php',
+        'App\\Nilai' => __DIR__ . '/../..' . '/app/Nilai.php',
         'App\\Notifications\\Master\\MasterResetPassword' => __DIR__ . '/../..' . '/app/Notifications/Master/MasterResetPassword.php',
         'App\\Notifications\\Master\\MasterVerifyEmail' => __DIR__ . '/../..' . '/app/Notifications/Master/MasterVerifyEmail.php',
         'App\\Notifications\\Mentor\\MentorResetPassword' => __DIR__ . '/../..' . '/app/Notifications/Mentor/MentorResetPassword.php',
@@ -484,11 +511,21 @@ class ComposerStaticInit46bb84a4ac149cf8b8cb78cfa3591fd2
         'App\\Soal_judul' => __DIR__ . '/../..' . '/app/Soal_judul.php',
         'App\\Soal_pilihan' => __DIR__ . '/../..' . '/app/Soal_pilihan.php',
         'App\\Student' => __DIR__ . '/../..' . '/app/Student.php',
+        'App\\Tes_pilihan' => __DIR__ . '/../..' . '/app/Tes_pilihan.php',
         'App\\Tugas' => __DIR__ . '/../..' . '/app/Tugas.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'Barryvdh\\DomPDF\\Facade' => __DIR__ . '/..' . '/barryvdh/laravel-dompdf/src/Facade.php',
         'Barryvdh\\DomPDF\\PDF' => __DIR__ . '/..' . '/barryvdh/laravel-dompdf/src/PDF.php',
         'Barryvdh\\DomPDF\\ServiceProvider' => __DIR__ . '/..' . '/barryvdh/laravel-dompdf/src/ServiceProvider.php',
+        'Barryvdh\\Snappy\\Facades\\SnappyImage' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/Facades/SnappyImage.php',
+        'Barryvdh\\Snappy\\Facades\\SnappyPdf' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/Facades/SnappyPdf.php',
+        'Barryvdh\\Snappy\\IlluminateSnappyImage' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/IlluminateSnappyImage.php',
+        'Barryvdh\\Snappy\\IlluminateSnappyPdf' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/IlluminateSnappyPdf.php',
+        'Barryvdh\\Snappy\\ImageWrapper' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/ImageWrapper.php',
+        'Barryvdh\\Snappy\\LumenServiceProvider' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/LumenServiceProvider.php',
+        'Barryvdh\\Snappy\\PdfFaker' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/PdfFaker.php',
+        'Barryvdh\\Snappy\\PdfWrapper' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/PdfWrapper.php',
+        'Barryvdh\\Snappy\\ServiceProvider' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/ServiceProvider.php',
         'BeyondCode\\DumpServer\\DumpServerCommand' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src/DumpServerCommand.php',
         'BeyondCode\\DumpServer\\DumpServerServiceProvider' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src/DumpServerServiceProvider.php',
         'BeyondCode\\DumpServer\\Dumper' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/src/Dumper.php',
@@ -2114,6 +2151,11 @@ class ComposerStaticInit46bb84a4ac149cf8b8cb78cfa3591fd2
         'JakubOnderka\\PhpConsoleColor\\InvalidStyleException' => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src/InvalidStyleException.php',
         'JakubOnderka\\PhpConsoleHighlighter\\Highlighter' => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src/Highlighter.php',
         'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
+        'Knp\\Snappy\\AbstractGenerator' => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy/AbstractGenerator.php',
+        'Knp\\Snappy\\Exception\\FileAlreadyExistsException' => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy/Exception/FileAlreadyExistsException.php',
+        'Knp\\Snappy\\GeneratorInterface' => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy/GeneratorInterface.php',
+        'Knp\\Snappy\\Image' => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy/Image.php',
+        'Knp\\Snappy\\Pdf' => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy/Pdf.php',
         'Laravel\\Tinker\\ClassAliasAutoloader' => __DIR__ . '/..' . '/laravel/tinker/src/ClassAliasAutoloader.php',
         'Laravel\\Tinker\\Console\\TinkerCommand' => __DIR__ . '/..' . '/laravel/tinker/src/Console/TinkerCommand.php',
         'Laravel\\Tinker\\TinkerCaster' => __DIR__ . '/..' . '/laravel/tinker/src/TinkerCaster.php',
@@ -4217,6 +4259,7 @@ class ComposerStaticInit46bb84a4ac149cf8b8cb78cfa3591fd2
         'Yajra\\DataTables\\Utilities\\Config' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Utilities/Config.php',
         'Yajra\\DataTables\\Utilities\\Helper' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Utilities/Helper.php',
         'Yajra\\DataTables\\Utilities\\Request' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Utilities/Request.php',
+        'h4cc\\WKHTMLToPDF\\WKHTMLToPDF' => __DIR__ . '/..' . '/h4cc/wkhtmltopdf-amd64/WKHTMLToPDF.php',
         'phpDocumentor\\Reflection\\DocBlock' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlock.php',
         'phpDocumentor\\Reflection\\DocBlockFactory' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactory.php',
         'phpDocumentor\\Reflection\\DocBlockFactoryInterface' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactoryInterface.php',

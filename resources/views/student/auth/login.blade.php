@@ -1,117 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <title>SB Admin 2 - Login</title>
-
-  <!-- Custom fonts for this template-->
-  <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-  <!-- Custom styles for this template-->
-  <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
-
+	<title>Login Student</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="{{ URL::to('loginregister/images/icons/favicon.ico')}}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ URL::to('loginregister/vendor/bootstrap/css/bootstrap.min.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ URL::to('loginregister/fonts/font-awesome-4.7.0/css/font-awesome.min.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ URL::to('loginregister/fonts/Linearicons-Free-v1.0.0/icon-font.min.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ URL::to('loginregister/fonts/iconic/css/material-design-iconic-font.min.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ URL::to('loginregister/vendor/animate/animate.css')}}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{{ URL::to('loginregister/vendor/css-hamburgers/hamburgers.min.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ URL::to('loginregister/vendor/animsition/css/animsition.min.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ URL::to('loginregister/vendor/select2/select2.min.css')}}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{{ URL::to('loginregister/vendor/daterangepicker/daterangepicker.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ URL::to('loginregister/css/util.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{ URL::to('loginregister/css/main.css')}}">
+<!--===============================================================================================-->
 </head>
+<body style="background-color: #999999;">
+	
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="login100-more" style="background-image: url({{ URL::to('images/student.jpg')}});"></div>
 
-<body class="bg-gradient-primary">
+			<div class="wrap-login100 p-l-50 p-r-50 p-t-72 p-b-50">
+        <form method="POST" class="login100-form validate-form" action="{{ route('student.login') }}" aria-label="{{ __('Login') }}">
+            @csrf
+					<span class="login100-form-title p-b-59">
+						Sign In
+					</span>
 
-  <div class="container">
+					<div class="wrap-input100 validate-input" data-validate="Name is required">
+						<span class="label-input100">Email</span>
+            <input id="email" type="email" class="input100 form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Masukkan email" name="email" value="{{ old('email') }}" required autofocus>
 
-    <!-- Outer Row -->
-    <div class="row justify-content-center">
+            @if ($errors->has('email'))
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $errors->first('email') }}</strong>
+                </span>
+            @endif
+						<span class="focus-input100"></span>
+					</div>
 
-      <div class="col-xl-10 col-lg-12 col-md-9">
+					<div class="wrap-input100 validate-input" data-validate = "Password is required">
+            <span class="label-input100">Password</span>
+            <input id="password" type="password" class="input100 form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Masukkan password" name="password" required>
 
-        <div class="card o-hidden border-0 shadow-lg my-5">
-          <div class="card-body p-0">
-            <!-- Nested Row within Card Body -->
-            <div class="row">
-              <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-              <div class="col-lg-6">
-                <div class="p-5">
-                  <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
-                  </div>
-                   <form method="POST" action="{{ route('student.login') }}" aria-label="{{ __('Login') }}">
-                        @csrf
-                    <div class="form-group">
-                            <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Masukkan email" name="email" value="{{ old('email') }}" required autofocus>
+            @if ($errors->has('password'))
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $errors->first('password') }}</strong>
+                </span>
+            @endif
+						{{-- <input class="input100" type="text" name="pass" placeholder="*************"> --}}
+						<span class="focus-input100"></span>
+          </div>
+          
+          <div class="form-group">
+              <div class="custom-control custom-checkbox small">
+                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
-                            @if ($errors->has('email'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('email') }}</strong>
-                                </span>
-                            @endif
-                    </div>
-                    <div class="form-group">
-                            <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Masukkan password" name="password" required>
-
-                            @if ($errors->has('password'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('password') }}</strong>
-                                </span>
-                            @endif
-                    </div>
-                    <div class="form-group">
-                      <div class="custom-control custom-checkbox small">
-                            <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                            <label class="form-check-label" for="remember">
-                                {{ __('Remember Me') }}
-                            </label>
-                      </div>
-                    </div>
-                    <button id="submit" class="btn btn-primary btn-user btn-block" type="submit" class="ibtn">Login</button>
-
-                    <hr>
-                    <a href="index.html" class="btn btn-google btn-user btn-block">
-                      <i class="fab fa-google fa-fw"></i> Login with Google
-                    </a>
-                    <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                      <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                    </a>
-                  </form>
-                  <hr>
-                  <div class="text-center">
-
-                        <a class="btn btn-link" href="{{ route('student.password.request') }}">
-                            {{ __('Forgot Your Password?') }}
-                        </a>
-                  </div>
-                  <div class="text-center">
-                    <a class="small" href="{{ route('student.register')}}">Create an Account!</a>
-                  </div>
-                </div>
+                    <label class="form-check-label" for="remember">
+                        {{ __('Remember Me') }}
+                    </label>
               </div>
             </div>
+
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button class="login100-form-btn">
+								Sign In
+							</button>
+						</div>
+
+					<a href="{{ route('student.register')}}" class="dis-block txt3 hov1 p-r-30 p-t-10 p-b-10 p-l-30">
+							Sign Up
+							<i class="fa fa-long-arrow-right m-l-5"></i>
+						</a>
           </div>
+          
+          <div class="text-center">
+
+              <a class="btn btn-link" href="{{ route('student.password.request') }}">
+                  {{ __('Forgot Your Password?') }}
+              </a>
         </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- Bootstrap core JavaScript-->
-  <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+<!--===============================================================================================-->
+	<script src="{{ URL::to('loginregister/vendor/jquery/jquery-3.2.1.min.js')}}"></script>
+<!--===============================================================================================-->
+	<script src="{{ URL::to('loginregister/vendor/animsition/js/animsition.min.js')}}"></script>
+<!--===============================================================================================-->
+	<script src="{{ URL::to('loginregister/vendor/bootstrap/js/popper.js')}}"></script>
+	<script src="{{ URL::to('loginregister/vendor/bootstrap/js/bootstrap.min.js')}}"></script>
+<!--===============================================================================================-->
+	<script src="{{ URL::to('loginregister/vendor/select2/select2.min.js')}}"></script>
+<!--===============================================================================================-->
+	<script src="{{ URL::to('loginregister/vendor/daterangepicker/moment.min.js')}}"></script>
+	<script src="{{ URL::to('loginregister/vendor/daterangepicker/daterangepicker.js')}}"></script>
+<!--===============================================================================================-->
+	<script src="{{ URL::to('loginregister/vendor/countdowntime/countdowntime.js')}}"></script>
+<!--===============================================================================================-->
+	<script src="{{ URL::to('loginregister/js/main.js')}}"></script>
 
 </body>
-
 </html>
-
-

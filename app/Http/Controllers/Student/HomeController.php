@@ -7,6 +7,7 @@ use App\Mentor;
 use App\Student;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -56,5 +57,37 @@ class HomeController extends Controller
         Session::flash('berhasil_mengikuti', "Anda berhasil mengikuti");
 
         return redirect()->route('student.materi');
+    }
+
+    public function profil()
+    {
+        $student = Student::find(Auth::guard('student')->user()->id);
+
+        return view('student.profil', compact('student'));
+    }
+
+    public function profil_update(Request $request)
+    {
+        // echo $request->foto;
+        $student = Student::find(Auth::guard('student')->user()->id);
+        $student->name = $request->name;
+        $student->email = $request->email;
+        // menyimpan data file yang diupload ke variabel $file
+        if ($request->has('file')) {
+
+            $file = $request->file('file');
+
+            $nama_file = time() . "_" . $file->getClientOriginalName();
+
+            // isi dengan nama folder tempat kemana file diupload
+            $tujuan_upload = 'images';
+            $file->move($tujuan_upload, $nama_file);
+
+            $student->foto = $nama_file;
+        }
+        $student->save();
+
+        Session::flash('update_profil', 'Update profil, berhasil!');
+        return redirect()->back();
     }
 }
