@@ -17,9 +17,9 @@
   <!-- Custom styles for this template-->
   <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
   <link rel="stylesheet" href="{{ URL::to('bootstrap/dist/css/bootstrap.min.css') }}" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  @yield('scriptcss')
+  
 </head>
-
+@yield('scriptcss')
 <body id="page-top">
 
   <!-- Page Wrapper -->

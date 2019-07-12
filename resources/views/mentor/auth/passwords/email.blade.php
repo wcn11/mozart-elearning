@@ -37,7 +37,7 @@
               <div class="col-lg-6">
                 <div class="p-5">
                   <div class="text-center">
-                                      <div class="card-body">
+                    <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
@@ -51,16 +51,14 @@
                     <div class="form-group">
                       <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
                     </div>
-                                                    
-
-                                @if ($errors->has('email'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Send Password Reset Link') }}
-                                </button>
+                      @if ($errors->has('email'))
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $errors->first('email') }}</strong>
+                          </span>
+                      @endif
+                      <button type="submit" class="btn btn-primary">
+                          {{ __('Send Password Reset Link') }}
+                      </button>
                   </form>
                   <hr>
                   <div class="text-center">

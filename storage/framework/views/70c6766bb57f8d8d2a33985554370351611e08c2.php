@@ -18,10 +18,11 @@
                         <thead>
                             <tr style="text-align:center;">
                                 <th>Judul Soal</th>
-                                <th>Jumlah Soal</th>
+                                <th><sup>Jumlah</sup> Soal</th>
                                 <th>Pelajaran</th>
                                 <th>waktu</th>
-                                <th>Status</th>
+                                <th><sup>Status</sup> Waktu</th>
+                                <th><sup>Status</sup> Mengerjakan</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -32,27 +33,44 @@
                                 </tr>
                             <?php else: ?>
                             <?php for($i = 0; $i < count($soal); $i++): ?>
-                            <tr style="text-align:center;">
+                            <tr style="text-align:center;" class="data-soal" data-id="<?php echo e($soal[$i]['id']); ?>">
                                 <td style="width: 35%; text-align:left;"><?php echo e($soal[$i]['judul']); ?></td>
                                 <td><?php echo e($soal[$i]['jumlah_soal']); ?></td>
                                 <td><?php echo e($soal[$i]['pelajaran']['nama_pelajaran']); ?></td>
-                                <td><?php echo e($soal[$i]['waktu_pengerjaan']); ?></td>
-                                <?php if($status[$i]['status'] == "belum"): ?>
-                                <td>
-                                    <span class="badge badge-warning">Belum dikerjakan</span>
-                                </td>
-                                <td>
-                                    <?php $id = Crypt::encrypt($soal[$i]['id']); ?>
-                                    <a class="btn btn-info text-white" href="<?php echo e(route('student.soal_mengerjakan', $id)); ?>">Kerjakan</a>
-                                </td>
-                                <?php else: ?>
-                                <td>
-                                    <span class="badge badge-success">Selesai</span>
-                                </td>
-                                <td>
-                                    <?php //$id = Crypt::encrypt($soal[$i]['id']); ?>
-                                    <a class="btn btn-info text-white" href="<?php echo e(route('student.soal_nilai_cetak', $soal[$i]['id'])); ?>">Cetak</a>
-                                </td>
+                                <td><?php echo e($soal[$i]['tanggal_mulai']); ?> - <?php echo e($soal[$i]['tanggal_selesai']); ?></td>
+                                <td><?php echo e($status_batas[$i]['status']); ?></td>
+                                <?php if($status_batas[$i]['status'] == "lewat" && $status_mengerjakan[$i]['status'] == "belum"): ?>
+                                    <td class="status">
+                                        <span class="badge badge-danger">Tidak Mengerjakan</span>
+                                    </td>
+                                    
+                                    <td class="status">
+                                        <span class="badge badge-danger">Tidak Mengerjakan</span>
+                                    </td>
+                                <?php elseif($status_batas[$i]['status'] == "lewat" && $status_mengerjakan[$i]['status'] == "selesai"): ?>
+                                    <td class="status">
+                                        <span class="badge badge-success">Selesai</span>
+                                    </td>
+                                    
+                                    <td class="status">
+                                        <a class="btn btn-outline-info" href="<?php echo e(route('student.soal_nilai_cetak', $soal[$i]['id'])); ?>"> <i class="fas fa-print"></i> Cetak</a>
+                                    </td>
+                                <?php elseif($status_batas[$i]['status'] == "waktunya" && $status_mengerjakan[$i]['status'] == "belum"): ?>
+                                    <td class="status">
+                                        <span class="badge badge-warning">Waktunya</span>
+                                    </td>
+                                    <td class="status">
+                                        <?php $id = Crypt::encrypt($soal[$i]['id']); ?>
+                                        <a class="btn btn-info text-white" href="<?php echo e(route('student.soal_mengerjakan', $id)); ?>">Kerjakan</a>
+                                    </td>
+                                <?php elseif($status_batas[$i]['status'] == "waktunya" && $status_mengerjakan[$i]['status'] == "selesai"): ?>
+                                    <td class="status">
+                                        <span class="badge badge-success">Selesai</span>
+                                    </td>
+                                    <td class="status">
+                                        <?php $id = Crypt::encrypt($soal[$i]['id']); ?>
+                                        <a class="btn btn-outline-info" href="<?php echo e(route('student.soal_nilai_cetak', $soal[$i]['id'])); ?>"> <i class="fas fa-print"></i> Cetak</a>
+                                    </td>
                                 <?php endif; ?>
                             </tr>
                             <?php endfor; ?>
@@ -63,23 +81,45 @@
             </div>
         </div>
     </div>
+    
+    
 
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('scriptcss'); ?>
 <link href="<?php echo e(asset('vendor/datatables/dataTables.bootstrap4.min.css')); ?>" rel="stylesheet">
+<style>
+    .session{
+        display: none;
+    }
+</style>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('scriptjs'); ?>
 <script src="<?php echo e(asset('vendor/datatables/jquery.dataTables.min.js')); ?>"></script>
 <script src="<?php echo e(asset('vendor/datatables/dataTables.bootstrap4.min.js')); ?>"></script>
 <script src="<?php echo e(asset('js/demo/datatables-demo.js')); ?>"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script>
     $(document).ready(function(){
         $("#tabel").DataTable();
     });
-
 </script>
+
+<?php if(Session::has("md")): ?>
+<script>
+    Swal.fire(
+        'Waktu Habis!',
+        "Anda tidak menyelesaikan soal <strong><?php echo e(Session::get('md')); ?></strong> tepat waktu!",
+        'error'
+    )
+
+    $(".data-soal td:nth-child(6)").hide();
+    $(".data-soal td:nth-child(7)").hide();
+
+    $(".data-soal").append("<td><span class='badge badge-danger'>Tidak selesai</span></td>" + "<td><span class='badge badge-danger'>Tidak selesai</span></td>");
+</script>
+<?php endif; ?>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('student.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\wahyu\Desktop\mozart-learn\resources\views/student/soal.blade.php ENDPATH**/ ?>

@@ -7,6 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-    <p style="color:red;">CETAAAAAAAAAAAAAk</p>
+    hehhe
 </body>
 </html><?php /**PATH C:\Users\wahyu\Desktop\mozart-learn\resources\views/student/cetak.blade.php ENDPATH**/ ?>

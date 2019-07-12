@@ -19,12 +19,12 @@
         </div>
         
         <div class="card-body">
-            <div class="table-responsive w-100">
+            <div class="table-responsive w-100" style="overflow:hidden;">
                 <form class="form" action="{{ route('mentor.question_create_title') }}" method="POST">
                     @csrf
                     <div class="form-group">
                         <label for="judul">Judul Soal<span class="text-danger">*</span></label>
-                    <input type="text" name="judul" class="form-control" value="{{ old('judul') }}" placeholder="contoh : Quiz pengenalan ekologi sistem pangan">
+                    <input type="text" name="judul" class="form-control" value="{{ old('judul') }}" placeholder="contoh : Quiz pengenalan ekologi sistem pangan" required>
                     </div>
                     <div class="form-group">
                         <label for="pelajaran_id">Mata Pelajaran<span class="text-danger">*</span></label>
@@ -45,8 +45,37 @@
                         <label for="exampleInputEmail1">Waktu mengerjakan<span class="text-danger">*</span></label>
                         <span id="pesan_error_waktu" class="text-danger"></span>
                         <br>
-                        <p class="font-italic text-warning">masukkan waktu dalam menitr. contoh: 30 menit </p>
-                        <input type="number" name="waktu_pengerjaan" class="form-control" min="15" max="120" value="30" id="jumlah_waktu">
+                        <p class="font-italic text-grey">Masukkan Waktu, Tanggal mulai dan batas waktu</p>
+                        
+                        <div class="row">
+                            <div class="input-group mb-2 col-xs-12 col-sm-6 col-md-3" data-toggle="tooltip" data-placement="top" title="Tanggal mulai">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text bg-info text-white"> <i class="fas fa-calendar-alt"></i></div>
+                                </div>
+                                <input type="date" name="tanggal_mulai" class="form-control" placeholder="tanggal mulai" required><br>
+                            </div>
+                            
+                            <div class="input-group mb-2 col-xs-12 col-sm-6 col-md-3" data-toggle="tooltip" data-placement="top" title="Jam mulai">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text bg-info text-white"> <i class="fas fa-clock"></i></div>
+                                </div>
+                                <input type="text" name="jam_mulai" class="form-control clockpicker" data-placement="bottom" placeholder="waktu mulai" data-autoclose="true" readonly required>
+                            </div>
+                            
+                            <div class="input-group mb-2 col-xs-12 col-sm-6 col-md-3" data-toggle="tooltip" data-placement="top" title="Tanggal selesai">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text bg-info text-white"> <i class="fas fa-calendar-day"></i></div>
+                                </div>
+                                <input type="date" name="tanggal_selesai" class="form-control" placeholder="tanggal selesai" required>
+                            </div>
+                            
+                            <div class="input-group mb-2 col-xs-12 col-sm-6 col-md-3" data-toggle="tooltip" data-placement="top" title="Jam selesai">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text bg-info text-white"> <i class="fas fa-stopwatch"></i></div>
+                                </div>
+                                <input type="text" name="jam_selesai" class="form-control clockpicker" data-placement="bottom" placeholder="waktu selesai" data-autoclose="true" readonly required>
+                            </div>
+                        </div>
                     </div>
 
                     <button type="submit" class="btn btn-info">Submit</button>
@@ -66,9 +95,10 @@
                 <thead>
                     <tr style="text-align:center;">
                         <th>Judul</th>
-                        <th>pelajaran</th>
-                        <th>Jumlah Soal</th>
-                        <th>Waktu Pengerjaan</th>
+                        <th>Pelajaran</th>
+                        <th><sup>Jumlah </sup>Soal</th>
+                        <th><sup>Tanggal </sup>Mulai</th>
+                        <th><sup>Tanggal </sup>Selesai</th>
                         <th>Dibuat</th>
                         <th>Diupdate</th>
                         <th>Aksi</th>
@@ -86,7 +116,8 @@
                         <td style="width: 35%; text-align:left;">{{ $s->judul }}</td>
                         <td>{{ $s->pelajaran->nama_pelajaran }}</td>
                         <td>{{ $s->jumlah_soal }}</td>
-                        <td>{{ $s->waktu_pengerjaan }} menit</td>
+                        <td>{{ $s->tanggal_mulai }}</td>
+                        <td>{{ $s->tanggal_selesai }}</td>
                         <td>{{ $s->dibuat }}</td>
                         @if (empty($s->diupdate))
                         <td> Belum pernah</td>
@@ -94,8 +125,9 @@
                         <td>{{ $s->diupdate }}</td>
                         @endif
                         <td class="text-center">
-                        <button class="btn btn-danger btn-hapus" data-link="{{ url('mentor/soal/delete', $s->id) }}">Hapus</button>
-                            <a class="btn btn-info" href="{{ route('mentor.soal_edit', $s->id) }}">Edit</a>
+                        <button class="btn btn-danger btn-hapus" data-link="{{ url('mentor/soal/delete', $s->id) }}">Hapus</button> |
+                            <a class="btn btn-info" href="{{ route('mentor.soal_edit', $s->id) }}">Edit</a> |
+                            <button class="btn btn-outline-info btn-modal-edit-judul" data-toggle="modal" data-target=".modal-edit-judul" data-id="{{ $s->id }}">Edit judul</button>
                         </td>
                     </tr>
                     @endforeach
@@ -140,13 +172,97 @@
     </div>
 </div>
 
+{{-- edit ini !! --}}
+
+    <div class="modal fade modal-edit-judul" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+              <div class="modal-header judul-edit">
+              </div>
+              <div class="modal-body">
+
+              
+            <form class="form form-update-judul" action="{{ route('mentor.question_update_title') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="id">
+                        <div class="form-group">
+                            <label for="judul">Judul Soal<span class="text-danger">*</span></label>
+                        <input type="text" name="judul_update" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pelajaran_id">Mata Pelajaran<span class="text-danger">*</span></label>
+                            <select class="form-control" name="pelajaran_id_update"  value="{{ old('pelajaran_id') }}" required>
+                                @foreach ($pelajaran as $p)
+                                <option value="{{ $p->id }}">{{ $p->nama_pelajaran }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Jumlah soal<span class="text-danger">*</span></label>
+                            <span id="pesan_error" class="text-danger"></span>
+                            <input type="number" name="jumlah_soal_update" class="form-control" min="5" max="20" value="5" id="jumlah_soal">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Waktu mengerjakan<span class="text-danger">*</span></label>
+                            <span id="pesan_error_waktu" class="text-danger"></span>
+                            <br>
+                            <p class="font-italic text-grey">Masukkan Waktu, Tanggal mulai dan batas waktu</p>
+                            
+                            <div class="row">
+                                <div class="input-group mb-2 col-xs-12 col-sm-6 col-md-3" data-toggle="tooltip" data-placement="top" title="Tanggal mulai">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text bg-info text-white"> <i class="fas fa-calendar-alt"></i></div>
+                                    </div>
+                                    <input type="date" name="tgl_mulai_update" class="form-control" placeholder="tanggal mulai" required>
+
+                                </div>
+                                
+                                <div class="input-group mb-2 col-xs-12 col-sm-6 col-md-3" data-toggle="tooltip" data-placement="top" title="Jam mulai">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text bg-info text-white"> <i class="fas fa-clock"></i></div>
+                                    </div>
+                                    <input type="text" name="jam_mulai_update" class="form-control clockpicker" data-placement="bottom" placeholder="waktu mulai" data-autoclose="true" readonly required>
+                                </div>
+                                
+                                <div class="input-group mb-2 col-xs-12 col-sm-6 col-md-3" data-toggle="tooltip" data-placement="top" title="Tanggal selesai">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text bg-info text-white"> <i class="fas fa-calendar-day"></i></div>
+                                    </div>
+                                    <input type="date" name="tanggal_selesai_update" class="form-control" placeholder="tanggal selesai" required>
+                                </div>
+                                
+                                <div class="input-group mb-2 col-xs-12 col-sm-6 col-md-3" data-toggle="tooltip" data-placement="top" title="Jam selesai">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text bg-info text-white"> <i class="fas fa-stopwatch"></i></div>
+                                    </div>
+                                    <input type="text" name="jam_selesai_update" class="form-control clockpicker" data-placement="bottom" placeholder="waktu selesai" readonly data-autoclose="true" required>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <button type="submit" class="btn btn-info text-right">Update</button>
+                    </form>
+                </div>
+          </div>
+        </div>
+      </div>
 @endsection
 
 @section('scriptcss')
 
 <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-
+<link href="{{ asset('css/jquery-clockpicker.min.css') }}" rel="stylesheet">
 <style>
+    .clockpicker-popover{
+        z-index: 9999;
+    }
+
+    .form-control:disabled, .form-control[readonly] {
+	background-color: white;
+	opacity: 1;
+}
 </style>
 @endsection
 
@@ -158,8 +274,58 @@
 <!-- Page level custom scripts -->
 <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<script src="{{ asset('js/jquery-clockpicker.min.js') }}"></script>
+<script type="text/javascript">
+    $('.clockpicker').clockpicker(
+        // {
+        // afterHide: function() {
+        //         console.log($("[name='jam_mulai']").val());
+        //     }
+        // }
+    );
+    </script>
 <script>
+    
     $(document).ready(function() {
+
+        $(".btn-modal-edit-judul").click(function(){
+            var id = $(this).attr("data-id");
+            
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type: "post",
+                url: "{{ url('mentor/soal/datapersoal') }}",
+                data: {
+                    id: id
+                },
+                success: function(hasil){
+                    $("[name='id']").val(hasil.id);
+                    $(".judul-edit").text(hasil.judul);
+                    $("[name='judul_update']").val(hasil.judul);
+                    $("[value='" + hasil.pelajaran_id +"']").attr("selected", "selected");
+                    $("[name='jumlah_soal']").val(hasil.jumlah_soal);
+                    $("[name='tgl_mulai_update']").val(hasil.tanggal_mulai.substring(0, 10));
+                    $("[name='tanggal_selesai_update']").val(hasil.tanggal_selesai.substring( 0, 10));
+                    $("[name='jam_mulai_update']").val(hasil.tanggal_mulai.substring(10, 16));
+                    $("[name='jam_selesai_update']").val(hasil.tanggal_selesai.substring(10, 16));
+                }
+            });
+        });
+
+        // $("[name='tanggal_mulai']").on("change", function(){
+        //     var tanggal_mulai = $("[name='tanggal_mulai']").val();
+        //     var tahun = tanggal_mulai.substring(0,4);
+        //     var bulan = tanggal_mulai.substring(5,7);
+        //     var hari = tanggal_mulai.substring(8,11);
+        //     $(this).val(tahun);
+        // });
+
+        $('[data-toggle="tooltip"]').tooltip()
 
         $('#tabel').DataTable();
 
@@ -198,6 +364,17 @@
 
     });
 </script>
+
+@if(Session::get('berhasil_update_judul'))
+<script>
+    Swal.fire(
+        'Berhasil!',
+        'berhasil mengupdate judul soal!',
+        'success'
+    )
+
+</script>
+@endif
 
 @if(Session::get('hapus_soal'))
 <script>

@@ -16,6 +16,8 @@ use App\Tes_pilihan;
 use PhpParser\Node\Stmt\Switch_;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
+use Faker\Provider\zh_TW\DateTime;
+use Illuminate\Support\Facades\Date;
 
 class SoalController extends Controller
 {
@@ -41,14 +43,26 @@ class SoalController extends Controller
         // return view('mentor.pages.pertanyaan.index');
     }
 
-    // public function tes(Request $request)
-    // {
-    //     $mentor_id = Auth::guard('mentor')->user()->id;
-    //     $m = Soal_judul::max("id");
-    //     $s = substr($m, 8);
-    //     $mid = substr($mentor_id, 5, 5);
-    //     $nomor = sprintf( "%04s", $s);
-    // }
+    public function tes()
+    {   
+        $soal = Soal_judul::find(500934080001);
+
+        date_default_timezone_set('Asia/Jakarta');
+        
+        // if(now() < $soal->tanggal_mulai){
+        //     echo "Kerjakan";
+        // }else{
+        //     echo "telah lewat";
+        // }
+
+        if(now() > $soal->tanggal_selesai){
+            echo "lewat";
+        }elseif(now() > $soal->tanggal_mulai){
+            echo "kerjakan"; 
+        }else{
+            echo "belum waktunya";
+        }
+    }
 
     public function question_create_title(Request $request)
     {
@@ -58,6 +72,16 @@ class SoalController extends Controller
         $s = substr($m, 5)+1;
         $mid = substr($mentor_id, 5, 5);
         $nomor = sprintf( "%04s", $s);
+
+        $tanggal_mulai  = $request->tanggal_mulai;
+        $jam_mulai      = $request->jam_mulai;
+
+        $sub_tjm = $tanggal_mulai . " ". $jam_mulai. ":00";
+
+        $tanggal_selesai  = $request->tanggal_selesai;
+        $jam_selesai     = $request->jam_selesai;
+
+        $sub_tjs = $tanggal_selesai . " ". $jam_selesai. ":00";
     
 
         $sj = new Soal_judul;
@@ -75,13 +99,37 @@ class SoalController extends Controller
 
         $sj->jumlah_soal = $request->jumlah_soal;
 
-        $sj->waktu_pengerjaan = $request->waktu_pengerjaan;
+        $sj->tanggal_mulai = $sub_tjm;
+
+        $sj->tanggal_selesai = $sub_tjs;
 
         $sj->save();
 
         $soal_judul = Soal_judul::find($sj->id);
 
         return view('mentor.pages.question.question_create', compact('soal_judul'));
+    }
+
+    public function data_persoal(Request $request){
+        $id = Soal_judul::find($request->id);
+
+        return response()->json($id);
+    }
+
+    public function question_update_title(Request $r){
+
+        $sj = Soal_judul::find($r->id);
+
+        $sj->pelajaran_id   = $r->pelajaran_id_update;
+        $sj->judul          = $r->judul_update;
+        $sj->jumlah_soal    = $r->jumlah_soal_update;
+        $sj->tanggal_mulai  = $r->tgl_mulai_update  . " " . $r->jam_mulai_update. ":00";
+        $sj->tanggal_selesai  = $r->tanggal_selesai_update . " " . $r->jam_selesai_update. ":00";
+        $sj->save();
+
+        Session::flash("berhasil_update_judul", "berhasil_update_judul");
+
+        return redirect()->back();
     }
 
     public function question_create_questions(Request $request)

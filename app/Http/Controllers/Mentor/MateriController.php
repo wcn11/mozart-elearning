@@ -19,7 +19,7 @@ class MateriController extends Controller
 
         $materi = Materi::all()->where('mentor_id', $mentor_id);
 
-        return view('mentor.pages.materi.index', ['materi' => $materi]);
+        return view('mentor.pages.materi.daftar_materi', ['materi' => $materi]);
     }
 
     public function materi_upload()
@@ -36,13 +36,13 @@ class MateriController extends Controller
         $s = substr($m, 4)+1;
         $nomor = sprintf( "%04s", $s);
 
-        $messages = [
-            "required" => "Field :attribute harus diisi",
-        ];
+        // $messages = [
+        //     "required" => "Field :attribute harus diisi",
+        // ];
 
         $this->validate($r, [
             'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-        ])->$messages;
+        ]);
 
         $mentor_id = Auth::guard('mentor')->user()->id;
 

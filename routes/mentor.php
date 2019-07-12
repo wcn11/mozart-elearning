@@ -24,10 +24,10 @@ Route::group(['namespace' => 'Mentor'], function () {
     Route::get('email/verify/{id}', 'Auth\VerificationController@verify')->name('mentor.verification.verify');
 
     // Students
-    Route::group(['middleware' => ['mentor.auth']], function () {
+    Route::group(['middleware' => ['mentor.auth', 'mentor.verified']], function () {
 
-        // Route::get('wkwk', "StudentController@wkwk");
-        // Route::get('data', "StudentController@getDataStudent");
+        Route::post('/password/change', 'HomeController@changePassword')->name('mentor.password.change');
+
         Route::get('student', "StudentController@index")->name('mentor.student');
         Route::post('student/destroy', 'StudentController@destroy')->name('mentor.student_destroy');
 
@@ -43,6 +43,8 @@ Route::group(['namespace' => 'Mentor'], function () {
 
         Route::get('soal', 'SoalController@index')->name('mentor.soal');
         Route::post('soal/create/title', 'SoalController@question_create_title')->name('mentor.question_create_title');
+        Route::post('soal/update/title', 'SoalController@question_update_title')->name('mentor.question_update_title');
+        Route::post('soal/datapersoal', 'SoalController@data_persoal')->name('mentor.soal_data_persoal');
         Route::post('soal/create/question', 'SoalController@question_create_questions')->name('mentor.question_create_questions');
         Route::get('soal/read/{id}', 'SoalController@soal_read')->name('mentor.soal_read');
         Route::get('soal/edit/{id}', 'SoalController@soal_edit')->name('mentor.soal_edit');
@@ -53,6 +55,19 @@ Route::group(['namespace' => 'Mentor'], function () {
         Route::get('profil', 'HomeController@profil')->name('mentor.profil');
         Route::post('profil/update', 'HomeController@profil_update')->name('mentor.profil_update');
         
-        Route::get("pelajaran", 'PelajaranController@index')->name('mentor.pelajaran');
+        Route::get("mapel", 'PelajaranController@index')->name('mentor.mapel');
+        Route::post("pelajaran/tambah", 'PelajaranController@tambah')->name('mentor.tambah_mapel');
+        Route::post("pelajaran/ambil_data", "PelajaranController@ambilData");
+        Route::post("pelajaran/hapus/{id}", "PelajaranController@hapus");
+
+
+        Route::get("pelajaran/cetak/{id}", 'PelajaranController@cetak');
+
+        Route::any('ViewerJS/{all?}', function(){
+
+            return View::make('ViewerJS.index');
+        });
+
+        Route::get("tes", "soalController@tes");
     });
 });

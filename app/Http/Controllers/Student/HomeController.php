@@ -22,14 +22,21 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('student.auth:student');
-        if (Auth::guard('student')->check()) {
-            $student = Student::find(Auth::guard('student')->user()->id);
-            if (empty($student->mentor_id)) {
-                return redirect()->route('student.mentor');
-            } elseif (!empty($student->mentor_id)) {
-                return redirect()->route('student.materi');
-            }
-        }
+        // if (Auth::guard('student')->check()) {
+        //     $student = Student::find(Auth::guard('student')->user()->id);
+        //     if (empty($student->mentor_id)) {
+        //         return redirect()->route('student.mentor');
+        //     } elseif (!empty($student->mentor_id)) {
+        //         return redirect()->route('student.materi');
+        //     }
+        // }
+        // $mentor_id = Auth::guard('mentor')->user()->id;
+
+        // $mentor = Mentor::find($mentor_id);
+
+        // if($mentor->email_verified_at == null){
+        //     Session::put('belum_verifikasi', "Email anda harus diverifikasi terlebih dahulu");
+        // }
     }
 
     /**

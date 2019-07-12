@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Login</title>
+  <title>Reset Password Student | Mozart E-Learning</title>
 
   <!-- Custom fonts for this template-->
   <link href="<?php echo e(asset('vendor/fontawesome-free/css/all.min.css')); ?>" rel="stylesheet" type="text/css">
@@ -41,6 +41,7 @@
                   </div>
                    <form method="POST" action="<?php echo e(route('student.password.request')); ?>" aria-label="<?php echo e(__('Reset Password')); ?>">
                         <?php echo csrf_field(); ?>
+                        <input type="hidden" name="token" value="<?php echo e($token); ?>">
                     <div class="form-group">
                     <input id="email" type="email" placeholder="Masukkan email" class="form-control<?php echo e($errors->has('email') ? ' is-invalid' : ''); ?>" name="email" value="<?php echo e($email ?? old('email')); ?>" required autofocus>
 

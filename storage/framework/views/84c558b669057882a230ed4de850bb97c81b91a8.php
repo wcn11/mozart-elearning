@@ -11,7 +11,7 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h5 class="text-center"><?php echo e($soal_judul->judul); ?></h5>
-            <a class="btn btn-danger float-right btn-selesai text-white">Selesai</a>
+            <button class="btn btn-danger float-right btn-selesai text-white">Selesai</button>
 
             <form class="form-hasil" action="<?php echo e(route('student.soal_nilai', $soal_judul->id)); ?>" method="post">
                 <?php echo csrf_field(); ?>
@@ -88,4 +88,6 @@
 </script>
 <?php $__env->stopSection(); ?>
 
+<?php $__env->startSection('scriptcss'); ?>
+<?php $__env->stopSection(); ?>
 <?php echo $__env->make('student.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\wahyu\Desktop\mozart-learn\resources\views/student/soal_edit_semua.blade.php ENDPATH**/ ?>

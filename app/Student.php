@@ -11,7 +11,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 class Student extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
-    protected $table = "students";
+    // protected $table = "students";
     public $incrementing = false;
     /**
      * The attributes that are mass assignable.

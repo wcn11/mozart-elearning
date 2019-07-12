@@ -14,7 +14,7 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h5 class="text-center">{{ $soal_judul->judul }}</h5>
-            <a class="btn btn-danger float-right btn-selesai text-white">Selesai</a>
+            <button class="btn btn-danger float-right btn-selesai text-white">Selesai</button>
 
             <form class="form-hasil" action="{{ route('student.soal_nilai', $soal_judul->id) }}" method="post">
                 @csrf
@@ -89,4 +89,7 @@
         // });
     });
 </script>
+@endsection
+
+@section('scriptcss')
 @endsection

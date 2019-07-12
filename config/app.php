@@ -232,6 +232,7 @@ return [
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
+        'DOMPDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];

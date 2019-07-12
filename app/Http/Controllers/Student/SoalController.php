@@ -19,25 +19,72 @@ class SoalController extends Controller
     {
         $mentor_id = Student::find(Auth::guard('student')->user()->id);
         $soal = Soal_judul::where("mentor_id", $mentor_id->mentor_id)->get();
+
+        date_default_timezone_set('Asia/Jakarta');
         
-        $status = [];
+        $status_mengerjakan = [];
+
+        $status_batas = [];
+
         for($i = 0; $i < count($soal); $i++){
 
             $nilai = Nilai::where("soal_judul_id", $soal[$i]['id'])->where('student_id', Auth::guard("student")->user()->id)->get();
 
-            if(!empty($nilai)){
-                $status[] = array(
-                    'status' => "selesai"
-                );                
-            }else{
-                $status[] = array(
-                    'status' => "belum"
-                );     
-            }
 
+            if(now() > $soal[$i]['tanggal_selesai']){
+
+                $status_batas[] = array(
+                    'status' => "lewat"
+                );
+                
+                if($nilai->isEmpty()){  
+                    $status_mengerjakan[] = array(
+                        'status' => "belum"
+                    );             
+                }else{  
+                    $status_mengerjakan[] = array(
+                        'status' => "selesai"
+                    );    
+                }
+
+            }elseif(now() > $soal[$i]['tanggal_mulai']){
+
+                $status_batas[] = array(
+                    'status' => "waktunya"
+                );
+
+                if($nilai->isEmpty()){  
+                    $status_mengerjakan[] = array(
+                        'status' => "belum"
+                    );             
+                }else{  
+                    $status_mengerjakan[] = array(
+                        'status' => "selesai"
+                    );    
+                }
+
+            }else{
+
+                $status_batas[] = array(
+                    'status' => "belum"
+                );
+                
+                if($nilai->isEmpty()){  
+                    $status_mengerjakan[] = array(
+                        'status' => "belum"
+                    );             
+                }else{  
+                    $status_mengerjakan[] = array(
+                        'status' => "selesai"
+                    );    
+                }
+
+            }
         }
 
-        return view('student.soal', compact('soal', 'status'));
+        return view('student.soal', ['soal' => $soal, 'status_mengerjakan' => $status_mengerjakan, 'status_batas' => $status_batas]);
+
+
     }
 
     public function soal_mengerjakan($id)
@@ -50,7 +97,6 @@ class SoalController extends Controller
 
     public function soal_update(Request $request)
     {
-
         $cek = Hasil::firstOrNew(array('soal_id' => $request->soal_id));
 
         $cek->soal_id = $request->soal_id;
@@ -148,6 +194,6 @@ class SoalController extends Controller
         $pdf->setOption('enable-smart-shrinking', true);;
         $pdf->setOption('no-stop-slow-scripts', true);
 
-        return $pdf->download('cetak.pdf');
+        return $pdf->download("[".Auth::guard('student')->user()->name."]_[". $soal_judul->judul . "]_" . date("H:i:s") . '.pdf');
     }
 }

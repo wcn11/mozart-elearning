@@ -35,13 +35,19 @@ Route::group(['namespace' => 'Student'], function () {
         Route::get('materi/read/{id}', "MateriController@materi_read")->name('student.materi_read');
 
         Route::get('soal', 'SoalController@index')->name('student.soal');
-        Route::get('soal/mengerjakan/{id}', 'SoalController@soal_mengerjakan')->name('student.soal_mengerjakan');
+
         Route::post('soal/update', 'SoalController@soal_update')->name('student.soal_update');
-        Route::get('soal/hasil/{id}', 'SoalController@soal_hasil')->name('student.soal_hasil');
-        Route::get('soal/edit/{id}', 'SoalController@soal_edit')->name('student.soal_edit');
-        Route::get('soal/edit/persoal/{id}/{nomor}', 'SoalController@soal_edit_persoal')->name('student.soal_edit_persoal');
-        Route::post('soal/nilai/{id}', 'SoalController@soal_nilai')->name('student.soal_nilai');
-        Route::get('soal/nilai/review/{id}', 'SoalController@soal_nilai_review')->name('student.nilai_review');
+        
+        Route::group(['middleware' => ['mentor.batas_waktu']], function(){
+            Route::get('soal/mengerjakan/{id}', 'SoalController@soal_mengerjakan')->name('student.soal_mengerjakan');
+            Route::get('soal/hasil/{id}', 'SoalController@soal_hasil')->name('student.soal_hasil');
+            Route::get('soal/edit/{id}', 'SoalController@soal_edit')->name('student.soal_edit');
+            Route::get('soal/edit/persoal/{id}/{nomor}', 'SoalController@soal_edit_persoal')->name('student.soal_edit_persoal');
+            Route::post('soal/nilai/{id}', 'SoalController@soal_nilai')->name('student.soal_nilai');
+            Route::get('soal/nilai/review/{id}', 'SoalController@soal_nilai_review')->name('student.nilai_review');
+        });
+        
+
         Route::get('soal/nilai/cetak/{id}', 'SoalController@soal_nilai_cetak')->name('student.soal_nilai_cetak');
     });
 });

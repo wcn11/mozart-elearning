@@ -12,6 +12,8 @@
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-info text-center"><?php echo e($soal_judul->judul); ?></h6>
                 <p class="text-center"><?php echo e($soal->currentPage()); ?>/<?php echo e($soal_judul->jumlah_soal); ?></p>
+                Soal akan berakhir pada : <?php echo e($soal_judul->tanggal_selesai); ?>
+
             </div>
             <input type="hidden" name="soal_judul_id" value="<?php echo e($soal_judul->id); ?>">
             <div class="card-body">
@@ -65,7 +67,7 @@
 </div>
     <?php else: ?>
     <div class="text-center">
-    <a class="btn btn-info text-right btn-selanjutnya" data-link="<?php echo e($soal->nextPageUrl()); ?>">Selanjutnya</a>
+    <a class="btn btn-info text-right text-white btn-selanjutnya" data-link="<?php echo e($soal->nextPageUrl()); ?>">Selanjutnya</a>
 </div>
     <?php endif; ?>
 
@@ -81,6 +83,9 @@
     text-align: center;
 
     max-height: 40%;
+}
+.btn-selanjutnya:hover{
+    cursor: pointer;
 }
 </style>
 
@@ -113,6 +118,9 @@
                 success: function(hasil1){
                     console.log(hasil1);
                     // location.reload(true);
+                },
+                errors: function(hasil){
+                    console.log(hasil.errors);
                 }
             });
 
@@ -221,7 +229,6 @@
 
         $(".btn-selanjutnya").click(function(event){
 
-
             if($("[name='jawaban']").is(":checked")){
                 console.log("ter ceklis");
                 var link = $(this).attr('data-link');
@@ -231,52 +238,14 @@
                 console.log("belum di ceklis");
                 $(".belum-memilih").show();
             }
-
-            // $.ajaxSetup({
-            //     headers: {
-            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //     }
-            // });
-
-            // $.ajax({
-            //     type: "post",
-            //     url: "<?php echo e(url('/student/soal/update')); ?>",
-            //     data: {
-            //         jawaban: jawaban,
-            //         soal_id: $("[name='soal_id']").val(),
-            //         soal_judul_id: $("[name='soal_judul_id']").val()
-            //     },
-            //     success: function(hasil){
-            //         console.log(hasil);
-            //         // location.reload(true);
-            //     }
-            // });
         });
 
-        // $(".btn-selesai").click(function(event){
-        //     $.ajaxSetup({
-        //         headers: {
-        //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        //         }
-        //     });
 
-        //     $.ajax({
-        //         type: "post",
-        //         url: "<?php echo e(url('/student/soal/update')); ?>",
-        //         data: {
-        //             jawaban: jawaban,
-        //             soal_id: $("[name='soal_id']").val(),
-        //             jumlah_soal: $("[name='jumlah_soal']").val(),
-        //             soal_judul_id: $("[name='soal_judul_id']").val()
-        //         },
-        //         success: function(hasil){
-        //             console.log(hasil);
-        //         }
-        //     });
-        // });
 
     });
 </script>
+
+
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('student.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\wahyu\Desktop\mozart-learn\resources\views/student/soal_mengerjakan.blade.php ENDPATH**/ ?>

@@ -42,7 +42,6 @@
 						Sign Up
           </span>
           
-          Bukan seorang mentor ?
 
 					<div class="wrap-input100 validate-input" data-validate="Name is required">
 						<span class="label-input100">Username</span>

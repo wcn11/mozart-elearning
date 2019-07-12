@@ -1,3 +1,6 @@
+
+
+
 <!doctype html>
 <html lang="en">
 <!--
@@ -29,7 +32,7 @@ URI     : https://colorlib.com
     <link rel="stylesheet" href="template_fe/css/owl.carousel.min.css">
     <!-- Main css -->
     <link href="template_fe/css/style.css" rel="stylesheet">
-    @yield('css')
+    @yield('scriptcss')
 </head>
 
 <body data-spy="scroll" data-target="#navbar" data-offset="30">
@@ -526,7 +529,7 @@ URI     : https://colorlib.com
     <script src="template_fe/js/owl.carousel.min.js"></script>
     <!-- Custom JS -->
     <script src="template_fe/js/script.js"></script>
-    @yield('js')
+    @yield('scriptjs')
 </body>
 
 </html>

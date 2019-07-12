@@ -7,54 +7,87 @@
 
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800"></h1>
-    <p class="mb-4">Murid yang ada pada daftar dibawah adalah murid yang mengikuti anda dan anda dapat <span class="badge badge-danger">mengeluarkan</span> murid anda.</p>
     <div class="col text-right mb-3 mt-3">
 
-        <button class="btn btn-dark btn-buat-soal"> Tambah mata pelajaran</button>
+        <button class="btn btn-dark btn-modal-tambah-pelajaran"> <i class="fab fa-leanpub"></i> Tambah mata pelajaran</button>
     </div>
-
+    {{-- data-target="#modal-pelajaran" data-toggle="modal" --}}
 <!-- DataTales Example -->
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Murid</h6>
+<div class="card shadow mb-4 animated bounceInDown">
+    <div class="card-header py-3 text-center">
+        <h6 class="m-0 font-weight-bold text-primar bounce animated">Tabel pelajaran</h6>
     </div>
     <div class="card-body">
-       hee
+
+            <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        @foreach ($mapel as $mpl)
+                            <a class="nav-item nav-link" id="nav-{{ $mpl->id }}-tab" data-id="{{ $mpl->id }}" data-toggle="tab" href="#nav-{{ $mpl->id }}" role="tab" aria-controls="nav-{{ $mpl->id }}"> {{ $mpl->nama_pelajaran }}</a>
+                        @endforeach
+                    </div>
+                  </nav>
+                  <div class="tab-content" id="nav-tabContent">
+                    @foreach ($mapel as $mpl)
+                        <div class="tab-pane fade" id="nav-{{ $mpl->id }}" role="tabpanel" aria-labelledby="nav-{{ $mpl->id }}-tab">
+                            
+                            <div class="container p-3 text-center">
+                                <a href="#" data-id="{{ $mpl->id }}" class="btn btn-outline-danger btn-pdf"><i class="fas fa-print"></i> PDF</a>
+                                <a href="#" data-id="{{ $mpl->id }}" class="btn btn-outline-success btn-excel"><i class="fas fa-file-excel"></i> EXCEL</a>
+                                <button href="#" data-id="{{ $mpl->id }}" class="btn btn-outline-danger btn-hapus-pelajaran"><i class="fas fa-trash-alt"></i> Hapus</button>
+                            </div>
+                            
+                            <div class="table-responsive w-100">
+                                        <table class="table table-bordered" id="tabel" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr style="text-align:center;">
+                                                    <th>Materi</th>
+                                                    <th>Soal</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="text-center">
+                                                    <td class="materi"></td>
+                                                    <td class="soal"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                        </div>
+                    @endforeach
+                  </div>
+
+        
     </div>
 </div>
 </div>
 
-
-{{--  MODAL  --}}
-
-<div class="modal fade bd-example-modal-xl modal-hapus" tabindex="-1" role="dialog"
-    aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+<!-- Modal -->
+<div class="modal fade" id="modal-pelajaran" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
             <div class="modal-header">
-                <div>
-                    <h5 class="modal-title"
-                        style="font-size: 15px; text-align:center; font-weight:bold; text-transform:capitalize;"></h5>
-                </div>
-                <button type="button" class="close btn-tutup" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
             <div class="modal-body">
-                <p>Apakah anda yakin ingin menghapus soal ini ?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-konfirmasi"
-                    onclick="event.preventDefault();document.getElementById('form-hapus').submit();"
-                    data-dismiss="modal">Hapus</button>
-                <button type="button" class="btn btn-info btn-tutup" data-dismiss="modal">Tutup</button>
-                <form id="form-hapus" action="#" method="post">
+                <form class="form form-tambah-mapel" action="{{ route('mentor.tambah_mapel') }}" method="post">
                     @csrf
+                    <div class="form-group">
+                        <label for="mapel">Nama Mata Pelajaran</label>
+                        <input type="text" class="form-control" name="nama_pelajaran" id="mapel" aria-describedby="emailHelp" placeholder="Mata pelajaran">
+                    </div>
                 </form>
             </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+              <button type="button" class="btn btn-primary btn-tambah-pelajaran">Tambah</button>
+            </div>
+          </div>
         </div>
-    </div>
-</div>
+      </div>
+
 
 @endsection
 
@@ -63,6 +96,7 @@
 <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 
 <style>
+
 </style>
 @endsection
 
@@ -74,74 +108,128 @@
 <!-- Page level custom scripts -->
 <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
 <script>
-    $(document).ready(function() {
+    $(function(){
 
-        $('#tabel').DataTable();
+        
 
-        $(".form-buat-soal").hide();
-
-        $("#jumlah_soal").keypress(function(e) {
-            //if the letter is not digit then display error and don't type anything
-            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
-                //display error message
-                $("#pesan_error").html("Hanya Angka!").show().fadeOut("slow");
-                return false;
+        var id = $("#nav-tab a:first-child").attr("data-id");
+            
+        $(".btn-pdf").attr("href", "{{ url('mentor/pelajaran/cetak') }}" + "/" + id);
+        
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
 
-        $("#jumlah_waktu").keypress(function(e) {
-            //if the letter is not digit then display error and don't type anything
-            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
-                //display error message
-                $("#pesan_error_waktu").html("Hanya Angka!").show().fadeOut("slow");
-                return false;
+        $.ajax({
+            type: "post",
+            url: "{{ url('/mentor/pelajaran/ambil_data') }}",
+            data: {
+                id: id
+            },
+            success: function(hasil){
+                $(".materi").text(hasil.materi + " materi");
+                $(".soal").text(hasil.soal + " materi");
             }
         });
 
-        $(".btn-buat-soal").click(function() {
-            $(".form-buat-soal").toggle(1000);
-            $(this).addClass("btn-buat-soal-tutup");
+        $(".btn-modal-tambah-pelajaran").click(function(){
+            $("#modal-pelajaran").modal('show');
         });
 
-        $(".btn-hapus").click(function(){
-            $("#form-hapus").attr("action");
-            var link = $(this).attr("data-link");
-            console.log(link);
-            $(".modal-hapus").modal();
-            $("#form-hapus").attr("action", link)
+        $("#nav-tab a:first-child").addClass("active");
+
+        $(".tab-content .tab-pane:first-child").addClass('active show');
+
+        $(".btn-tambah-pelajaran").click(function(){
+            $(".form-tambah-mapel").submit();
         });
 
+        $(".nav-item").click(function(){
+            var id = $(this).attr("data-id");
+            
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type: "post",
+                url: "{{ url('/mentor/pelajaran/ambil_data') }}",
+                data: {
+                    id: id
+                },
+                success: function(hasil){
+                    $(".btn-pdf").attr("href", "{{ url('mentor/pelajaran/cetak') }}" + "/" + id);
+
+                    $(".materi").text(hasil.materi + " materi");
+                    $(".soal").text(hasil.soal + " materi");
+                }
+            });
+        });
+
+        $(".btn-hapus-pelajaran").click(function(){
+            var id = $(this).attr("data-id");
+
+            Swal.fire({
+                title: 'Apakah anda yakin ?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d11',
+                confirmButtonText: 'Hapus!',
+                cancelButtonText: 'Batal',
+                animation: false,
+                customClass: {
+                    popup: 'animated shake'
+                }
+                }).then((result) => {
+                    if (result.value) {
+
+                        var id = $(this).attr("data-id");
+
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+
+                        $.ajax({
+                            type: "post",
+                            url: "{{ url('mentor/pelajaran/hapus/') }}" + "/" + id,
+                            success: function(hasil){
+                                console.log(hasil);
+                                location.reload();
+                            }
+                        });
+                    }
+                })
+        });
     });
+    
 </script>
 
-@if(Session::get('hapus_soal'))
+@if(Session::get('berhasil_tambah_mapel'))
 <script>
     Swal.fire(
         'Berhasil!',
-        'Anda telah berhasil menghapus soal!',
+        "berhasil menambahkan mata pelajaran",
         'success'
     )
 
 </script>
 @endif
 
-@if(Session::get('buat_soal'))
+@if(Session::get('pelajaran_dihapus'))
 <script>
     Swal.fire(
         'Berhasil!',
-        'Anda telah berhasil menambahkan soal!',
-        'success'
-    )
-
-</script>
-@endif
-
-@if(Session::get('update_soal'))
-<script>
-    Swal.fire(
-        'Berhasil!',
-        'Anda telah berhasil mengubah soal!',
+        "berhasil menghapus mata pelajaran",
         'success'
     )
 

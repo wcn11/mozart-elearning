@@ -21,10 +21,11 @@
                         <thead>
                             <tr style="text-align:center;">
                                 <th>Judul Soal</th>
-                                <th>Jumlah Soal</th>
+                                <th><sup>Jumlah</sup> Soal</th>
                                 <th>Pelajaran</th>
                                 <th>waktu</th>
-                                <th>Status</th>
+                                <th><sup>Status</sup> Waktu</th>
+                                <th><sup>Status</sup> Mengerjakan</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -35,27 +36,44 @@
                                 </tr>
                             @else
                             @for ($i = 0; $i < count($soal); $i++)
-                            <tr style="text-align:center;">
+                            <tr style="text-align:center;" class="data-soal" data-id="{{ $soal[$i]['id'] }}">
                                 <td style="width: 35%; text-align:left;">{{ $soal[$i]['judul'] }}</td>
                                 <td>{{ $soal[$i]['jumlah_soal'] }}</td>
                                 <td>{{ $soal[$i]['pelajaran']['nama_pelajaran'] }}</td>
-                                <td>{{ $soal[$i]['waktu_pengerjaan'] }}</td>
-                                @if($status[$i]['status'] == "belum")
-                                <td>
-                                    <span class="badge badge-warning">Belum dikerjakan</span>
-                                </td>
-                                <td>
-                                    <?php $id = Crypt::encrypt($soal[$i]['id']); ?>
-                                    <a class="btn btn-info text-white" href="{{ route('student.soal_mengerjakan', $id) }}">Kerjakan</a>
-                                </td>
-                                @else
-                                <td>
-                                    <span class="badge badge-success">Selesai</span>
-                                </td>
-                                <td>
-                                    <?php //$id = Crypt::encrypt($soal[$i]['id']); ?>
-                                    <a class="btn btn-info text-white" href="{{ route('student.soal_nilai_cetak', $soal[$i]['id']) }}">Cetak</a>
-                                </td>
+                                <td>{{ $soal[$i]['tanggal_mulai'] }} - {{ $soal[$i]['tanggal_selesai'] }}</td>
+                                <td>{{ $status_batas[$i]['status'] }}</td>
+                                @if($status_batas[$i]['status'] == "lewat" && $status_mengerjakan[$i]['status'] == "belum")
+                                    <td class="status">
+                                        <span class="badge badge-danger">Tidak Mengerjakan</span>
+                                    </td>
+                                    
+                                    <td class="status">
+                                        <span class="badge badge-danger">Tidak Mengerjakan</span>
+                                    </td>
+                                @elseif($status_batas[$i]['status'] == "lewat" && $status_mengerjakan[$i]['status'] == "selesai")
+                                    <td class="status">
+                                        <span class="badge badge-success">Selesai</span>
+                                    </td>
+                                    
+                                    <td class="status">
+                                        <a class="btn btn-outline-info" href="{{ route('student.soal_nilai_cetak', $soal[$i]['id']) }}"> <i class="fas fa-print"></i> Cetak</a>
+                                    </td>
+                                @elseif($status_batas[$i]['status'] == "waktunya" && $status_mengerjakan[$i]['status'] == "belum")
+                                    <td class="status">
+                                        <span class="badge badge-warning">Waktunya</span>
+                                    </td>
+                                    <td class="status">
+                                        <?php $id = Crypt::encrypt($soal[$i]['id']); ?>
+                                        <a class="btn btn-info text-white" href="{{ route('student.soal_mengerjakan', $id) }}">Kerjakan</a>
+                                    </td>
+                                @elseif($status_batas[$i]['status'] == "waktunya" && $status_mengerjakan[$i]['status'] == "selesai")
+                                    <td class="status">
+                                        <span class="badge badge-success">Selesai</span>
+                                    </td>
+                                    <td class="status">
+                                        <?php $id = Crypt::encrypt($soal[$i]['id']); ?>
+                                        <a class="btn btn-outline-info" href="{{ route('student.soal_nilai_cetak', $soal[$i]['id']) }}"> <i class="fas fa-print"></i> Cetak</a>
+                                    </td>
                                 @endif
                             </tr>
                             @endfor
@@ -66,21 +84,48 @@
             </div>
         </div>
     </div>
+    
+    {{-- <td class="session">
+            <span class="badge badge-success">Selesai</span>
+        </td>
+        <td class="session">
+            <a class="btn btn-outline-info" href="{{ route('student.soal_nilai_cetak', $soal[$i]['id']) }}"> <i class="fas fa-print"></i> Cetak</a>
+        </td> --}}
 
 @endsection
 
 @section('scriptcss')
 <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+<style>
+    .session{
+        display: none;
+    }
+</style>
 @endsection
 
 @section('scriptjs')
 <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('js/demo/datatables-demo.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script>
     $(document).ready(function(){
         $("#tabel").DataTable();
     });
-
 </script>
+
+@if(Session::has("md"))
+<script>
+    Swal.fire(
+        'Waktu Habis!',
+        "Anda tidak menyelesaikan soal <strong>{{ Session::get('md') }}</strong> tepat waktu!",
+        'error'
+    )
+
+    $(".data-soal td:nth-child(6)").hide();
+    $(".data-soal td:nth-child(7)").hide();
+
+    $(".data-soal").append("<td><span class='badge badge-danger'>Tidak selesai</span></td>" + "<td><span class='badge badge-danger'>Tidak selesai</span></td>");
+</script>
+@endif
 @endsection

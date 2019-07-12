@@ -8,7 +8,7 @@ class Soal_judul extends Model
 {
     protected $table = "soal_judul";
 
-    protected $fillable = ['judul','id', 'jumlah_soal', 'waktu_pengerjaan'];
+    protected $fillable = ['judul', 'id', 'tanggal_mulai', 'tanggal_selesai', 'jumlah_soal'];
     public $incrementing = false;
     const CREATED_AT = "dibuat";
 

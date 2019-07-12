@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
@@ -76,5 +78,26 @@ class HomeController extends Controller
 
         Session::flash('update_profil', 'Update profil, berhasil!');
         return redirect()->back();
+    }
+
+
+    public function changePassword(Request $request)
+    {
+        $current_password =  Auth::guard('mentor')->user()->password;
+
+        if($request->password == $request->password_confirmation){
+            if(Hash::check($request->current_password, $current_password)){
+                $user_id = Auth::guard('mentor')->user()->id;
+                $user = Mentor::find($user_id);
+                $user->password = Hash::make($request->password);
+                $user->save();
+                return array("password_berhasil" => "password_berhasil");
+            }else{
+                return array("password_salah" => "password_salah");
+            }
+        }else{
+            return array("password_tidak_sama" => "password_tidak_sama");
+        }
+
     }
 }

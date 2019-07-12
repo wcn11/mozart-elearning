@@ -11,5 +11,5 @@
 |
 */
 Route::get('/', function () {
-    return view('student/auth/login');
+    return view('welcome');
 });
