@@ -34,10 +34,10 @@ Route::group(['namespace' => 'Student'], function () {
 
         Route::get('soal', 'SoalController@index')->name('student.soal')->middleware("student.status_soal");
 
-        Route::post('soal/nilai/{id}', 'SoalController@soal_nilai')->name('student.soal_nilai');
-        Route::get('soal/nilai/review/{id}', 'SoalController@soal_nilai_review')->name('student.nilai_review');
+        Route::post('soal/nilai/{id}/{id_param}', 'SoalController@soal_nilai')->name('student.soal_nilai');
+        Route::get('soal/nilai/review/{id}/{id_param}', 'SoalController@soal_nilai_review')->name('student.nilai_review')->middleware("student.batas_waktu");
         
-        Route::group(['middleware' => ['student.batas_waktu' , 'student.cek_selesai', 'student.anti_kembali']], function(){
+        Route::group(['middleware' => ['student.batas_waktu' , 'student.cek_selesai']], function(){
             Route::get('soal/mengerjakan/{id}/{id_param}', 'SoalController@soal_mengerjakan')->name('student.soal_mengerjakan');
             Route::get('soal/hasil/{id}', 'SoalController@soal_hasil')->name('student.soal_hasil');
             Route::get('soal/edit/{id}/{id_param}', 'SoalController@soal_edit')->name('student.soal_edit');

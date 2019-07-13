@@ -37,48 +37,48 @@ class SoalController extends Controller
             if(now() > $soal[$i]['tanggal_selesai']){
 
                 $status_batas[] = array(
-                    'status' => "lewat"
+                    'status'.$i => "lewat"
                 );
                 
                 if($nilai->isEmpty()){  
                     $status_mengerjakan[] = array(
-                        'status' => "belum"
+                        'status'.$i => "belum"
                     );             
                 }else{  
                     $status_mengerjakan[] = array(
-                        'status' => "selesai"
+                        'status'.$i => "selesai"
                     );    
                 }
 
             }elseif(now() > $soal[$i]['tanggal_mulai']){
 
                 $status_batas[] = array(
-                    'status' => "waktunya"
+                    'status'.$i => "waktunya"
                 );
 
                 if($nilai->isEmpty()){  
                     $status_mengerjakan[] = array(
-                        'status' => "belum"
+                        'status'.$i => "belum"
                     );             
                 }else{  
                     $status_mengerjakan[] = array(
-                        'status' => "selesai"
+                        'status'.$i => "selesai"
                     );    
                 }
 
             }else{
 
                 $status_batas[] = array(
-                    'status' => "belum"
+                    'status'.$i => "belum"
                 );
                 
                 if($nilai->isEmpty()){  
                     $status_mengerjakan[] = array(
-                        'status' => "belum"
+                        'status'.$i => "belum"
                     );             
                 }else{  
                     $status_mengerjakan[] = array(
-                        'status' => "selesai"
+                        'status'.$i => "selesai"
                     );    
                 }
 
@@ -182,10 +182,6 @@ class SoalController extends Controller
 
     public function soal_nilai($id_decrypted)
     {
-        Session::forget("status_soal");
-
-        Session::put("status_soal", "selesai");
-
         $id = Crypt::decrypt($id_decrypted);
 
         $nilai = Nilai::where("soal_judul_id", $id)->get();
@@ -196,7 +192,7 @@ class SoalController extends Controller
 
         $nu->update();
 
-        return redirect()->route('student.nilai_review', $id_decrypted);
+        return redirect()->route('student.nilai_review', [$id_decrypted, $id_param = $id_decrypted]);
         
     }
 
@@ -208,15 +204,15 @@ class SoalController extends Controller
 
         $soal = Soal::where('soal_judul_id', $id)->get();
 
-        echo $js = $soal_judul->jumlah_soal;
-        echo "<br>";
-        echo $jj = count($soal);
+        $jj = Hasil::where("soal_judul_id", $id)->get();
+
+        $jumlah_jawaban = count($jj);
 
         $hasil = Hasil::where("soal_judul_id", $id)->where('student_id', Auth::guard('student')->user()->id)->get();
 
         $nilai = Nilai::where("soal_judul_id", $id)->where('student_id', Auth::guard('student')->user()->id)->get();
 
-        return view('student.soal_nilai_review', compact('soal_judul', 'soal', 'hasil', 'nilai'));
+        return view('student.soal_nilai_review', compact('soal_judul', 'soal', 'hasil', 'nilai', 'jumlah_jawaban'));
 
     }
 
@@ -230,7 +226,11 @@ class SoalController extends Controller
 
         $nilai = Nilai::where("soal_judul_id", $id)->where('student_id', Auth::guard('student')->user()->id)->get();
 
-        $pdf = \PDF::loadview("student.soal_nilai_cetak", compact('soal_judul', 'soal', 'hasil', 'nilai'));
+        $jj = Hasil::where("soal_judul_id", $id)->get();
+
+        $jumlah_jawaban = count($jj);
+
+        $pdf = \PDF::loadview("student.soal_nilai_cetak", compact('soal_judul', 'soal', 'hasil', 'nilai', 'jumlah_jawaban'));
         // $pdf->setOption('enable-javascript', true);
         // $pdf->setOption('javascript-delay', 5000);
         // $pdf->setOption('enable-smart-shrinking', true);;

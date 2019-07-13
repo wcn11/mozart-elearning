@@ -39,183 +39,187 @@
                         
                         <?php echo e($nomor); ?>. <?php echo e($soal[$i]['pertanyaan']); ?> <br>
     
-                        <?php if($soal[$i]['pilihan_benar'] == 1): ?>
-                            <?php if($hasil[$i]['jawaban'] == 1): ?>
-                                <div class="border-bottom-success p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?> <span class="float-right badge badge-success">Jawaban benar</span></div>
-                                <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
-                                <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
-                                <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
-                                <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
-                            <?php elseif($hasil[$i]['jawaban'] == 2): ?>
-                                <div class="border-bottom-success p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?> <span class="float-right badge badge-success">Jawaban benar</span></div>
-                                <div class="border-bottom-danger p-2">B. <?php echo e($soal[$i]['pilihan2']); ?> <span class="float-right badge badge-danger"> Jawaban kamu</span></div>
-                                <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
-                                <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
-                                <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
-                            <?php elseif($hasil[$i]['jawaban'] == 3): ?>
-                                <div class="border-bottom-success p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?> <span class="float-right badge badge-success">Jawaban benar</span></div>
-                                <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
-                                <div class="border-bottom-danger p-2">C. <?php echo e($soal[$i]['pilihan3']); ?><span class="float-right badge badge-danger"> Jawaban kamu</span></div>
-                                <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
-                                <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
-                            <?php elseif($hasil[$i]['jawaban'] == 4): ?>
-                                <div class="border-bottom-success p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?> <span class="float-right badge badge-success">Jawaban benar</span></div>
-                                <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
-                                <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
-                                <div class="border-bottom-danger p-2">D. <?php echo e($soal[$i]['pilihan4']); ?> <span class="float-right badge badge-danger"> Jawaban kamu</span></div>
-                                <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
-                            <?php elseif($hasil[$i]['jawaban'] == 5): ?>
-                                <div class="border-bottom-success p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?> <span class="float-right badge badge-success">Jawaban benar</span></div>
-                                <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
-                                <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
-                                <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
-                                <div class="border-bottom-danger p-2">E. <?php echo e($soal[$i]['pilihan5']); ?> <span class="float-right badge badge-danger"> Jawaban kamu</span></div>
-                            <?php else: ?>
-                                Belum memilih
-                            <?php endif; ?>
-    
-                        <?php elseif($soal[$i]['pilihan_benar'] == 2): ?>
-                            <?php if($hasil[$i]['jawaban'] == 1): ?>
-                                <div class="border-bottom-danger p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?> <span class="float-right badge badge-danger"> Jawaban kamu</span></div>
-                                <div class="border-bottom-success p-2">B. <?php echo e($soal[$i]['pilihan2']); ?> <span class="float-right badge badge-success">Jawaban benar</span></div>
-                                <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
-                                <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
-                                <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
-                            <?php elseif($hasil[$i]['jawaban'] == 2): ?>
-                                <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
-                                <div class="border-bottom-success p-2">B. <?php echo e($soal[$i]['pilihan2']); ?> <span class="float-right badge badge-success">Jawaban benar</span></div>
-                                <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
-                                <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
-                                <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
-                            <?php elseif($hasil[$i]['jawaban'] == 3): ?>
-                                <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
-                                <div class="border-bottom-success p-2">B. <?php echo e($soal[$i]['pilihan2']); ?> <span class="float-right badge badge-success">Jawaban benar</span></div>
-                                <div class="border-bottom-danger p-2">C. <?php echo e($soal[$i]['pilihan3']); ?><span class="float-right badge badge-danger"> Jawaban kamu</span></div>
-                                <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
-                                <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
-                            <?php elseif($hasil[$i]['jawaban'] == 4): ?>
-                                <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
-                                <div class="border-bottom-success p-2">B. <?php echo e($soal[$i]['pilihan2']); ?> <span class="float-right badge badge-success">Jawaban benar</span></div>
-                                <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
-                                <div class="border-bottom-danger p-2">D. <?php echo e($soal[$i]['pilihan4']); ?> <span class="float-right badge badge-danger"> Jawaban kamu</span></div>
-                                <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
-                            <?php elseif($hasil[$i]['jawaban'] == 5): ?>
-                                <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
-                                <div class="border-bottom-success p-2">B. <?php echo e($soal[$i]['pilihan2']); ?> <span class="float-right badge badge-success">Jawaban benar</span></div>
-                                <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
-                                <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
-                                <div class="border-bottom-danger p-2">E. <?php echo e($soal[$i]['pilihan5']); ?> <span class="float-right badge badge-danger"> Jawaban kamu</span></div>
-                            <?php else: ?>
-                                Belum memilih
-                            <?php endif; ?>
-    
-                        <?php elseif($soal[$i]['pilihan_benar'] == 3): ?>
-                            <?php if($hasil[$i]['jawaban'] == 1): ?>
-                                <div class="border-bottom-danger p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?> <span class="float-right badge badge-danger"> Jawaban kamu</span></div>
-                                <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
-                                <div class="border-bottom-success p-2">C. <?php echo e($soal[$i]['pilihan3']); ?> <span class="float-right badge badge-success">Jawaban benar</span></div>
-                                <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
-                                <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
-                            <?php elseif($hasil[$i]['jawaban'] == 2): ?>
-                                <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
-                                <div class="border-bottom-danger p-2">B. <?php echo e($soal[$i]['pilihan2']); ?> <span class="float-right badge badge-danger"> Jawaban kamu</span></div>
-                                <div class="border-bottom-success p-2">C. <?php echo e($soal[$i]['pilihan3']); ?> <span class="float-right badge badge-success">Jawaban benar</span></div>
-                                <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
-                                <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
-                            <?php elseif($hasil[$i]['jawaban'] == 3): ?>
-                                <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
-                                <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
-                                <div class="border-bottom-success p-2">C. <?php echo e($soal[$i]['pilihan3']); ?><span class="float-right badge badge-success">Jawaban benar</span></div>
-                                <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
-                                <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
-                            <?php elseif($hasil[$i]['jawaban'] == 4): ?>
-                                <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
-                                <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
-                                <div class="border-bottom-success p-2">C. <?php echo e($soal[$i]['pilihan3']); ?><span class="float-right badge badge-success">Jawaban benar</span></div>
-                                <div class="border-bottom-danger p-2">D. <?php echo e($soal[$i]['pilihan4']); ?> <span class="float-right badge badge-danger"> Jawaban kamu</span></div>
-                                <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
-                            <?php elseif($hasil[$i]['jawaban'] == 5): ?>
-                                <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
-                                <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
-                                <div class="border-bottom-success p-2">C. <?php echo e($soal[$i]['pilihan3']); ?><span class="float-right badge badge-success">Jawaban benar</span></div>
-                                <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
-                                <div class="border-bottom-danger p-2">E. <?php echo e($soal[$i]['pilihan5']); ?> <span class="float-right badge badge-danger"> Jawaban kamu</span></div>
-                            <?php else: ?>
-                                Belum memilih
-                            <?php endif; ?>
-    
-                            <?php elseif($soal[$i]['pilihan_benar'] == 4): ?>
-                            <?php if($hasil[$i]['jawaban'] == 1): ?>
-                                <div class="border-bottom-danger p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?> <span class="float-right badge badge-danger"><i class="fas fa-times-circle"></i> Jawaban kamu</span></div>
-                                <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
-                                <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
-                                <div class="border-bottom-success p-2">D. <?php echo e($soal[$i]['pilihan4']); ?><span class="float-right badge badge-success"><i class="fas fa-check"></i> Jawaban benar</span></div>
-                                <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
-                            <?php elseif($hasil[$i]['jawaban'] == 2): ?>
-                                <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
-                                <div class="border-bottom-danger p-2">B. <?php echo e($soal[$i]['pilihan2']); ?> <span class="float-right badge badge-danger"><i class="fas fa-times-circle"></i> Jawaban kamu</span></div>
-                                <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
-                                <div class="border-bottom-success p-2">D. <?php echo e($soal[$i]['pilihan4']); ?> <span class="float-right badge badge-success"><i class="fas fa-check"></i> Jawaban benar</span></div>
-                                <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
-                            <?php elseif($hasil[$i]['jawaban'] == 3): ?>
-                                <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
-                                <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
-                                <div class="border-bottom-danger p-2">C. <?php echo e($soal[$i]['pilihan3']); ?> <span class="float-right badge badge-danger"><i class="fas fa-times-circle"></i> Jawaban kamu</span></div>
-                                <div class="border-bottom-success p-2">D. <?php echo e($soal[$i]['pilihan4']); ?> <span class="float-right badge badge-success"><i class="fas fa-check"></i> Jawaban benar</span></div>
-                                <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
-                            <?php elseif($hasil[$i]['jawaban'] == 4): ?>
-                                <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
-                                <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
-                                <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
-                                <div class="border-bottom-success p-2">D. <?php echo e($soal[$i]['pilihan4']); ?> <span class="float-right badge badge-success"><i class="fas fa-times-circle"></i> Jawaban benar</span></div>
-                                <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
-                            <?php elseif($hasil[$i]['jawaban'] == 5): ?>
-                                <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
-                                <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
-                                <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
-                                <div class="border-bottom-success p-2">D. <?php echo e($soal[$i]['pilihan4']); ?><span class="float-right badge badge-success"><i class="fas fa-check"></i> Jawaban benar</span></div>
-                                <div class="border-bottom-danger p-2">E. <?php echo e($soal[$i]['pilihan5']); ?> <span class="float-right badge badge-danger"><i class="fas fa-times-circle"></i> Jawaban kamu</span></div>
-                            <?php else: ?>
-                                Belum memilih
-                            <?php endif; ?>
-    
-                            <?php elseif($soal[$i]['pilihan_benar'] == 5): ?>
-                            <?php if($hasil[$i]['jawaban'] == 1): ?>
-                                <div class="border-bottom-danger p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?> <span class="float-right badge badge-danger"><i class="fas fa-times-circle"></i> Jawaban kamu</span></div>
-                                <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
-                                <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
-                                <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
-                                <div class="border-bottom-success p-2">E. <?php echo e($soal[$i]['pilihan5']); ?> <span class="float-right badge badge-success"><i class="fas fa-check"></i> Jawaban benar</span></div>
-                            <?php elseif($hasil[$i]['jawaban'] == 2): ?>
-                                <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
-                                <div class="border-bottom-danger p-2">B. <?php echo e($soal[$i]['pilihan2']); ?> <span class="float-right badge badge-danger"><i class="fas fa-times-circle"></i> Jawaban kamu</span></div>
-                                <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
-                                <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
-                                <div class="border-bottom-success p-2">E. <?php echo e($soal[$i]['pilihan5']); ?> <span class="float-right badge badge-success"><i class="fas fa-check"></i> Jawaban benar</span></div>
-                            <?php elseif($hasil[$i]['jawaban'] == 3): ?>
-                                <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
-                                <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
-                                <div class="border-bottom-danger p-2">C. <?php echo e($soal[$i]['pilihan3']); ?> <span class="float-right badge badge-danger"><i class="fas fa-times-circle"></i> Jawaban kamu</span></div>
-                                <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?> </div>
-                                <div class="border-bottom-success p-2">E. <?php echo e($soal[$i]['pilihan5']); ?> <span class="float-right badge badge-success"><i class="fas fa-check"></i> Jawaban benar</span></div>
-                            <?php elseif($hasil[$i]['jawaban'] == 4): ?>
-                                <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
-                                <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
-                                <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
-                                <div class="border-bottom-danger p-2">D. <?php echo e($soal[$i]['pilihan4']); ?> <span class="float-right badge badge-danger"><i class="fas fa-times-circle"></i> Jawaban kamu</span></div>
-                                <div class="border-bottom-success p-2">E. <?php echo e($soal[$i]['pilihan5']); ?> <span class="float-right badge badge-success"><i class="fas fa-times-circle"></i> Jawaban benar</span></div>
-                            <?php elseif($hasil[$i]['jawaban'] == 5): ?>
-                                <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
-                                <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
-                                <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
-                                <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
-                                <div class="border-bottom-success p-2">E. <?php echo e($soal[$i]['pilihan5']); ?> <span class="float-right badge badge-success"><i class="fas fa-check"></i> Jawaban benar</span></div>
-                            <?php else: ?>
-                                Belum memilih
-                            <?php endif; ?>
-    
+                        <?php if($jumlah_jawaban <= $i): ?>
+                            <div class="p-2">Belum memilih</div>
                         <?php else: ?>
-                            Belum diisi
+                            <?php if($soal[$i]['pilihan_benar'] == 1): ?>
+                                <?php if($hasil[$i]['jawaban'] == 1): ?>
+                                    <div class="border-bottom-success p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?> <span class="float-right badge badge-success">Jawaban benar</span></div>
+                                    <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
+                                    <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
+                                    <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
+                                    <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
+                                <?php elseif($hasil[$i]['jawaban'] == 2): ?>
+                                    <div class="border-bottom-success p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?> <span class="float-right badge badge-success">Jawaban benar</span></div>
+                                    <div class="border-bottom-danger p-2">B. <?php echo e($soal[$i]['pilihan2']); ?> <span class="float-right badge badge-danger"> Jawaban kamu</span></div>
+                                    <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
+                                    <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
+                                    <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
+                                <?php elseif($hasil[$i]['jawaban'] == 3): ?>
+                                    <div class="border-bottom-success p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?> <span class="float-right badge badge-success">Jawaban benar</span></div>
+                                    <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
+                                    <div class="border-bottom-danger p-2">C. <?php echo e($soal[$i]['pilihan3']); ?><span class="float-right badge badge-danger"> Jawaban kamu</span></div>
+                                    <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
+                                    <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
+                                <?php elseif($hasil[$i]['jawaban'] == 4): ?>
+                                    <div class="border-bottom-success p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?> <span class="float-right badge badge-success">Jawaban benar</span></div>
+                                    <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
+                                    <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
+                                    <div class="border-bottom-danger p-2">D. <?php echo e($soal[$i]['pilihan4']); ?> <span class="float-right badge badge-danger"> Jawaban kamu</span></div>
+                                    <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
+                                <?php elseif($hasil[$i]['jawaban'] == 5): ?>
+                                    <div class="border-bottom-success p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?> <span class="float-right badge badge-success">Jawaban benar</span></div>
+                                    <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
+                                    <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
+                                    <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
+                                    <div class="border-bottom-danger p-2">E. <?php echo e($soal[$i]['pilihan5']); ?> <span class="float-right badge badge-danger"> Jawaban kamu</span></div>
+                                <?php else: ?>
+                                    Belum memilih
+                                <?php endif; ?>
+        
+                            <?php elseif($soal[$i]['pilihan_benar'] == 2): ?>
+                                <?php if($hasil[$i]['jawaban'] == 1): ?>
+                                    <div class="border-bottom-danger p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?> <span class="float-right badge badge-danger"> Jawaban kamu</span></div>
+                                    <div class="border-bottom-success p-2">B. <?php echo e($soal[$i]['pilihan2']); ?> <span class="float-right badge badge-success">Jawaban benar</span></div>
+                                    <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
+                                    <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
+                                    <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
+                                <?php elseif($hasil[$i]['jawaban'] == 2): ?>
+                                    <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
+                                    <div class="border-bottom-success p-2">B. <?php echo e($soal[$i]['pilihan2']); ?> <span class="float-right badge badge-success">Jawaban benar</span></div>
+                                    <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
+                                    <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
+                                    <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
+                                <?php elseif($hasil[$i]['jawaban'] == 3): ?>
+                                    <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
+                                    <div class="border-bottom-success p-2">B. <?php echo e($soal[$i]['pilihan2']); ?> <span class="float-right badge badge-success">Jawaban benar</span></div>
+                                    <div class="border-bottom-danger p-2">C. <?php echo e($soal[$i]['pilihan3']); ?><span class="float-right badge badge-danger"> Jawaban kamu</span></div>
+                                    <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
+                                    <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
+                                <?php elseif($hasil[$i]['jawaban'] == 4): ?>
+                                    <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
+                                    <div class="border-bottom-success p-2">B. <?php echo e($soal[$i]['pilihan2']); ?> <span class="float-right badge badge-success">Jawaban benar</span></div>
+                                    <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
+                                    <div class="border-bottom-danger p-2">D. <?php echo e($soal[$i]['pilihan4']); ?> <span class="float-right badge badge-danger"> Jawaban kamu</span></div>
+                                    <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
+                                <?php elseif($hasil[$i]['jawaban'] == 5): ?>
+                                    <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
+                                    <div class="border-bottom-success p-2">B. <?php echo e($soal[$i]['pilihan2']); ?> <span class="float-right badge badge-success">Jawaban benar</span></div>
+                                    <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
+                                    <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
+                                    <div class="border-bottom-danger p-2">E. <?php echo e($soal[$i]['pilihan5']); ?> <span class="float-right badge badge-danger"> Jawaban kamu</span></div>
+                                <?php else: ?>
+                                    Belum memilih
+                                <?php endif; ?>
+        
+                            <?php elseif($soal[$i]['pilihan_benar'] == 3): ?>
+                                <?php if($hasil[$i]['jawaban'] == 1): ?>
+                                    <div class="border-bottom-danger p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?> <span class="float-right badge badge-danger"> Jawaban kamu</span></div>
+                                    <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
+                                    <div class="border-bottom-success p-2">C. <?php echo e($soal[$i]['pilihan3']); ?> <span class="float-right badge badge-success">Jawaban benar</span></div>
+                                    <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
+                                    <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
+                                <?php elseif($hasil[$i]['jawaban'] == 2): ?>
+                                    <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
+                                    <div class="border-bottom-danger p-2">B. <?php echo e($soal[$i]['pilihan2']); ?> <span class="float-right badge badge-danger"> Jawaban kamu</span></div>
+                                    <div class="border-bottom-success p-2">C. <?php echo e($soal[$i]['pilihan3']); ?> <span class="float-right badge badge-success">Jawaban benar</span></div>
+                                    <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
+                                    <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
+                                <?php elseif($hasil[$i]['jawaban'] == 3): ?>
+                                    <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
+                                    <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
+                                    <div class="border-bottom-success p-2">C. <?php echo e($soal[$i]['pilihan3']); ?><span class="float-right badge badge-success">Jawaban benar</span></div>
+                                    <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
+                                    <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
+                                <?php elseif($hasil[$i]['jawaban'] == 4): ?>
+                                    <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
+                                    <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
+                                    <div class="border-bottom-success p-2">C. <?php echo e($soal[$i]['pilihan3']); ?><span class="float-right badge badge-success">Jawaban benar</span></div>
+                                    <div class="border-bottom-danger p-2">D. <?php echo e($soal[$i]['pilihan4']); ?> <span class="float-right badge badge-danger"> Jawaban kamu</span></div>
+                                    <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
+                                <?php elseif($hasil[$i]['jawaban'] == 5): ?>
+                                    <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
+                                    <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
+                                    <div class="border-bottom-success p-2">C. <?php echo e($soal[$i]['pilihan3']); ?><span class="float-right badge badge-success">Jawaban benar</span></div>
+                                    <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
+                                    <div class="border-bottom-danger p-2">E. <?php echo e($soal[$i]['pilihan5']); ?> <span class="float-right badge badge-danger"> Jawaban kamu</span></div>
+                                <?php else: ?>
+                                    Belum memilih
+                                <?php endif; ?>
+        
+                                <?php elseif($soal[$i]['pilihan_benar'] == 4): ?>
+                                <?php if($hasil[$i]['jawaban'] == 1): ?>
+                                    <div class="border-bottom-danger p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?> <span class="float-right badge badge-danger"><i class="fas fa-times-circle"></i> Jawaban kamu</span></div>
+                                    <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
+                                    <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
+                                    <div class="border-bottom-success p-2">D. <?php echo e($soal[$i]['pilihan4']); ?><span class="float-right badge badge-success"><i class="fas fa-check"></i> Jawaban benar</span></div>
+                                    <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
+                                <?php elseif($hasil[$i]['jawaban'] == 2): ?>
+                                    <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
+                                    <div class="border-bottom-danger p-2">B. <?php echo e($soal[$i]['pilihan2']); ?> <span class="float-right badge badge-danger"><i class="fas fa-times-circle"></i> Jawaban kamu</span></div>
+                                    <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
+                                    <div class="border-bottom-success p-2">D. <?php echo e($soal[$i]['pilihan4']); ?> <span class="float-right badge badge-success"><i class="fas fa-check"></i> Jawaban benar</span></div>
+                                    <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
+                                <?php elseif($hasil[$i]['jawaban'] == 3): ?>
+                                    <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
+                                    <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
+                                    <div class="border-bottom-danger p-2">C. <?php echo e($soal[$i]['pilihan3']); ?> <span class="float-right badge badge-danger"><i class="fas fa-times-circle"></i> Jawaban kamu</span></div>
+                                    <div class="border-bottom-success p-2">D. <?php echo e($soal[$i]['pilihan4']); ?> <span class="float-right badge badge-success"><i class="fas fa-check"></i> Jawaban benar</span></div>
+                                    <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
+                                <?php elseif($hasil[$i]['jawaban'] == 4): ?>
+                                    <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
+                                    <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
+                                    <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
+                                    <div class="border-bottom-success p-2">D. <?php echo e($soal[$i]['pilihan4']); ?> <span class="float-right badge badge-success"><i class="fas fa-times-circle"></i> Jawaban benar</span></div>
+                                    <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
+                                <?php elseif($hasil[$i]['jawaban'] == 5): ?>
+                                    <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
+                                    <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
+                                    <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
+                                    <div class="border-bottom-success p-2">D. <?php echo e($soal[$i]['pilihan4']); ?><span class="float-right badge badge-success"><i class="fas fa-check"></i> Jawaban benar</span></div>
+                                    <div class="border-bottom-danger p-2">E. <?php echo e($soal[$i]['pilihan5']); ?> <span class="float-right badge badge-danger"><i class="fas fa-times-circle"></i> Jawaban kamu</span></div>
+                                <?php else: ?>
+                                    Belum memilih
+                                <?php endif; ?>
+        
+                                <?php elseif($soal[$i]['pilihan_benar'] == 5): ?>
+                                <?php if($hasil[$i]['jawaban'] == 1): ?>
+                                    <div class="border-bottom-danger p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?> <span class="float-right badge badge-danger"><i class="fas fa-times-circle"></i> Jawaban kamu</span></div>
+                                    <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
+                                    <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
+                                    <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
+                                    <div class="border-bottom-success p-2">E. <?php echo e($soal[$i]['pilihan5']); ?> <span class="float-right badge badge-success"><i class="fas fa-check"></i> Jawaban benar</span></div>
+                                <?php elseif($hasil[$i]['jawaban'] == 2): ?>
+                                    <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
+                                    <div class="border-bottom-danger p-2">B. <?php echo e($soal[$i]['pilihan2']); ?> <span class="float-right badge badge-danger"><i class="fas fa-times-circle"></i> Jawaban kamu</span></div>
+                                    <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
+                                    <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
+                                    <div class="border-bottom-success p-2">E. <?php echo e($soal[$i]['pilihan5']); ?> <span class="float-right badge badge-success"><i class="fas fa-check"></i> Jawaban benar</span></div>
+                                <?php elseif($hasil[$i]['jawaban'] == 3): ?>
+                                    <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
+                                    <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
+                                    <div class="border-bottom-danger p-2">C. <?php echo e($soal[$i]['pilihan3']); ?> <span class="float-right badge badge-danger"><i class="fas fa-times-circle"></i> Jawaban kamu</span></div>
+                                    <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?> </div>
+                                    <div class="border-bottom-success p-2">E. <?php echo e($soal[$i]['pilihan5']); ?> <span class="float-right badge badge-success"><i class="fas fa-check"></i> Jawaban benar</span></div>
+                                <?php elseif($hasil[$i]['jawaban'] == 4): ?>
+                                    <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
+                                    <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
+                                    <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
+                                    <div class="border-bottom-danger p-2">D. <?php echo e($soal[$i]['pilihan4']); ?> <span class="float-right badge badge-danger"><i class="fas fa-times-circle"></i> Jawaban kamu</span></div>
+                                    <div class="border-bottom-success p-2">E. <?php echo e($soal[$i]['pilihan5']); ?> <span class="float-right badge badge-success"><i class="fas fa-times-circle"></i> Jawaban benar</span></div>
+                                <?php elseif($hasil[$i]['jawaban'] == 5): ?>
+                                    <div class="p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?></div>
+                                    <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
+                                    <div class="p-2">C. <?php echo e($soal[$i]['pilihan3']); ?></div>
+                                    <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
+                                    <div class="border-bottom-success p-2">E. <?php echo e($soal[$i]['pilihan5']); ?> <span class="float-right badge badge-success"><i class="fas fa-check"></i> Jawaban benar</span></div>
+                                <?php else: ?>
+                                    Belum memilih
+                                <?php endif; ?>
+        
+                            <?php else: ?>
+                                Belum diisi
+                            <?php endif; ?>
                         <?php endif; ?>
                         <div class="mt-3 invisible">kosong</div>
                         <hr>

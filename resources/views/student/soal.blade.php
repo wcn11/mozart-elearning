@@ -36,44 +36,44 @@
                                 </tr>
                             @else
                             @for ($i = 0; $i < count($soal); $i++)
-                            <tr style="text-align:center;" class="data-soal" data-id="{{ $soal[$i]['id'] }}">
+                            <tr style="text-align:center;" class="data-soal-{{ $i }}" data-id="{{ $soal[$i]['id'] }}">
                                 <td style="width: 35%; text-align:left;">{{ $soal[$i]['judul'] }}</td>
                                 <td>{{ $soal[$i]['jumlah_soal'] }}</td>
                                 <td>{{ $soal[$i]['pelajaran']['nama_pelajaran'] }}</td>
                                 <td>{{ $soal[$i]['tanggal_mulai'] }} - {{ $soal[$i]['tanggal_selesai'] }}</td>
-                                <td>{{ $status_batas[$i]['status'] }}</td>
-                                @if($status_batas[$i]['status'] == "lewat" && $status_mengerjakan[$i]['status'] == "belum")
-                                    <td class="status">
+                                <td>{{ $status_batas[$i]['status'.$i] }}</td>
+                                @if($status_batas[$i]['status'.$i] == "lewat" && $status_mengerjakan[$i]['status'.$i] == "belum")
+                                    <td>
                                         <span class="badge badge-danger">Tidak Mengerjakan</span>
                                     </td>
                                     
-                                    <td class="status">
+                                    <td>
                                         <span class="badge badge-danger">Tidak Mengerjakan</span>
                                     </td>
-                                @elseif($status_batas[$i]['status'] == "lewat" && $status_mengerjakan[$i]['status'] == "selesai")
-                                    <td class="status">
+                                @elseif($status_batas[$i]['status'.$i] == "lewat" && $status_mengerjakan[$i]['status'.$i] == "selesai")
+                                    <td>
                                         <span class="badge badge-success">Selesai</span>
                                     </td>
                                     
-                                    <td class="status">
+                                    <td>
                                         <a class="btn btn-outline-info" href="{{ route('student.soal_nilai_cetak', $soal[$i]['id']) }}"> <i class="fas fa-print"></i> Cetak</a>
                                     </td>
-                                @elseif($status_batas[$i]['status'] == "waktunya" && $status_mengerjakan[$i]['status'] == "belum")
-                                    <td class="status">
+                                @elseif($status_batas[$i]['status'.$i] == "waktunya" && $status_mengerjakan[$i]['status'.$i] == "belum")
+                                    <td>
                                         <span class="badge badge-warning">Waktunya</span>
                                     </td>
-                                    <td class="status">
+                                    <td>
                                         <?php $id = Crypt::encrypt($soal[$i]['id']); ?>
                                         
                                         <form method="get" action="{{ route('student.soal_mengerjakan', [$id, $id_param = $id]) }}">
                                             <button class="btn btn-info text-white" >Kerjakan</button>
                                         </form>
                                     </td>
-                                @elseif($status_batas[$i]['status'] == "waktunya" && $status_mengerjakan[$i]['status'] == "selesai")
-                                    <td class="status">
+                                @elseif($status_batas[$i]['status'.$i] == "waktunya" && $status_mengerjakan[$i]['status'.$i] == "selesai")
+                                    <td>
                                         <span class="badge badge-success">Selesai</span>
                                     </td>
-                                    <td class="status">
+                                    <td>
                                         <?php $id = Crypt::encrypt($soal[$i]['id']); ?>
                                         <a class="btn btn-outline-info" href="{{ route('student.soal_nilai_cetak', $soal[$i]['id']) }}"> <i class="fas fa-print"></i> Cetak</a>
                                     </td>
@@ -117,18 +117,23 @@
     });
 </script>
 
-@if(Session::has("lewat"))
-<script>
-    Swal.fire(
-        'Waktu Habis!',
-        "Anda tidak menyelesaikan soal <strong>{{ Session::get('lewat') }}</strong> tepat waktu!",
-        'error'
-    )
+{{-- @for($j = 0; $j < count($soal); $j++)
 
-    $(".data-soal td:nth-child(6)").hide();
-    $(".data-soal td:nth-child(7)").hide();
+    @if(Session::has("lewat".$j))
+    <script>
+        var session = "{{ Session::get('lewat') }}";
+        Swal.fire(
+            'Waktu Habis!',
+            "Anda tidak menyelesaikan soal <strong>{{ Session::get('lewat') }}</strong> tepat waktu!",
+            'error'
+        )
 
-    $(".data-soal").append("<td><span class='badge badge-danger'>Tidak selesai</span></td>" + "<td><span class='badge badge-danger'>Tidak selesai</span></td>");
-</script>
-@endif
+        $(".data-soal td:nth-child(6)").hide();
+        $(".data-soal td:nth-child(7)").hide();
+
+        $(".data-soal").append("<td><span class='badge badge-danger'>Tidak selesai</span></td>" + "<td><span class='badge badge-danger'>Tidak selesai</span></td>");
+    </script>
+    @endif
+
+@endfor --}}
 @endsection

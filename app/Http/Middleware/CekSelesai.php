@@ -18,23 +18,6 @@ class CekSelesai
      */
     public function handle($request, Closure $next)
     {
-        // if(Session::has("id_url")){
-        //     $id = Crypt::decrypt(Session::get("id_url"));
-
-        //     $ambil_id = Nilai::where("soal_judul_id", $id)->get();
-
-        //     if(count($ambil_id) > 0){
-    
-        //         if($ambil_id[0]['status'] == "selesai"){
-        //             return redirect()->route("student.soal");
-        //         }
-                
-        //     }else{
-        //         Session::flash('nilai', "tidak ada");
-        //     }
-    
-        // }
-
         $param = $request->route('id_param');
 
         $id = Crypt::decrypt($param);

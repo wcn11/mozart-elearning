@@ -12,8 +12,8 @@
             <div class="card-header py-3">
                 <h5 class="text-center"><?php echo e($soal_judul->judul); ?></h5>
             <button class="btn btn-danger float-right btn-selesai text-white">Selesai</button>
-            <?php $id_url = Crypt::encrypt($soal_judul->id); ?>
-            <form class="form-hasil" action="<?php echo e(route('student.soal_nilai', $id_url)); ?>" method="post">
+            <?php $id_url = Crypt::encrypt($soal_judul->id); $id_param = $id_url;?>
+            <form class="form-hasil" action="<?php echo e(route('student.soal_nilai', [$id_url, $id_param])); ?>" method="post">
                 <?php echo csrf_field(); ?>
                 <input type="hidden" name="id_url" value="<?php echo e($id_url); ?>">
             </form>

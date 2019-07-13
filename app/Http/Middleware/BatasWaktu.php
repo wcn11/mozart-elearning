@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Soal_judul;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Crypt;
+use App\Nilai;
+
 class BatasWaktu
 {
     /**
@@ -26,16 +28,46 @@ class BatasWaktu
 
             $soal_judul = Soal_judul::find($id);
 
+            $nilai_id = Nilai::where("soal_judul_id", $soal_judul)->get();
+
             $waktu_selesai = $soal_judul->tanggal_selesai;
             
             if(now() > $waktu_selesai){
 
                 Session::flash('lewat', $soal_judul->judul);
 
-                if($request->ajax()){
-                    return response()->json(array("telah_lewat" => "lewat"));         
+                if($request->ajax()){  
+
+                    if(count($nilai_id) > 0){
+                        $nilai = Nilai::find($nilai_id[0]['id']);
+
+                        $nilai->status = "selesai";
+                        
+                        $nilai->update();
+    
+                        return response()->json(array("telah_lewat" => "lewat"));
+
+                    }else{
+                        return response()->json(array("telah_lewat" => "lewat"));
+                    }
+                    
+
                 }else{
-                    return redirect()->route('student.soal'); 
+
+                    if(count($nilai_id) > 0){
+                        $nilai = Nilai::find($nilai_id[0]['id']);
+
+                        $nilai->status = "selesai";
+                        
+                        $nilai->update();
+    
+                        return redirect()->route('student.soal'); 
+
+                    }else{
+                        return redirect()->route('student.soal'); 
+                    }
+
+                    
                 }
 
             }else{

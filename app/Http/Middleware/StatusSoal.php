@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Session;
 use App\Hasil;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Redirect;
+use App\Soal_judul;
 
 class StatusSoal
 {
@@ -24,24 +25,52 @@ class StatusSoal
         if(Auth::guard('student')->check()){
 
             $nilai = Nilai::where("student_id", Auth::guard('student')->user()->id)->where('status', "mengerjakan")->get();
+        
+            if(count($nilai) > 0){
+
+                $id = $nilai[0]['soal_judul_id'];
+
+                $nilai_id = Nilai::where("soal_judul_id", $id)->get();
     
-            if(count($nilai) > 0 ){
-                $hasil = Hasil::where("soal_judul_id", $nilai[0]['soal_judul_id'])->get();
+                $sji = Soal_judul::find($id);
 
-                $id_hasil_terakhir = $hasil[$hasil->count() - 1 ]['id'];
+                if( now() > $sji->tanggal_selesai){
 
-                $jawaban = Hasil::find($id_hasil_terakhir);
+                    if(count($nilai_id) > 0){
+                        $nilai = Nilai::find($nilai_id[0]['id']);
 
-                Session::flash("jawaban", $jawaban->jawaban);
+                        $nilai->status = "selesai";
+                        
+                        $nilai->update();
 
-                $id_encrypted = Crypt::encrypt($nilai[0]['soal_judul_id']);
+                        return redirect()->route('student.soal'); 
 
-                $id_param = $id_encrypted;
+                    }else{
+                        return redirect()->route('student.soal'); 
+                    }
 
-                return Redirect::to("student/soal/mengerjakan/".$id_encrypted ."/". $id_param ."?page=".$hasil->count());
+                }else{
 
-            }else{
-                Session::flash("jawaban", "tidak ada");
+                    if(count($nilai) > 0 ){
+
+                        $hasil = Hasil::where("soal_judul_id", $nilai[0]['soal_judul_id'])->get();
+
+                        $id_hasil_terakhir = $hasil[$hasil->count() - 1 ]['id'];
+
+                        $jawaban = Hasil::find($id_hasil_terakhir);
+
+                        Session::flash("jawaban", $jawaban->jawaban);
+
+                        $id_encrypted = Crypt::encrypt($nilai[0]['soal_judul_id']);
+
+                        $id_param = $id_encrypted;
+
+                        return Redirect::to("student/soal/mengerjakan/".$id_encrypted ."/". $id_param ."?page=".$hasil->count());
+
+                    }
+
+                }
+            
             }
         }
 
