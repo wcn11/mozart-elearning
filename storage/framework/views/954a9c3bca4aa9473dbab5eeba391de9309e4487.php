@@ -113,7 +113,8 @@
                 data: {
                     jawaban: jawaban1,
                     soal_id: $("[name='soal_id']").val(),
-                    soal_judul_id: $("[name='soal_judul_id']").val()
+                    soal_judul_id: $("[name='soal_judul_id']").val(),
+                    
                 },
                 success: function(hasil1){
                     console.log(hasil1);
@@ -142,7 +143,8 @@
                 data: {
                     jawaban: jawaban2,
                     soal_id: $("[name='soal_id']").val(),
-                    soal_judul_id: $("[name='soal_judul_id']").val()
+                    soal_judul_id: $("[name='soal_judul_id']").val(),
+                    
                 },
                 success: function(hasil2){
                     console.log(hasil2);
@@ -167,7 +169,8 @@
                 data: {
                     jawaban: jawaban3,
                     soal_id: $("[name='soal_id']").val(),
-                    soal_judul_id: $("[name='soal_judul_id']").val()
+                    soal_judul_id: $("[name='soal_judul_id']").val(),
+                    
                 },
                 success: function(hasil3){
                     console.log(hasil3);
@@ -192,7 +195,8 @@
                 data: {
                     jawaban: jawaban4,
                     soal_id: $("[name='soal_id']").val(),
-                    soal_judul_id: $("[name='soal_judul_id']").val()
+                    soal_judul_id: $("[name='soal_judul_id']").val(),
+                    
                 },
                 success: function(hasil4){
                     console.log(hasil4);
@@ -217,7 +221,8 @@
                 data: {
                     jawaban: jawaban5,
                     soal_id: $("[name='soal_id']").val(),
-                    soal_judul_id: $("[name='soal_judul_id']").val()
+                    soal_judul_id: $("[name='soal_judul_id']").val(),
+                    
                 },
                 success: function(hasil5){
                     console.log(hasil5);
@@ -245,6 +250,12 @@
     });
 </script>
 
+<?php if(Session::get('jawaban')): ?>
+<script>
+    var jawaban = <?php echo e(Session::get('jawaban')); ?>;
+    $(".jawaban" + jawaban).attr("checked", "checked");
+</script>
+<?php endif; ?>
 
 <?php $__env->stopSection(); ?>
 

@@ -61,7 +61,12 @@
                                     </td>
                                     <td class="status">
                                         <?php $id = Crypt::encrypt($soal[$i]['id']); ?>
-                                        <a class="btn btn-info text-white" href="<?php echo e(route('student.soal_mengerjakan', $id)); ?>">Kerjakan</a>
+                                        
+                                        <form method="get" action="<?php echo e(route('student.soal_mengerjakan', $id)); ?>">
+                                            <?php echo e(Session::put("id_url", $id)); ?>
+
+                                            <button class="btn btn-info text-white" >Kerjakan</button>
+                                        </form>
                                     </td>
                                 <?php elseif($status_batas[$i]['status'] == "waktunya" && $status_mengerjakan[$i]['status'] == "selesai"): ?>
                                     <td class="status">
@@ -106,11 +111,11 @@
     });
 </script>
 
-<?php if(Session::has("md")): ?>
+<?php if(Session::has("lewat")): ?>
 <script>
     Swal.fire(
         'Waktu Habis!',
-        "Anda tidak menyelesaikan soal <strong><?php echo e(Session::get('md')); ?></strong> tepat waktu!",
+        "Anda tidak menyelesaikan soal <strong><?php echo e(Session::get('lewat')); ?></strong> tepat waktu!",
         'error'
     )
 

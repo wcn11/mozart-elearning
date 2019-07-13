@@ -41,7 +41,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="#">
+      <a class="nav-link" href="{{ route('student.dashboard') }}">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -251,13 +251,20 @@
   <!-- Custom scripts for all pages-->
   <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
 
-@if($pesan = Session::get('belum_verifikasi'))
-<script>
-  $(document).ready(function(){
-    $(".modal-verifikasi").modal();
-  });
-</script>
-@endif
+  @if($pesan = Session::get('belum_verifikasi'))
+  <script>
+    $(document).ready(function(){
+      $(".modal-verifikasi").modal();
+    });
+  </script>
+  @endif
+
+  @if($pesan = Session::get('nilai'))
+  <script>
+    console.log("{{$pesan}}");
+  </script>
+  @endif
+
   @yield('scriptjs')
 </body>
 

@@ -97,6 +97,12 @@ class SoalController extends Controller
 
     public function soal_update(Request $request)
     {
+
+        date_default_timezone_set('Asia/Jakarta');
+        //masukkan ke tabel sementara
+
+        $id = $request->soal_judul_id;
+
         $cek = Hasil::firstOrNew(array('soal_id' => $request->soal_id));
 
         $cek->soal_id = $request->soal_id;
@@ -114,6 +120,33 @@ class SoalController extends Controller
         }
 
         $cek->save();
+
+        //buat atau update tabel nilai (untuk update status)
+        
+        $soal = Soal::where('soal_judul_id',$id)->get();
+        $hasil = Hasil::where('soal_judul_id',$id)->get();
+        $jumlah = Hasil::where("soal_judul_id", $id)->count();
+
+        $nilai = 0;
+        for($i = 0; $i < $jumlah; $i++){
+            if($soal[$i]['pilihan_benar'] == $hasil[$i]['jawaban']){
+                $nilai+=1;
+            }
+        }
+        $nilai2 = Nilai::firstOrNew(array('soal_judul_id' => $id));
+
+        $nilai2->student_id = Auth::guard('student')->user()->id;
+
+        $nilai2->nilai = $nilai;
+
+        $nilai2->soal_judul_id = $id;
+
+        $nilai2->tanggal_selesai = now();
+
+        $nilai2->status = 'mengerjakan';
+
+        $nilai2->save();
+
     }
 
     public function soal_edit($id){
@@ -144,28 +177,25 @@ class SoalController extends Controller
         echo $hasil[0]['jawaban'];
     }
 
-    public function soal_nilai($id)
+    public function soal_nilai($id_decrypted)
     {
-        $soal = Soal::where('soal_judul_id',$id)->get();
-        $hasil = Hasil::where('soal_judul_id',$id)->get();
-        $jumlah_soal = Soal_judul::find($id);
+        $id = Crypt::decrypt($id_decrypted);
 
-        $nilai = 0;
-        for($i = 0; $i < $jumlah_soal->jumlah_soal; $i++){
-            if($soal[$i]['pilihan_benar'] == $hasil[$i]['jawaban']){
-                $nilai+=1;
-            }
-        }
-        Nilai::create([
-            'student_id' => Auth::guard('student')->user()->id,
-            'nilai' => $nilai,
-            'soal_judul_id' => $id
-        ]);
+        $nilai = Nilai::where("soal_judul_id", $id)->get();
 
-        return redirect()->route('student.nilai_review', $id);
+        $nu = Nilai::find($nilai[0]['id']);
+
+        $nu->status = "selesai";
+
+        $nu->update();
+
+        return redirect()->route('student.nilai_review', $id_decrypted);
+        
     }
 
     public function soal_nilai_review($id){
+
+        $id = Crypt::decrypt($id);
 
         $soal_judul = Soal_judul::find($id);
 
@@ -189,10 +219,10 @@ class SoalController extends Controller
         $nilai = Nilai::where("soal_judul_id", $id)->where('student_id', Auth::guard('student')->user()->id)->get();
 
         $pdf = \PDF::loadview("student.soal_nilai_cetak", compact('soal_judul', 'soal', 'hasil', 'nilai'));
-        $pdf->setOption('enable-javascript', true);
-        $pdf->setOption('javascript-delay', 5000);
-        $pdf->setOption('enable-smart-shrinking', true);;
-        $pdf->setOption('no-stop-slow-scripts', true);
+        // $pdf->setOption('enable-javascript', true);
+        // $pdf->setOption('javascript-delay', 5000);
+        // $pdf->setOption('enable-smart-shrinking', true);;
+        // $pdf->setOption('no-stop-slow-scripts', true);
 
         return $pdf->download("[".Auth::guard('student')->user()->name."]_[". $soal_judul->judul . "]_" . date("H:i:s") . '.pdf');
     }

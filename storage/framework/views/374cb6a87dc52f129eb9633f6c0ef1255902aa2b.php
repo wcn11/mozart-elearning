@@ -14,10 +14,17 @@
                 <p class="text-dark float-left"><i class="fas fa-check"></i> Benar       : <?php echo e($nilai[0]['nilai']); ?></p><span class="clearfix"></span>
                 <p class="text-dark float-left"><i class="fas fa-times-circle"></i> Salah : <?php echo e($soal_judul->jumlah_soal - $nilai[0]['nilai']); ?></p><span class="clearfix"></span>
                 <p class="text-dark float-left"><i class="fas fa-calendar-check"></i> Jumlah Soal : <?php echo e($soal_judul->jumlah_soal); ?></p>
-                <a class="btn btn-info btn-lg float-right btn-selesai text-white" href="<?php echo e(route('student.soal_nilai_cetak', $soal_judul->id)); ?>"><i class="fas fa-print"></i> Cetak</a>
+                <br>
+                <div class="row justify-content-end">
+                    
+                    <a class="btn btn-info btn-md btn-selesai text-white m-2" href="<?php echo e(route('student.soal_nilai_cetak', $soal_judul->id)); ?>"><i class="fas fa-print"></i> Cetak</a>
+
+                    <a class="btn btn-secondary text-white m-2" href="<?php echo e(route('student.soal')); ?>"><i class="fas fa-stream"></i> Kembali</a>
+                </div>
 
             </div>
-            <input type="hidden" name="soal_judul_id" value="<?php echo e($soal_judul->id); ?>">
+            <?php $id = Crypt::encrypt($soal_judul->id) ?>
+            <input type="hidden" name="soal_judul_id" value="<?php echo e($id); ?>">
             <div class="card-body">
 
                 <?php for($i = 0; $i < $soal_judul->jumlah_soal; $i++): ?>

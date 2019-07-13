@@ -64,7 +64,11 @@
                                     </td>
                                     <td class="status">
                                         <?php $id = Crypt::encrypt($soal[$i]['id']); ?>
-                                        <a class="btn btn-info text-white" href="{{ route('student.soal_mengerjakan', $id) }}">Kerjakan</a>
+                                        
+                                        <form method="get" action="{{ route('student.soal_mengerjakan', $id) }}">
+                                            {{ Session::put("id_url", $id) }}
+                                            <button class="btn btn-info text-white" >Kerjakan</button>
+                                        </form>
                                     </td>
                                 @elseif($status_batas[$i]['status'] == "waktunya" && $status_mengerjakan[$i]['status'] == "selesai")
                                     <td class="status">
@@ -114,11 +118,11 @@
     });
 </script>
 
-@if(Session::has("md"))
+@if(Session::has("lewat"))
 <script>
     Swal.fire(
         'Waktu Habis!',
-        "Anda tidak menyelesaikan soal <strong>{{ Session::get('md') }}</strong> tepat waktu!",
+        "Anda tidak menyelesaikan soal <strong>{{ Session::get('lewat') }}</strong> tepat waktu!",
         'error'
     )
 

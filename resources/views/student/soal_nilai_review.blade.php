@@ -17,10 +17,17 @@
                 <p class="text-dark float-left"><i class="fas fa-check"></i> Benar       : {{ $nilai[0]['nilai'] }}</p><span class="clearfix"></span>
                 <p class="text-dark float-left"><i class="fas fa-times-circle"></i> Salah : {{ $soal_judul->jumlah_soal - $nilai[0]['nilai'] }}</p><span class="clearfix"></span>
                 <p class="text-dark float-left"><i class="fas fa-calendar-check"></i> Jumlah Soal : {{ $soal_judul->jumlah_soal }}</p>
-                <a class="btn btn-info btn-lg float-right btn-selesai text-white" href="{{ route('student.soal_nilai_cetak', $soal_judul->id) }}"><i class="fas fa-print"></i> Cetak</a>
+                <br>
+                <div class="row justify-content-end">
+                    
+                    <a class="btn btn-info btn-md btn-selesai text-white m-2" href="{{ route('student.soal_nilai_cetak', $soal_judul->id) }}"><i class="fas fa-print"></i> Cetak</a>
+
+                    <a class="btn btn-secondary text-white m-2" href="{{ route('student.soal') }}"><i class="fas fa-stream"></i> Kembali</a>
+                </div>
 
             </div>
-            <input type="hidden" name="soal_judul_id" value="{{ $soal_judul->id }}">
+            <?php $id = Crypt::encrypt($soal_judul->id) ?>
+            <input type="hidden" name="soal_judul_id" value="{{$id}}">
             <div class="card-body">
 
                 @for($i = 0; $i < $soal_judul->jumlah_soal; $i++)

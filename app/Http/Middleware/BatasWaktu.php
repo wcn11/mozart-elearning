@@ -20,7 +20,6 @@ class BatasWaktu
     {
         date_default_timezone_set('Asia/Jakarta');
 
-        $student_id = Auth::guard('student')->user()->id;
         $soal_judul_id = Crypt::decrypt($request->id);
         $soal_judul = Soal_judul::find($soal_judul_id);
 
@@ -28,12 +27,12 @@ class BatasWaktu
         
         if(now() > $waktu_selesai){
 
-            Session::put('md', $soal_judul->judul);
+            Session::put('lewat', $soal_judul->judul);
 
             return redirect()->route('student.soal');
 
         }else{
-            Session::put('md', $soal_judul_id);
+            Session::put('belum', $soal_judul->judul);
         }
 
         return $next($request);
