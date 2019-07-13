@@ -23,31 +23,31 @@
                 <input type="hidden" name="soal_id" value="{{ $s->id }}">
                 {{ $soal->currentPage() }}. {{ $s->pertanyaan }} <br>
                     <div class="form-check form-soal" data-link="{{ route('student.soal_update', $s->id) }}">
-                            <input class="form-check-input jawaban1" type="radio" name="jawaban" id="exampleRadios1" value="1">
+                        <input class="form-check-input jawaban1" data-param="{{ Crypt::encrypt($soal_judul->id) }}" type="radio" name="jawaban" id="exampleRadios1" value="1">
                             <label class="form-check-label" for="exampleRadios1">
-                              {{ $s->pilihan1 }}
+                                {{ $s->pilihan1 }}
                             </label>
-                          </div>
+                        </div>
                           <div class="form-check">
-                            <input class="form-check-input jawaban2" type="radio" name="jawaban" id="exampleRadios2" value="2">
+                            <input class="form-check-input jawaban2" data-param="{{ Crypt::encrypt($soal_judul->id) }}" type="radio" name="jawaban" id="exampleRadios2" value="2">
                             <label class="form-check-label" for="exampleRadios2">
                                     {{ $s->pilihan2 }}
                             </label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input jawaban3" type="radio" name="jawaban"  id="exampleRadios3" value="3">
+                            <input class="form-check-input jawaban3" data-param="{{ Crypt::encrypt($soal_judul->id) }}" data-param="{{ Crypt::encrypt($soal_judul->id) }}" type="radio" name="jawaban"  id="exampleRadios3" value="3">
                             <label class="form-check-label" for="exampleRadios3">
                                     {{ $s->pilihan3 }}
                             </label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input jawaban4" type="radio" name="jawaban" id="exampleRadios4" value="4">
+                            <input class="form-check-input jawaban4" data-param="{{ Crypt::encrypt($soal_judul->id) }}" type="radio" name="jawaban" id="exampleRadios4" value="4">
                             <label class="form-check-label" for="exampleRadios4">
                               {{ $s->pilihan4 }}
                             </label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input jawaban5" type="radio" name="jawaban" id="exampleRadios5" value="5">
+                            <input class="form-check-input jawaban5" data-param="{{ Crypt::encrypt($soal_judul->id) }}" type="radio" name="jawaban" id="exampleRadios5" value="5">
                             <label class="form-check-label" for="exampleRadios5">
                               {{ $s->pilihan5 }}
                             </label>
@@ -60,27 +60,17 @@
     @if($soal->currentPage() == $soal_judul->jumlah_soal)
     <div class="text-center">
         <?php $id = Crypt::encrypt($soal_judul->id); ?>
-    <a class="btn btn-outline-info text-right btn-selesai" href="{{ route('student.soal_edit',$id) }}">Selesai</a>
+    <a class="btn btn-outline-info text-right btn-selesai" data-link={{ route('student.soal_edit',[$id, $id_param = $id ]) }} href="javascript::void(0)">Selesai</a>
 </div>
     @else
     <div class="text-center">
     <a class="btn btn-info text-right text-white btn-selanjutnya" data-link="{{ $soal->nextPageUrl() }}">Selanjutnya</a>
 </div>
     @endif
-
-    <span class="bg-danger text-white p-2 rounded w-100 belum-memilih">Anda belum memilih.<br>Harap pilih salah satu dari jawaban yang disediakan!!</span>
-
 @endsection
 
 @section('scriptcss')
 <style>
-.belum-memilih{
-    position: fixed;
-    top: 0px;
-    text-align: center;
-
-    max-height: 40%;
-}
 .btn-selanjutnya:hover{
     cursor: pointer;
 }
@@ -89,14 +79,17 @@
 @endsection
 
 @section('scriptjs')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script>
     $(document).ready(function(){
 
         $(".belum-memilih").hide();
+
         
         $(".jawaban1").click(function(){
             jawaban1 = $(this).val();
             $(".belum-memilih").hide();
+            var param = $(this).attr("data-param");
             
             $.ajaxSetup({
                 headers: {
@@ -106,7 +99,7 @@
 
             $.ajax({
                 type: "post",
-                url: "{{ url('/student/soal/update') }}",
+                url: "{{ url('/student/soal/update') }}" + "/" + param,
                 data: {
                     jawaban: jawaban1,
                     soal_id: $("[name='soal_id']").val(),
@@ -114,8 +107,11 @@
                     
                 },
                 success: function(hasil1){
-                    console.log(hasil1);
-                    // location.reload(true);
+                    if(hasil1.telah_lewat == "lewat"){
+                        window.location = "{{ route('student.soal') }}";
+                    }else if(hasil1.telah_selesai == "selesai"){
+                        window.location = "{{ route('student.soal') }}";
+                    }
                 },
                 errors: function(hasil){
                     console.log(hasil.errors);
@@ -127,7 +123,7 @@
         $(".jawaban2").click(function(){
             jawaban2 = $(this).val();
             $(".belum-memilih").hide();
-            
+            var param = $(this).attr("data-param");
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -136,7 +132,7 @@
 
             $.ajax({
                 type: "post",
-                url: "{{ url('/student/soal/update') }}",
+                url: "{{ url('/student/soal/update') }}" + "/" + param,
                 data: {
                     jawaban: jawaban2,
                     soal_id: $("[name='soal_id']").val(),
@@ -145,7 +141,11 @@
                 },
                 success: function(hasil2){
                     console.log(hasil2);
-                    // location.reload(true);
+                    if(hasil2.telah_lewat == "lewat"){
+                        window.location = "{{ route('student.soal') }}";
+                    }else if(hasil2.telah_selesai == "selesai"){
+                        window.location = "{{ route('student.soal') }}";
+                    }
                 }
             });
             console.log(jawaban2)
@@ -153,7 +153,7 @@
         $(".jawaban3").click(function(){
             jawaban3 = $(this).val();
             $(".belum-memilih").hide();
-            
+            var param = $(this).attr("data-param");
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -162,7 +162,7 @@
 
             $.ajax({
                 type: "post",
-                url: "{{ url('/student/soal/update') }}",
+                url: "{{ url('/student/soal/update') }}" + "/" + param,
                 data: {
                     jawaban: jawaban3,
                     soal_id: $("[name='soal_id']").val(),
@@ -171,7 +171,11 @@
                 },
                 success: function(hasil3){
                     console.log(hasil3);
-                    // location.reload(true);
+                    if(hasil3.telah_lewat == "lewat"){
+                        window.location = "{{ route('student.soal') }}";
+                    }else if(hasil3.telah_selesai == "selesai"){
+                        window.location = "{{ route('student.soal') }}";
+                    }
                 }
             });
             console.log(jawaban3)
@@ -179,7 +183,7 @@
         $(".jawaban4").click(function(){
             jawaban4 = $(this).val();
             $(".belum-memilih").hide();
-            
+            var param = $(this).attr("data-param");
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -188,7 +192,7 @@
 
             $.ajax({
                 type: "post",
-                url: "{{ url('/student/soal/update') }}",
+                url: "{{ url('/student/soal/update') }}" + "/" + param,
                 data: {
                     jawaban: jawaban4,
                     soal_id: $("[name='soal_id']").val(),
@@ -196,16 +200,20 @@
                     
                 },
                 success: function(hasil4){
-                    console.log(hasil4);
-                    // location.reload(true);
+                    if(hasil4.telah_lewat == "lewat"){
+                        window.location = "{{ route('student.soal') }}";
+                    }else if(hasil4.telah_selesai == "selesai"){
+                        window.location = "{{ route('student.soal') }}";
+                    }
                 }
             });
-            console.log(jawaban4)
         });
         $(".jawaban5").click(function(){
+
             jawaban5 = $(this).val();
             $(".belum-memilih").hide();
-            
+
+            var param = $(this).attr("data-param");
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -214,7 +222,7 @@
 
             $.ajax({
                 type: "post",
-                url: "{{ url('/student/soal/update') }}",
+                url: "{{ url('/student/soal/update') }}" + "/" + param,
                 data: {
                     jawaban: jawaban5,
                     soal_id: $("[name='soal_id']").val(),
@@ -222,27 +230,52 @@
                     
                 },
                 success: function(hasil5){
-                    console.log(hasil5);
-                    // location.reload(true);
+                    if(hasil5.telah_lewat == "lewat"){
+                        window.location = "{{ route('student.soal') }}";
+                    }else if(hasil5.telah_selesai == "selesai"){
+                        window.location = "{{ route('student.soal') }}";
+                    }
                 }
             });
-            console.log(jawaban5)
         });
 
         $(".btn-selanjutnya").click(function(event){
 
             if($("[name='jawaban']").is(":checked")){
-                console.log("ter ceklis");
                 var link = $(this).attr('data-link');
-                console.log(link);
                 $(this).attr("href", link);
             }else{
-                console.log("belum di ceklis");
-                $(".belum-memilih").show();
+                Swal.fire({
+                    title: 'Harus Memilih!',
+                    text: 'Anda harus memilih salah satu jawaban!',
+                    type: 'warning',
+                    confirmButtonText: "Mengerti",
+                    animation: false,
+                    customClass: {
+                        popup: 'animated shake'
+                    }
+                });
             }
         });
 
+        $(".btn-selesai").click(function(event){
 
+            if($("[name='jawaban']").is(":checked")){
+                var link = $(this).attr('data-link');
+                $(this).attr("href", link);
+            }else{
+                Swal.fire({
+                    title: 'Harus Memilih!',
+                    text: 'Anda harus memilih salah satu jawaban!',
+                    type: 'warning',
+                    confirmButtonText: "Mengerti",
+                    animation: false,
+                    customClass: {
+                        popup: 'animated shake'
+                    }
+                });
+            }
+        });
 
     });
 </script>
@@ -253,5 +286,11 @@
     $(".jawaban" + jawaban).attr("checked", "checked");
 </script>
 @endif
+
+{{-- @if(Session::has('belum'))
+<script>
+    location.reload(true);
+</script>
+@endif --}}
 
 @endsection

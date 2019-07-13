@@ -31,18 +31,18 @@
                     
                     {{ $nomor }}. {{ $soal[$i]['pertanyaan'] }} <br>
                     
-                    <a class="btn btn-primary float-right mr-3" href="{{ route('student.soal_edit_persoal', [$id , $nomor]) }}">edit</a>
+                    <a class="btn btn-primary float-right mr-3" href="{{ route('student.soal_edit_persoal', [$id , $nomor, $id_param = Crypt::encrypt($soal_judul->id)]) }}">edit</a>
 
                     @if($hasil[$i]['jawaban'] == 1)
-                        {{ $soal[$i]['pilihan1'] }} <br>
+                        A. {{ $soal[$i]['pilihan1'] }} <br>
                     @elseif($hasil[$i]['jawaban'] == 2)
-                        {{ $soal[$i]['pilihan2'] }} <br>
+                        B. {{ $soal[$i]['pilihan2'] }} <br>
                     @elseif($hasil[$i]['jawaban'] == 3)
-                        {{ $soal[$i]['pilihan3'] }} <br>
+                        C. {{ $soal[$i]['pilihan3'] }} <br>
                     @elseif($hasil[$i]['jawaban'] == 4)
-                        {{ $soal[$i]['pilihan4'] }} <br>
+                        D. {{ $soal[$i]['pilihan4'] }} <br>
                     @elseif($hasil[$i]['jawaban'] == 5)
-                        {{ $soal[$i]['pilihan5'] }} <br>
+                        E. {{ $soal[$i]['pilihan5'] }} <br>
                     @else
                         Belum diisi
                     @endif
@@ -87,9 +87,10 @@
         //             alert("hasi");
         //         }
         //     })
-        // });
+        // ;
     });
 </script>
+
 @endsection
 
 @section('scriptcss')

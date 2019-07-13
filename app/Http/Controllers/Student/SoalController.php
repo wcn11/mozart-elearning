@@ -12,11 +12,14 @@ use App\Hasil;
 use App\Nilai;
 use Illuminate\Support\Facades\Crypt;
 use PDF;
+use Illuminate\Support\Facades\Session;
 
 class SoalController extends Controller
 {
     public function index()
     {
+        Session::forget("status_soal");
+
         $mentor_id = Student::find(Auth::guard('student')->user()->id);
         $soal = Soal_judul::where("mentor_id", $mentor_id->mentor_id)->get();
 
@@ -163,7 +166,7 @@ class SoalController extends Controller
         return view('student.soal_edit_semua', ['hasil' => $hasil, 'soal' => $soal, 'soal_judul' => $soal_judul]);
     }
 
-    public function soal_edit_persoal($id, $nomor){
+    public function soal_edit_persoal($id, $nomor, $id_param){
         $soal_id = Crypt::decrypt($id);
 
         $soal = Soal::find($soal_id);
@@ -179,6 +182,10 @@ class SoalController extends Controller
 
     public function soal_nilai($id_decrypted)
     {
+        Session::forget("status_soal");
+
+        Session::put("status_soal", "selesai");
+
         $id = Crypt::decrypt($id_decrypted);
 
         $nilai = Nilai::where("soal_judul_id", $id)->get();
@@ -201,11 +208,16 @@ class SoalController extends Controller
 
         $soal = Soal::where('soal_judul_id', $id)->get();
 
+        echo $js = $soal_judul->jumlah_soal;
+        echo "<br>";
+        echo $jj = count($soal);
+
         $hasil = Hasil::where("soal_judul_id", $id)->where('student_id', Auth::guard('student')->user()->id)->get();
 
         $nilai = Nilai::where("soal_judul_id", $id)->where('student_id', Auth::guard('student')->user()->id)->get();
 
         return view('student.soal_nilai_review', compact('soal_judul', 'soal', 'hasil', 'nilai'));
+
     }
 
     public function soal_nilai_cetak($id){

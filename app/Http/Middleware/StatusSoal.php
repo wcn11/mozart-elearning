@@ -36,8 +36,9 @@ class StatusSoal
 
                 $id_encrypted = Crypt::encrypt($nilai[0]['soal_judul_id']);
 
-                return Redirect::to("student/soal/mengerjakan/".$id_encrypted."?page=".$hasil->count());
-                
+                $id_param = $id_encrypted;
+
+                return Redirect::to("student/soal/mengerjakan/".$id_encrypted ."/". $id_param ."?page=".$hasil->count());
 
             }else{
                 Session::flash("jawaban", "tidak ada");

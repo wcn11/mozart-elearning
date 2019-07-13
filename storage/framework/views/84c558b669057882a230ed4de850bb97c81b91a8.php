@@ -15,6 +15,7 @@
             <?php $id_url = Crypt::encrypt($soal_judul->id); ?>
             <form class="form-hasil" action="<?php echo e(route('student.soal_nilai', $id_url)); ?>" method="post">
                 <?php echo csrf_field(); ?>
+                <input type="hidden" name="id_url" value="<?php echo e($id_url); ?>">
             </form>
 
             </div>
@@ -27,18 +28,18 @@
                     
                     <?php echo e($nomor); ?>. <?php echo e($soal[$i]['pertanyaan']); ?> <br>
                     
-                    <a class="btn btn-primary float-right mr-3" href="<?php echo e(route('student.soal_edit_persoal', [$id , $nomor])); ?>">edit</a>
+                    <a class="btn btn-primary float-right mr-3" href="<?php echo e(route('student.soal_edit_persoal', [$id , $nomor, $id_param = Crypt::encrypt($soal_judul->id)])); ?>">edit</a>
 
                     <?php if($hasil[$i]['jawaban'] == 1): ?>
-                        <?php echo e($soal[$i]['pilihan1']); ?> <br>
+                        A. <?php echo e($soal[$i]['pilihan1']); ?> <br>
                     <?php elseif($hasil[$i]['jawaban'] == 2): ?>
-                        <?php echo e($soal[$i]['pilihan2']); ?> <br>
+                        B. <?php echo e($soal[$i]['pilihan2']); ?> <br>
                     <?php elseif($hasil[$i]['jawaban'] == 3): ?>
-                        <?php echo e($soal[$i]['pilihan3']); ?> <br>
+                        C. <?php echo e($soal[$i]['pilihan3']); ?> <br>
                     <?php elseif($hasil[$i]['jawaban'] == 4): ?>
-                        <?php echo e($soal[$i]['pilihan4']); ?> <br>
+                        D. <?php echo e($soal[$i]['pilihan4']); ?> <br>
                     <?php elseif($hasil[$i]['jawaban'] == 5): ?>
-                        <?php echo e($soal[$i]['pilihan5']); ?> <br>
+                        E. <?php echo e($soal[$i]['pilihan5']); ?> <br>
                     <?php else: ?>
                         Belum diisi
                     <?php endif; ?>
@@ -83,9 +84,10 @@
         //             alert("hasi");
         //         }
         //     })
-        // });
+        // ;
     });
 </script>
+
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('scriptcss'); ?>

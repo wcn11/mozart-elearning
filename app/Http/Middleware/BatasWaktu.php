@@ -18,23 +18,29 @@ class BatasWaktu
      */
     public function handle($request, Closure $next)
     {
-        date_default_timezone_set('Asia/Jakarta');
+            date_default_timezone_set('Asia/Jakarta');
 
-        $soal_judul_id = Crypt::decrypt($request->id);
-        $soal_judul = Soal_judul::find($soal_judul_id);
+            $param = $request->route('id_param');
 
-        $waktu_selesai = $soal_judul->tanggal_selesai;
-        
-        if(now() > $waktu_selesai){
+            $id = Crypt::decrypt($param);
 
-            Session::put('lewat', $soal_judul->judul);
+            $soal_judul = Soal_judul::find($id);
 
-            return redirect()->route('student.soal');
+            $waktu_selesai = $soal_judul->tanggal_selesai;
+            
+            if(now() > $waktu_selesai){
 
-        }else{
-            Session::put('belum', $soal_judul->judul);
-        }
+                Session::flash('lewat', $soal_judul->judul);
 
+                if($request->ajax()){
+                    return response()->json(array("telah_lewat" => "lewat"));         
+                }else{
+                    return redirect()->route('student.soal'); 
+                }
+
+            }else{
+                Session::flash('belum', $soal_judul->judul);
+            }
         return $next($request);
     }
 }

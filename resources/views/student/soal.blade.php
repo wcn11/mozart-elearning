@@ -65,8 +65,7 @@
                                     <td class="status">
                                         <?php $id = Crypt::encrypt($soal[$i]['id']); ?>
                                         
-                                        <form method="get" action="{{ route('student.soal_mengerjakan', $id) }}">
-                                            {{ Session::put("id_url", $id) }}
+                                        <form method="get" action="{{ route('student.soal_mengerjakan', [$id, $id_param = $id]) }}">
                                             <button class="btn btn-info text-white" >Kerjakan</button>
                                         </form>
                                     </td>
