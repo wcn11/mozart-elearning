@@ -14,8 +14,8 @@
             <div class="card-body">
 
                 <?php echo csrf_field(); ?>
-                <?php $id = Crypt::encrypt($m->id); ?>
-                <input type="hidden" name="id" value="<?php echo e($id); ?>">
+                <?php $id = Crypt::encrypt($m->kode_materi); ?>
+                <input type="hidden" name="kode_materi" value="<?php echo e($id); ?>">
                 <div class="row">
                     <div class="col-md-6 grid-margin">
                         <div class="card" style="border:0;">
@@ -37,9 +37,9 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text bg-info text-white">Kategori pelajaran</span>
                                         </div>
-                                        <select class="custom-select" name="pelajaran_id" required>
+                                        <select class="custom-select" name="kode_mapel" required>
                                                 <?php $__currentLoopData = $pelajaran; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <option value="<?php echo e($p->id); ?>" <?php echo e($m->pelajaran['id'] === $p->id ? "selected='selected'" : ''); ?>><?php echo e($p->nama_pelajaran); ?></option>
+                                                <option value="<?php echo e($p->kode_mapel); ?>" <?php echo e($m->pelajaran['id'] === $p->kode_mapel ? "selected='selected'" : ''); ?>><?php echo e($p->nama_pelajaran); ?></option>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </select>
                                     </div>
@@ -63,7 +63,7 @@
                                             <span class="input-group-text bg-info text-white">Tanggal Update</span>
                                         </div>
                                         <input type="text" class="form-control" id="tanggal"
-                                             required disabled>
+                                             required readonly>
                                     </div>
                                 </div>
                             </div>
@@ -111,16 +111,16 @@
             focus: true // set focus to editable area after initializing summernote
         });
         var today = new Date();
-var dd = String(today.getDate()).padStart(2, '0');
-var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-var yyyy = today.getFullYear();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
 
-var jam = today.getHours();
-var menit = today.getMinutes();
-var detik = today.getSeconds();
+        var jam = today.getHours();
+        var menit = today.getMinutes();
+        var detik = today.getSeconds();
 
-today = dd + '/' + mm + '/' + yyyy + " | " + jam + ":" + menit + ":" + detik;
-$("#tanggal").val(today);
+        today = dd + '/' + mm + '/' + yyyy + " | " + jam + ":" + menit + ":" + detik;
+        $("#tanggal").val(today);
     });
 
 </script>

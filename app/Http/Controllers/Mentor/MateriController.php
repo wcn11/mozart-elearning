@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Pelajaran;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Crypt;
-use PDF;
+use DOMPDF;
 
 class MateriController extends Controller
 {
@@ -38,11 +38,12 @@ class MateriController extends Controller
         $s = substr($m, $m_slash + 1) + 1;
 
         $pesan = [
-            'file' => ":attribute harus diisi (Gambar/Cover)"
+            'required' => ":attribute harus diisi (Gambar/Cover)"
+
         ];
 
         $this->validate($r, [
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'cover' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ],$pesan);
 
         $id_mentor = Auth::guard('mentor')->user()->id_mentor;
@@ -92,17 +93,22 @@ class MateriController extends Controller
         return redirect()->route("mentor.materi");
     }
 
-    public function materi_edit($id)
+    public function materi_edit($kode_materi)
     {
+        $id = Crypt::decrypt($kode_materi);
+        
+        $id_mentor = Auth::guard('mentor')->user()->id_mentor;
 
-        $pelajaran = Pelajaran::all();
+        $pelajaran = Pelajaran::where("id_mentor", $id_mentor)->get();
 
-        return view('mentor.pages.materi.materi_edit', ['pelajaran' => $pelajaran]);
+        $materi = Materi::find($id);
+
+        return view('mentor.pages.materi.materi_edit', ['pelajaran' => $pelajaran, "m" => $materi]);
     }
 
     public function materi_update(Request $r)
     {
-        $materi_id = Crypt::decrypt($r->id);
+        $materi_id = Crypt::decrypt($r->kode_materi);
 
         $materi = Materi::find($materi_id);
 
@@ -137,7 +143,7 @@ class MateriController extends Controller
         $materi_id = Crypt::decrypt($id);
         $materi = Materi::find($materi_id);
 
-        $pdf = PDF::loadView('mentor.pages.materi.pdf', compact('materi'));
+        $pdf = DOMPDF::loadView('mentor.pages.materi.pdf', compact('materi'));
 
         return $pdf->download($materi->judul_materi . '.pdf');
     }

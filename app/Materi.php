@@ -14,6 +14,10 @@ class Materi extends Model
     protected $primaryKey = "kode_materi";
     public $incrementing = false;
 
+    const CREATED_AT = "dibuat";
+
+    const UPDATED_AT = "diupdate";
+
     public function pelajaran()
     {
         return $this->belongsTo('App\Pelajaran', "kode_mapel", "kode_mapel");

@@ -20,11 +20,14 @@
         
         <div class="card-body">
             <div class="table-responsive w-100" style="overflow:hidden;">
-                <form class="form" action="{{ route('mentor.question_create_title') }}" method="POST">
+                <form class="form form-tambah-soal" action="{{ route('mentor.question_create_title') }}" method="POST">
                     @csrf
                     <div class="form-group">
                         <label for="judul">Judul Soal<span class="text-danger">*</span></label>
-                    <input type="text" name="judul" class="form-control" value="{{ old('judul') }}" placeholder="contoh : Quiz pengenalan ekologi sistem pangan" required>
+                        <input type="text" name="judul" class="form-control" value="{{ old('judul') }}" placeholder="contoh : Quiz pengenalan ekologi sistem pangan" required>
+                        <div class="invalid-feedback invalid-judul">
+                                Harap isi judul soal.
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="kode_mapel">Mata Pelajaran<span class="text-danger">*</span></label>
@@ -53,6 +56,7 @@
                                     <div class="input-group-text bg-info text-white"> <i class="fas fa-calendar-alt"></i></div>
                                 </div>
                                 <input type="date" name="tanggal_mulai" class="form-control" placeholder="tanggal mulai" required><br>
+                                
                             </div>
                             
                             <div class="input-group mb-2 col-xs-12 col-sm-6 col-md-3" data-toggle="tooltip" data-placement="top" title="Jam mulai">
@@ -78,7 +82,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-info">Submit</button>
+                    <button type="button" class="btn btn-info btn-tambah-soal">Buat soal</button>
                 </form>
             </div>
         </div>
@@ -186,7 +190,10 @@
                         <input type="hidden" name="kode_judul_soal">
                         <div class="form-group">
                             <label for="judul">Judul Soal<span class="text-danger">*</span></label>
-                        <input type="text" name="judul_update" class="form-control" required>
+                            <input type="text" name="judul_update" class="form-control" required>
+                            <div class="invalid-feedback invalid-judul">
+                                    Harap isi judul soal.
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="kode_mapel">Mata Pelajaran<span class="text-danger">*</span></label>
@@ -241,7 +248,7 @@
                             </div>
                         </div>
     
-                        <button type="submit" class="btn btn-info text-right">Update</button>
+                        <button type="button" class="btn btn-info text-right btn-update-title">Update</button>
                     </form>
                 </div>
           </div>
@@ -286,6 +293,79 @@
 <script>
     
     $(document).ready(function() {
+    
+        $(".btn-update-title").click(function(){
+
+            var judul = $("[name='judul_update']").val();
+
+            if(judul == ""){
+                $($("[name='judul_update']")).addClass("is-invalid");
+            }else{
+                $($("[name='judul_update']")).removeClass("is-invalid");
+                $(".form-update-judul").submit();
+            }
+        });
+
+        $(".btn-tambah-soal").click(function(){
+            var judul = $("[name='judul']").val();
+            var jam_mulai = $("[name='jam_mulai']").val();
+            var jam_selesai = $("[name='jam_selesai']").val();
+
+            //cek jika field masih kosong
+            if(jam_mulai == ""){
+                $("[name='jam_mulai']").addClass("is-invalid");
+                Swal.fire({
+                    title: "Jam Mulai Kosong",
+                    text: "Harap tetapkan jam mulai soal!",
+                    showConfirmButton: true,
+                    showCancelButton: false,
+                    confirmButtonText: "Mengerti",
+                    confirmButtonColor: "#dc3545",
+                    type: "warning",
+                    animation: false,
+                    customClass: {
+                        popup: "animated shake"
+                    }
+                });
+
+            }else if(jam_selesai == ""){
+                $("[name='jam_selesai']").addClass("is-invalid");
+                Swal.fire({
+                    title: "Jam Selesai Kosong",
+                    text: "Harap tetapkan jam selesai soal!",
+                    showConfirmButton: true,
+                    showCancelButton: false,
+                    confirmButtonText: "Mengerti",
+                    confirmButtonColor: "#dc3545",
+                    type: "warning",
+                    animation: false,
+                    customClass: {
+                        popup: "animated shake"
+                    }
+                });
+
+            }else if(judul == ""){
+                $("[name='judul']").addClass("is-invalid");
+                Swal.fire({
+                    title: "Judul Soal Kosong",
+                    text: "Harap isi judul soal!",
+                    showConfirmButton: true,
+                    showCancelButton: false,
+                    confirmButtonText: "Mengerti",
+                    confirmButtonColor: "#dc3545",
+                    type: "warning",
+                    animation: false,
+                    customClass: {
+                        popup: "animated shake"
+                    }
+                });
+            }else{
+                $("[name='jam_mulai']").removeClass("is-invalid");
+                $("[name='jam_selesai']").removeClass("is-invalid");
+                $("[name='judul']").removeClass("is-invalid");
+                $(".form-tambah-soal").submit();
+            }
+        });
 
         $(".btn-modal-edit-judul").click(function(){
             var id = $(this).attr("data-id");

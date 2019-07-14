@@ -14,12 +14,14 @@ class CreateMateriTable extends Migration
     public function up()
     {
         Schema::create('materi', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('mentor_id');
-            $table->integer('pelajaran_id');
+            $table->string('kode_materi', 25);
+            $table->string('id_mentor');
+            $table->string('kode_mapel');
             $table->string('judul_materi');
-            $table->longText('materi')->change();
-            $table->timestamps();
+            $table->string('cover')->default(public_path("/images/cover_materi_default.jpg"));
+            $table->longText('materi');
+            $table->dateTime("dibuat")->useCurrent();
+            $table->dateTime("diupdate")->useCurrent();
         });
     }
 

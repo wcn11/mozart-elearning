@@ -6,10 +6,10 @@
 
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Materi Editor</h1>
-    <p class="mb-4">Update makalah anda dengan sebaik baiknya, dan biarkan pada muridmu membacanya kembali.</p>
+    <p class="mb-4">Upload makalah anda dengan sebaik baiknya, dan biarkan pada muridmu membacanya kembali.</p>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
-            <form class="form" action="{{ route('mentor.materi_upload_aksi') }}" class="col-md-12" method="POST" enctype="multipart/form-data">
+            <form class="form form-upload" action="{{ route('mentor.materi_upload_aksi') }}" class="col-md-12" method="POST" enctype="multipart/form-data">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-info">Murid</h6>
         </div>
@@ -52,12 +52,12 @@
                                         </div>
                                         
                                     <div class="form-row">
-                                        <input type='file' name="file" id="inputFile" />
+                                        <input type='file' name="cover" id="cover" />
                                         <img id="image_upload_preview"  class="rounded-circle gambar" />    
                                     </div>
-                                    @if ($errors->has('file'))
+                                    @if ($errors->has('cover'))
                                         <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('file') }}</strong>
+                                            <strong>{{ $errors->first('cover') }}</strong>
                                         </span>
                                     @endif
                                     </div>
@@ -73,7 +73,7 @@
                                             <div class="input-group-prepend invisible">
                                                     <span class="input-group-text bg-info text-white">Hidden</span>
                                                 </div>
-                                        <button type="submit" class="btn btn-lg btn-success w-25" required>Publikasi</button>
+                                        <button type="button" class="btn btn-md btn-outline-success w-25 btn-publikasi" required><i class="fas fa-upload"></i> Publikasi</button>
                                     </div>
                                     <div class="col-md-12 mb-3">
                                         <div class="input-group-prepend">
@@ -121,7 +121,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
 <script>
     $(document).ready(function () {
-        $("#inputFile").val("");
 
         $('#summernote').summernote({
             placeholder: "Masukkan materi",
@@ -130,17 +129,46 @@
             maxHeight: null, // set maximum height of editor
             focus: true // set focus to editable area after initializing summernote
         });
+
+        $(".btn-publikasi").click(function(){
+            var judul = $("[name='judul']").val();
+            var cover = $("[name='cover']").val();
+
+            if($("#summernote").summernote("isEmpty")){
+                Swal.fire(
+                    'Isi Materi Kosong!',
+                    'Anda harus mengisi setidaknya beberapa kalimat atau gambar atau video!',
+                    'warning'
+                );
+            }
+            else if(judul == ""){
+                Swal.fire(
+                    'Judul Kosong!',
+                    'Anda harus mengisi judul materi!',
+                    'warning'
+                );
+            }else if(cover == ""){
+                Swal.fire(
+                    'Cover Belum Diupload!',
+                    'Anda harus menggunggah sebuah cover!',
+                    'warning'
+                );
+            }else{
+                $(".form-upload").submit();
+            }
+        });
+
         var today = new Date();
-var dd = String(today.getDate()).padStart(2, '0');
-var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-var yyyy = today.getFullYear();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
 
-var jam = today.getHours();
-var menit = today.getMinutes();
-var detik = today.getSeconds();
+        var jam = today.getHours();
+        var menit = today.getMinutes();
+        var detik = today.getSeconds();
 
-today = dd + '/' + mm + '/' + yyyy + " | " + jam + ":" + menit + ":" + detik;
-$("#tanggal").val(today);
+        today = dd + '/' + mm + '/' + yyyy + " | " + jam + ":" + menit + ":" + detik;
+        $("#tanggal").val(today);
 
 });
 
@@ -157,7 +185,7 @@ function readURL(input) {
         }
     }
 
-    $("#inputFile").change(function () {
+    $("#cover").change(function () {
         readURL(this);
     });
 
