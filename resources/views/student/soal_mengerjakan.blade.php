@@ -15,7 +15,7 @@
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-info text-center">{{ $soal_judul->judul }}</h6>
                 <p class="text-center">{{ $soal->currentPage()}}/{{ $soal_judul->jumlah_soal }}</p>
-                Soal akan berakhir pada : {{ $soal_judul->tanggal_selesai }}
+                Soal akan berakhir pada : <span class="text-danger">{{ $soal_judul->tanggal_selesai }}</span>
             </div>
             <input type="hidden" name="soal_judul_id" value="{{ $soal_judul->id }}">
             <div class="card-body">

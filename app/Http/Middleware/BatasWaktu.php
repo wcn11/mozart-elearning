@@ -28,7 +28,7 @@ class BatasWaktu
 
             $soal_judul = Soal_judul::find($id);
 
-            $nilai_id = Nilai::where("soal_judul_id", $soal_judul)->get();
+            $nilai_id = Nilai::where("kode_judul_soal", $soal_judul)->get();
 
             $waktu_selesai = $soal_judul->tanggal_selesai;
             

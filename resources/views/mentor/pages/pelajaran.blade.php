@@ -22,38 +22,39 @@
             <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         @foreach ($mapel as $mpl)
-                            <a class="nav-item nav-link" id="nav-{{ $mpl->id }}-tab" data-id="{{ $mpl->id }}" data-toggle="tab" href="#nav-{{ $mpl->id }}" role="tab" aria-controls="nav-{{ $mpl->id }}"> {{ $mpl->nama_pelajaran }}</a>
+                            <a class="nav-item nav-link" id="nav-{{ $mpl->kode_mapel }}-tab" data-id="{{ $mpl->kode_mapel }}" data-toggle="tab" href="#nav-{{ $mpl->kode_mapel }}" role="tab" aria-controls="nav-{{ $mpl->kode_mapel }}"> {{ $mpl->nama_pelajaran }}</a>
                         @endforeach
                     </div>
                   </nav>
                   <div class="tab-content" id="nav-tabContent">
-                    @foreach ($mapel as $mpl)
-                        <div class="tab-pane fade" id="nav-{{ $mpl->id }}" role="tabpanel" aria-labelledby="nav-{{ $mpl->id }}-tab">
-                            
-                            <div class="container p-3 text-center">
-                                <a href="#" data-id="{{ $mpl->id }}" class="btn btn-outline-danger btn-pdf"><i class="fas fa-print"></i> PDF</a>
-                                <a href="#" data-id="{{ $mpl->id }}" class="btn btn-outline-success btn-excel"><i class="fas fa-file-excel"></i> EXCEL</a>
-                                <button href="#" data-id="{{ $mpl->id }}" class="btn btn-outline-danger btn-hapus-pelajaran"><i class="fas fa-trash-alt"></i> Hapus</button>
+                        @foreach ($mapel as $mpl)
+                            <div class="tab-pane fade" id="nav-{{ $mpl->kode_mapel }}" role="tabpanel" aria-labelledby="nav-{{ $mpl->kode_mapel }}-tab">
+                                
+                                <div class="container p-3 text-center">
+                                    {{-- <a href="#" data-id="{{ $mpl->kode_mapel }}" class="btn btn-outline-danger btn-pdf"><i class="fas fa-print"></i> PDF</a>
+                                    <a href="#" data-id="{{ $mpl->kode_mapel }}" class="btn btn-outline-success btn-excel"><i class="fas fa-file-excel"></i> EXCEL</a> --}}
+                                    <button href="#" data-id="{{ $mpl->kode_mapel }}" data-nama="{{ $mpl->nama_pelajaran }}" class="btn btn-outline-danger btn-hapus-pelajaran animated bounceInUp"><i class="fas fa-trash-alt"></i> Hapus</button>
+                                    <button href="#" data-id="{{ $mpl->kode_mapel }}" data-nama="{{ $mpl->nama_pelajaran }}" class="btn btn-outline-secondary btn-edit-pelajaran animated bounceInUp"><i class="fas fa-edit"></i> Edit</button>
+                                </div>
+                                
+                                <div class="table-responsive w-100 animated bounceInUp">
+                                            <table class="table table-bordered" id="tabel" width="100%" cellspacing="0">
+                                                <thead>
+                                                    <tr style="text-align:center;">
+                                                        <th>Materi</th>
+                                                        <th>Soal</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="text-center">
+                                                        <td class="materi"></td>
+                                                        <td class="soal"> </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                             </div>
-                            
-                            <div class="table-responsive w-100">
-                                        <table class="table table-bordered" id="tabel" width="100%" cellspacing="0">
-                                            <thead>
-                                                <tr style="text-align:center;">
-                                                    <th>Materi</th>
-                                                    <th>Soal</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="text-center">
-                                                    <td class="materi"></td>
-                                                    <td class="soal"></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                        </div>
-                    @endforeach
+                        @endforeach
                   </div>
 
         
@@ -61,8 +62,8 @@
 </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="modal-pelajaran" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal tambah pelajaran-->
+<div class="modal fade animated swing" id="modal-pelajaran" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -89,6 +90,34 @@
       </div>
 
 
+
+<!-- Modal -->
+<div class="modal fade animated swing" id="modal-edit-pelajaran" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Mata Pelajaran : <span class="edit_nama_mapel"></span></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form class="form form-update-mapel" action="{{ route('mentor.update_mapel') }}" method="post">
+                @csrf
+                <div class="form-group">
+                    <label for="mapel">Nama Mata Pelajaran</label>
+                    <input type="hidden" name="kode_mapel">
+                    <input type="text" class="form-control" name="edit_nama_mapel" id="mapel" aria-describedby="emailHelp" placeholder="Mata pelajaran" required>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+          <button type="button" class="btn btn-primary btn-update-nama-mapel">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
 @endsection
 
 @section('scriptcss')
@@ -112,11 +141,18 @@
 <script>
     $(function(){
 
-        
+        $(".btn-update-nama-mapel").click(function(){
+            $(".form-update-mapel").submit();
+        });
 
-        var id = $("#nav-tab a:first-child").attr("data-id");
-            
-        $(".btn-pdf").attr("href", "{{ url('mentor/pelajaran/cetak') }}" + "/" + id);
+        $(".btn-edit-pelajaran").click(function(){
+            $(".edit_nama_mapel").text($(this).attr("data-nama"));
+            $("[name='edit_nama_mapel']").val($(this).attr("data-nama"));
+            $("[name='kode_mapel']").val($(this).attr("data-id"));
+            $("#modal-edit-pelajaran").modal("show");
+        });
+
+        var kode_mapel = $("#nav-tab a:first-child").attr("data-id");
         
         $.ajaxSetup({
             headers: {
@@ -128,11 +164,11 @@
             type: "post",
             url: "{{ url('/mentor/pelajaran/ambil_data') }}",
             data: {
-                id: id
+                kode_mapel: kode_mapel
             },
             success: function(hasil){
                 $(".materi").text(hasil.materi + " materi");
-                $(".soal").text(hasil.soal + " materi");
+                $(".soal").text(hasil.soal + " soal");
             }
         });
 
@@ -149,7 +185,7 @@
         });
 
         $(".nav-item").click(function(){
-            var id = $(this).attr("data-id");
+            var kode_mapel = $(this).attr("data-id");
             
             $.ajaxSetup({
                 headers: {
@@ -161,10 +197,10 @@
                 type: "post",
                 url: "{{ url('/mentor/pelajaran/ambil_data') }}",
                 data: {
-                    id: id
+                    kode_mapel: kode_mapel
                 },
                 success: function(hasil){
-                    $(".btn-pdf").attr("href", "{{ url('mentor/pelajaran/cetak') }}" + "/" + id);
+                    $(".btn-pdf").attr("href", "{{ url('mentor/pelajaran/cetak') }}" + "/" + kode_mapel);
 
                     $(".materi").text(hasil.materi + " materi");
                     $(".soal").text(hasil.soal + " materi");
@@ -177,7 +213,7 @@
 
             Swal.fire({
                 title: 'Apakah anda yakin ?',
-                text: "You won't be able to revert this!",
+                text: "Seluruh data yang terkait dengan pelajaran ini akan sepenuhnya dihapus!",
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -235,5 +271,36 @@
 
 </script>
 @endif
+
+@if(Session::has('berhasil_update_mapel'))
+<script>
+    Swal.fire(
+        'Berhasil!',
+        "berhasil mengupdate mata pelajaran",
+        'success'
+    )
+
+</script>
+@endif
+
+@if(Session::has('pelajaran_kosong'))
+<script>
+    Swal.fire({
+        title: "Tambah Mata Pelajaran",
+        text: "Sebelum anda melanjutkan, anda diharuskan menambahkan minimal 1 mata pelajaran",
+        type: "warning",
+        showCancelButton: false,
+        showConfirmButton: true,
+        confirmButtonText: "Mengerti",
+        animation: false,
+        customClass: {
+            popup: "animated bounce"
+        }
+    });
+</script>
+{{Session::forget("pelajaran_kosong")}}
+@endif
+
+
 
 @endsection

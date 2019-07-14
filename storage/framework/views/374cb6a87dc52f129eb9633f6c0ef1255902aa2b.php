@@ -52,7 +52,7 @@
                             <?php elseif($hasil[$i]['jawaban'] == 3): ?>
                                 <div class="border-bottom-success p-2"> A. <?php echo e($soal[$i]['pilihan1']); ?> <span class="float-right badge badge-success"><i class="fas fa-check"></i> Jawaban benar</span></div>
                                 <div class="p-2">B. <?php echo e($soal[$i]['pilihan2']); ?></div>
-                                <div class="border-bottom-danger p-2">C. <?php echo e($soal[$i]['pilihan3']); ?><span class="float-right badge badge-danger"><i class="fas fa-times-circle"></i> Jawaban kamu</span></div>
+                                <div class="border-bottom-danger p-2">C. <?php echo e($soal[$i]['pilihan3']); ?> <span class="float-right badge badge-danger"><i class="fas fa-times-circle"></i> Jawaban kamu</span></div>
                                 <div class="p-2">D. <?php echo e($soal[$i]['pilihan4']); ?></div>
                                 <div class="p-2">E. <?php echo e($soal[$i]['pilihan5']); ?></div>
                             <?php elseif($hasil[$i]['jawaban'] == 4): ?>

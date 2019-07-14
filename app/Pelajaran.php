@@ -6,20 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pelajaran extends Model
 {
+    protected $keyType = "string";
+    protected $primaryKey = "kode_mapel";
+    public $incrementing = false;
+
     protected $table = "pelajaran";
 
-    protected $fillable = ['id', 'nama_pelajaran'];
+    protected $fillable = ['kode_mapel','id_mentor', 'nama_pelajaran'];
 
 
 
     public function materi()
     {
-        return $this->hasOne('App\Materi');
-    }
-
-    public function tugas()
-    {
-        return $this->hasOne('App\Tugas');
+        return $this->belongsTo('App\Materi', "kode_mapel", "kode_mapel");
     }
 
     public function soal()
@@ -27,13 +26,8 @@ class Pelajaran extends Model
         return $this->hasOne('App\Soal');
     }
 
-    // public function video()
-    // {
-    //     return $this->hasOne('App\Video');
-    // }
-
-    // public function soal_judul()
-    // {
-    //     return $this->hasOne('App\Soal_judul');
-    // }
+    public function soal_judul()
+    {
+        return $this->belongsTo('App\Soal_judul', "kode_mapel", "kode_mapel");
+    }
 }

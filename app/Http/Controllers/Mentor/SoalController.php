@@ -11,30 +11,24 @@ use App\Soal_pilihan;
 use App\Tes;
 use App\Soal_judul;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Validator;
-use App\Tes_pilihan;
-use PhpParser\Node\Stmt\Switch_;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\DB;
-use Faker\Provider\zh_TW\DateTime;
-use Illuminate\Support\Facades\Date;
 
 class SoalController extends Controller
 {
     public function index()
     {
-        $soal_judul = Soal_judul::where('mentor_id', Auth::guard('mentor')->user()->id)->get();
+        $soal_judul = Soal_judul::where('id_mentor', Auth::guard('mentor')->user()->id_mentor)->get();
 
         $pelajaran = Pelajaran::all();
 
         return view('mentor.pages.question.index', ['sj' => $soal_judul, 'pelajaran' => $pelajaran]);
     }
 
-    public function soal_read($soal_judul_id)
+    public function soal_read($kode_judul_soal)
     {
-        $id = Crypt::decrypt($soal_judul_id);
+        $id = Crypt::decrypt($kode_judul_soal);
 
-        $soal = Soal::where('soal_judul_id', $id)->inRandomOrder()->get();
+        $soal = Soal::where('kode_judul_soal', $id)->inRandomOrder()->get();
 
         foreach ($soal as $s) {
             echo $s->soal_pilihan;
@@ -66,11 +60,11 @@ class SoalController extends Controller
 
     public function question_create_title(Request $request)
     {
-        $mentor_id = Auth::guard('mentor')->user()->id;
+        $id_mentor = Auth::guard('mentor')->user()->id_mentor;
 
-        $m = Soal_judul::max("id");
+        $m = Soal_judul::max("kode_mapel");
         $s = substr($m, 5)+1;
-        $mid = substr($mentor_id, 5, 5);
+        $mid = substr($id_mentor, 5, 5);
         $nomor = sprintf( "%04s", $s);
 
         $tanggal_mulai  = $request->tanggal_mulai;
@@ -86,14 +80,14 @@ class SoalController extends Controller
 
         $sj = new Soal_judul;
 
-        $sj->id = 5
+        $sj->kode_judul_soal = 5
                 .$mid
-                .$request->pelajaran_id
+                .$request->kode_mapel
                 .$nomor;
 
-        $sj->pelajaran_id = $request->pelajaran_id;
+        $sj->kode_mapel = $request->kode_mapel;
 
-        $sj->mentor_id = $mentor_id;
+        $sj->id_mentor = $id_mentor;
 
         $sj->judul = $request->judul;
 
@@ -105,7 +99,7 @@ class SoalController extends Controller
 
         $sj->save();
 
-        $soal_judul = Soal_judul::find($sj->id);
+        $soal_judul = Soal_judul::find($sj->kode_judul_soal);
 
         return view('mentor.pages.question.question_create', compact('soal_judul'));
     }
@@ -118,9 +112,11 @@ class SoalController extends Controller
 
     public function question_update_title(Request $r){
 
-        $sj = Soal_judul::find($r->id);
+        $sj = Soal_judul::find($r->kode_judul_soal);
 
-        $sj->pelajaran_id   = $r->pelajaran_id_update;
+        echo $r->kode_judul_soal;
+
+        $sj->kode_mapel   = $r->kode_mapel_update;
         $sj->judul          = $r->judul_update;
         $sj->jumlah_soal    = $r->jumlah_soal_update;
         $sj->tanggal_mulai  = $r->tgl_mulai_update  . " " . $r->jam_mulai_update. ":00";
@@ -134,14 +130,18 @@ class SoalController extends Controller
 
     public function question_create_questions(Request $request)
     {
-        $soal_judul_id = $request->soal_judul_id;
+        $kode_judul_soal = $request->kode_judul_soal;
 
-        $mentor_id = Auth::guard('mentor')->user()->id;
+        $id_mentor = Auth::guard('mentor')->user()->id_mentor;
+
+        $mentor_slash = strrpos($id_mentor, "-");
+
+        $mentor_substr = substr($id_mentor, $mentor_slash + 1);
 
         for ($i = 0; $i < count($request->pertanyaan); $i++) {
             Soal::create([
-                'mentor_id' => 1,
-                'soal_judul_id' => $request->soal_judul_id,
+                'id_mentor' => $mentor_substr,
+                'kode_judul_soal' => $request->kode_judul_soal,
                 'pertanyaan' => $request->pertanyaan[$i],
                 'pilihan1' => $request->pilihan1[$i],
                 'pilihan2' => $request->pilihan2[$i],
@@ -178,11 +178,11 @@ class SoalController extends Controller
     {
         $soal = Soal::create($request->all());
 
-        $mentor_id = Soal::find($soal->id);
+        $id_mentor = Soal::find($soal->id);
 
-        $mentor_id->mentor_id = Auth::guard('mentor')->user()->id;
+        $id_mentor->id_mentor = Auth::guard('mentor')->user()->id_mentor;
 
-        $mentor_id->save();
+        $id_mentor->save();
 
         foreach ($request->pilihan as $key => $value) {
             $benar = $request->pilihan_benar == $key ? 1 : 0;
@@ -210,8 +210,10 @@ class SoalController extends Controller
 
     public function soal_edit($id)
     {
+
         $soal_judul = Soal_judul::find($id);
-        $soal = Soal_judul::find($id)->soal;
+
+        $soal = Soal::where("kode_judul_soal", $id)->get();
 
         return view("mentor.pages.question.question_edit", ['soal' => $soal, 'soal_judul' => $soal_judul]);
 
@@ -226,11 +228,11 @@ class SoalController extends Controller
 
     public function soal_update(Request $request)
     {
-        $mentor_id = Auth::guard('mentor')->user()->id;
+        $id_mentor = Auth::guard('mentor')->user()->id_mentor;
 
         for ($i = 0; $i < count($request->pertanyaan); $i++) {
             $soal = Soal::find($request->soal_id[$i]);
-            $soal->soal_judul_id = $request->soal_judul_id;
+            $soal->kode_judul_soal = $request->kode_judul_soal;
             $soal->pertanyaan = $request->pertanyaan[$i];
             $soal->pilihan1  = $request->pilihan1[$i];
             $soal->pilihan2  = $request->pilihan2[$i];

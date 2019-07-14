@@ -24,13 +24,13 @@ class StatusSoal
     {
         if(Auth::guard('student')->check()){
 
-            $nilai = Nilai::where("student_id", Auth::guard('student')->user()->id)->where('status', "mengerjakan")->get();
+            $nilai = Nilai::where("id_student", Auth::guard('student')->user()->id_student)->where('status', "mengerjakan")->get();
         
             if(count($nilai) > 0){
 
-                $id = $nilai[0]['soal_judul_id'];
+                $id = $nilai[0]['kode_judul_soal'];
 
-                $nilai_id = Nilai::where("soal_judul_id", $id)->get();
+                $nilai_id = Nilai::where("kode_judul_soal", $id)->get();
     
                 $sji = Soal_judul::find($id);
 
@@ -53,7 +53,7 @@ class StatusSoal
 
                     if(count($nilai) > 0 ){
 
-                        $hasil = Hasil::where("soal_judul_id", $nilai[0]['soal_judul_id'])->get();
+                        $hasil = Hasil::where("kode_judul_soal", $nilai[0]['kode_judul_soal'])->get();
 
                         $id_hasil_terakhir = $hasil[$hasil->count() - 1 ]['id'];
 
@@ -61,7 +61,7 @@ class StatusSoal
 
                         Session::flash("jawaban", $jawaban->jawaban);
 
-                        $id_encrypted = Crypt::encrypt($nilai[0]['soal_judul_id']);
+                        $id_encrypted = Crypt::encrypt($nilai[0]['kode_judul_soal']);
 
                         $id_param = $id_encrypted;
 

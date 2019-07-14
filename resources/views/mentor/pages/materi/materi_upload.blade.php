@@ -40,9 +40,9 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text bg-info text-white">Kategori pelajaran</span>
                                         </div>
-                                        <select class="custom-select" name="pelajaran_id" required>
-                                            @foreach ($pelajaran as $p)
-                                            <option value="{{ $p->id }}">{{ $p->nama_pelajaran }}</option>
+                                        <select class="custom-select" name="kode_mapel" required>
+                                            @foreach ($mapel as $mapel)
+                                            <option value="{{ $mapel->kode_mapel }}">{{ $mapel->nama_pelajaran }}</option>
                                             @endforeach
                                         </select>
                                     </div>

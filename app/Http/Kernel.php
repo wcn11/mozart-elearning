@@ -51,10 +51,6 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'student.auth' => \App\Http\Middleware\RedirectIfNotStudent::class,
-        'student.guest' => \App\Http\Middleware\RedirectIfStudent::class,
-        'mentor.auth' => \App\Http\Middleware\RedirectIfNotMentor::class,
-        'mentor.guest' => \App\Http\Middleware\RedirectIfMentor::class,
         'master.auth' => \App\Http\Middleware\RedirectIfNotMaster::class,
         'master.guest' => \App\Http\Middleware\RedirectIfMaster::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
@@ -66,7 +62,16 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+
+        //untuk mentor
         'mentor.verified' => \App\Http\Middleware\CekVerifikasi::class,
+        'mentor.auth' => \App\Http\Middleware\RedirectIfNotMentor::class,
+        'mentor.guest' => \App\Http\Middleware\RedirectIfMentor::class,
+        'mentor.cek_mapel' => \App\Http\Middleware\CekAdaPelajaran::class,
+
+        //untuk student
+        'student.auth' => \App\Http\Middleware\RedirectIfNotStudent::class,
+        'student.guest' => \App\Http\Middleware\RedirectIfStudent::class,
         'student.batas_waktu' => \App\Http\Middleware\BatasWaktu::class,
         'student.status_soal' => \App\Http\Middleware\StatusSoal::class,
         'student.cek_selesai' => \App\Http\Middleware\CekSelesai::class,

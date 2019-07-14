@@ -56,7 +56,7 @@
             @csrf
 
             <div class="pesan-error"></div>
-            <input type="hidden" name="soal_judul_id" value="{{ $soal_judul->id }}">
+            <input type="hidden" name="kode_judul_soal" value="{{ $soal_judul->kode_judul_soal }}">
             <div class="card-body" id="container-soal">
 
             <br>

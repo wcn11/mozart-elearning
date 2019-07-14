@@ -15,47 +15,60 @@ class MateriController extends Controller
 {
     public function index()
     {
-        $mentor_id = Auth::guard('mentor')->user()->id;
+        $id_mentor = Auth::guard('mentor')->user()->id_mentor;
 
-        $materi = Materi::all()->where('mentor_id', $mentor_id);
+        $materi = Materi::where('id_mentor', $id_mentor)->get();
 
         return view('mentor.pages.materi.daftar_materi', ['materi' => $materi]);
+
     }
 
     public function materi_upload()
     {
-        $pelajaran = Pelajaran::all();
+        $mapel = Pelajaran::all();
 
-        return view('mentor.pages.materi.materi_upload', ['pelajaran' => $pelajaran]);
+        return view('mentor.pages.materi.materi_upload', ['mapel' => $mapel]);
     }
 
 
     public function materi_upload_aksi(Request $r)
     {
-        $m = Materi::max("id");
-        $s = substr($m, 4)+1;
-        $nomor = sprintf( "%04s", $s);
+        $m = Materi::max("kode_materi");
+        $m_slash = strrpos($m, "-");
+        $s = substr($m, $m_slash + 1) + 1;
 
-        // $messages = [
-        //     "required" => "Field :attribute harus diisi",
-        // ];
+        $pesan = [
+            'file' => ":attribute harus diisi (Gambar/Cover)"
+        ];
 
         $this->validate($r, [
             'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-        ]);
+        ],$pesan);
 
-        $mentor_id = Auth::guard('mentor')->user()->id;
+        $id_mentor = Auth::guard('mentor')->user()->id_mentor;
+
+        //ambil lalu slash lalu substr id mentor
+        $mentor_slash = strrpos($id_mentor, "-");
+
+        $mentor_substr = substr($id_mentor, $mentor_slash + 1);
+
+        //ambil lalu slash lalu substr kode mapel
+
+        $mapel_slash = strrpos($r->kode_mapel, '-');
+
+        $mapel_substr = substr($r->kode_mapel, $mapel_slash + 1);
+
+        //masukkan ke database
 
         $materi = new Materi;
 
-        $materi->id = 3
-                    .$r->pelajaran_id.$nomor;
+        $materi->kode_materi = "MTRI-".$mentor_substr."-".$mapel_substr.'-'.$s;
 
         $materi->judul_materi = $r->judul;
 
-        $materi->mentor_id = $mentor_id;
+        $materi->id_mentor = $id_mentor;
 
-        $materi->pelajaran_id = $r->pelajaran_id;
+        $materi->kode_mapel = $r->kode_mapel;
 
         if ($r->has('file')) {
 
@@ -81,13 +94,10 @@ class MateriController extends Controller
 
     public function materi_edit($id)
     {
-        $video_id = Crypt::decrypt($id);
 
         $pelajaran = Pelajaran::all();
 
-        $materi = Materi::find($video_id);
-
-        return view('mentor.pages.materi.materi_edit', ['m' => $materi, 'pelajaran' => $pelajaran]);
+        return view('mentor.pages.materi.materi_edit', ['pelajaran' => $pelajaran]);
     }
 
     public function materi_update(Request $r)
@@ -98,7 +108,7 @@ class MateriController extends Controller
 
         $materi->judul_materi = $r->judul;
 
-        $materi->pelajaran_id = $r->pelajaran_id;
+        $materi->kode_mapel = $r->kode_mapel;
 
         $materi->materi = $r->materi;
 

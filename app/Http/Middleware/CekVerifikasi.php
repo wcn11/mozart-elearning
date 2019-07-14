@@ -17,7 +17,7 @@ class CekVerifikasi
      */
     public function handle($request, Closure $next)
     {   
-        $mentor_id = Auth::guard('mentor')->user()->id;
+        $mentor_id = Auth::guard('mentor')->user()->id_mentor;
 
         $mentor = Mentor::find($mentor_id);
 

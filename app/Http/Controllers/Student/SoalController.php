@@ -39,6 +39,7 @@ class SoalController extends Controller
                 $status_batas[] = array(
                     'status'.$i => "lewat"
                 );
+
                 
                 if($nilai->isEmpty()){  
                     $status_mengerjakan[] = array(
@@ -69,7 +70,7 @@ class SoalController extends Controller
             }else{
 
                 $status_batas[] = array(
-                    'status'.$i => "belum"
+                    'status'.$i => "Belum waktunya"
                 );
                 
                 if($nilai->isEmpty()){  
@@ -86,7 +87,6 @@ class SoalController extends Controller
         }
 
         return view('student.soal', ['soal' => $soal, 'status_mengerjakan' => $status_mengerjakan, 'status_batas' => $status_batas]);
-
 
     }
 

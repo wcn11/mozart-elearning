@@ -74,6 +74,9 @@
                                         <?php $id = Crypt::encrypt($soal[$i]['id']); ?>
                                         <a class="btn btn-outline-info" href="<?php echo e(route('student.soal_nilai_cetak', $soal[$i]['id'])); ?>"> <i class="fas fa-print"></i> Cetak</a>
                                     </td>
+                                <?php elseif($status_batas[$i]['status'.$i] == "Belum waktunya"): ?>
+                                    <td><span class="badge badge-secondary">Belum waktunya</span></td>
+                                    <td><span class="badge badge-secondary">Belum waktunya</span></td>
                                 <?php endif; ?>
                             </tr>
                             <?php endfor; ?>

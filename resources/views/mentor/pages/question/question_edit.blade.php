@@ -59,18 +59,18 @@
 
             <div class="pesan-error"></div>
             <div class="card-body" id="container-soal">
+                <h6 class="m-0 font-weight-bold text-info">Form Soal </h6>
             @for ($i = 0; $i < $soal_judul->jumlah_soal; $i++)
                 
             <input type="hidden" name="soal_id[]" value="{{ $soal[$i]['id'] }}">
-            <input type="hidden" name="soal_judul_id" value="{{ $soal_judul->id }}">
+            <input type="hidden" name="kode_judul_soal" value="{{ $soal_judul->kode_judul_soal }}">
                 
-                        <h6 class="m-0 font-weight-bold text-info">Soal ke </h6>
             <br> 
                 <div class="row"> 
                     <div class="col-md-6 grid-margin"> 
                         <div class="form-group "> 
                             <div class=" bg-danger pesan-error"></div> 
-                            <label for="pertanyaan-i">Pertanyaan<span class="text-danger control-label">*</span></label> 
+                            <label for="pertanyaan-i">Pertanyaan {{ $i+1 }}<span class="text-danger control-label">*</span></label> 
                             <input type="text" value="{{ $soal[$i]['pertanyaan']}}" required="required" name="pertanyaan[]" class="form-control" id="pertanyaan-i" aria-describedby="textHelp" placeholder="Enter text"> 
                         </div> 
                         <div class="form-group"> 

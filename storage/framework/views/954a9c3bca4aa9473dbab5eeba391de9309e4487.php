@@ -12,8 +12,7 @@
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-info text-center"><?php echo e($soal_judul->judul); ?></h6>
                 <p class="text-center"><?php echo e($soal->currentPage()); ?>/<?php echo e($soal_judul->jumlah_soal); ?></p>
-                Soal akan berakhir pada : <?php echo e($soal_judul->tanggal_selesai); ?>
-
+                Soal akan berakhir pada : <span class="text-danger"><?php echo e($soal_judul->tanggal_selesai); ?></span>
             </div>
             <input type="hidden" name="soal_judul_id" value="<?php echo e($soal_judul->id); ?>">
             <div class="card-body">

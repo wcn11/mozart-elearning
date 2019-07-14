@@ -13,13 +13,21 @@ class Student extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     // protected $table = "students";
     public $incrementing = false;
+
+    protected $primaryKey = "id_student";
+
+    protected $keyType = 'string';
+
+    const CREATED_AT = "tanggal_daftar";
+
+    const UPDATED_AT = "diupdate";
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'id','name', 'email', 'password',
+        'id_student','name', 'email', 'password',
     ];
 
     /**
@@ -63,7 +71,7 @@ class Student extends Authenticatable implements MustVerifyEmail
 
     public function mentor()
     {
-        return $this->belongsToMany('App\Mentor');
+        return $this->belongsToMany('App\Mentor', 'mentor_student', 'id_mentor', "id_student");
     }
 
     public function mentors_student()

@@ -54,13 +54,6 @@
             <?php endif; ?>
 						<span class="focus-input100"></span>
           </div>
-
-					<div class="wrap-input100 validate-input" data-validate="Name is required">
-						<span class="label-input100">Tanggal lahir</span>
-            <input type="date" class="form-control" name="tanggal_lahir" required>
-            <input type="hidden" name="tanggal_daftar">
-						<span class="focus-input100"></span>
-          </div>
           
 					<div class="wrap-input100 validate-input" data-validate="Email is required">
 						<span class="label-input100">Email</span>

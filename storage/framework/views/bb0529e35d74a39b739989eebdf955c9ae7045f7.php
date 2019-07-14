@@ -38,9 +38,9 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text bg-info text-white">Kategori pelajaran</span>
                                         </div>
-                                        <select class="custom-select" name="pelajaran_id" required>
-                                            <?php $__currentLoopData = $pelajaran; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <option value="<?php echo e($p->id); ?>"><?php echo e($p->nama_pelajaran); ?></option>
+                                        <select class="custom-select" name="kode_mapel" required>
+                                            <?php $__currentLoopData = $mapel; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mapel): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($mapel->kode_mapel); ?>"><?php echo e($mapel->nama_pelajaran); ?></option>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </select>
                                     </div>

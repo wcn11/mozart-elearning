@@ -22,7 +22,7 @@ class CekSelesai
 
         $id = Crypt::decrypt($param);
 
-        $nilai = Nilai::where("soal_judul_id", $id)->get();
+        $nilai = Nilai::where("kode_judul_soal", $id)->get();
 
         if(count($nilai) > 0){
 

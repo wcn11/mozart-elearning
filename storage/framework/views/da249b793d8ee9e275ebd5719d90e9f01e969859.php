@@ -24,10 +24,10 @@
                     <input type="text" name="judul" class="form-control" value="<?php echo e(old('judul')); ?>" placeholder="contoh : Quiz pengenalan ekologi sistem pangan" required>
                     </div>
                     <div class="form-group">
-                        <label for="pelajaran_id">Mata Pelajaran<span class="text-danger">*</span></label>
-                        <select class="form-control" name="pelajaran_id"  value="<?php echo e(old('pelajaran_id')); ?>" required>
+                        <label for="kode_mapel">Mata Pelajaran<span class="text-danger">*</span></label>
+                        <select class="form-control" name="kode_mapel"  value="<?php echo e(old('kode_mapel')); ?>" required>
                             <?php $__currentLoopData = $pelajaran; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <option value="<?php echo e($p->id); ?>"><?php echo e($p->nama_pelajaran); ?></option>
+                            <option value="<?php echo e($p->kode_mapel); ?>"><?php echo e($p->nama_pelajaran); ?></option>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select>
                     </div>
@@ -122,9 +122,9 @@
                         <td><?php echo e($s->diupdate); ?></td>
                         <?php endif; ?>
                         <td class="text-center">
-                        <button class="btn btn-danger btn-hapus" data-link="<?php echo e(url('mentor/soal/delete', $s->id)); ?>">Hapus</button> |
-                            <a class="btn btn-info" href="<?php echo e(route('mentor.soal_edit', $s->id)); ?>">Edit</a> |
-                            <button class="btn btn-outline-info btn-modal-edit-judul" data-toggle="modal" data-target=".modal-edit-judul" data-id="<?php echo e($s->id); ?>">Edit judul</button>
+                        <button class="btn btn-danger btn-hapus" data-link="<?php echo e(url('mentor/soal/delete', $s->kode_judul_soal)); ?>">Hapus</button> |
+                            <a class="btn btn-info" href="<?php echo e(route('mentor.soal_edit', $s->kode_judul_soal)); ?>">Edit</a> |
+                            <button class="btn btn-outline-info btn-modal-edit-judul" data-toggle="modal" data-target=".modal-edit-judul" data-id="<?php echo e($s->kode_judul_soal); ?>">Edit judul</button>
                         </td>
                     </tr>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -177,20 +177,19 @@
               <div class="modal-header judul-edit">
               </div>
               <div class="modal-body">
-
               
             <form class="form form-update-judul" action="<?php echo e(route('mentor.question_update_title')); ?>" method="POST">
                         <?php echo csrf_field(); ?>
-                        <input type="hidden" name="id">
+                        <input type="hidden" name="kode_judul_soal">
                         <div class="form-group">
                             <label for="judul">Judul Soal<span class="text-danger">*</span></label>
                         <input type="text" name="judul_update" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label for="pelajaran_id">Mata Pelajaran<span class="text-danger">*</span></label>
-                            <select class="form-control" name="pelajaran_id_update"  value="<?php echo e(old('pelajaran_id')); ?>" required>
+                            <label for="kode_mapel">Mata Pelajaran<span class="text-danger">*</span></label>
+                            <select class="form-control" name="kode_mapel_update"  value="<?php echo e(old('kode_mapel_update')); ?>" required>
                                 <?php $__currentLoopData = $pelajaran; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <option value="<?php echo e($p->id); ?>"><?php echo e($p->nama_pelajaran); ?></option>
+                                    <option value="<?php echo e($p->kode_mapel); ?>"><?php echo e($p->nama_pelajaran); ?></option>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </select>
                         </div>
@@ -301,10 +300,11 @@
                     id: id
                 },
                 success: function(hasil){
-                    $("[name='id']").val(hasil.id);
+                    $("[name='kode_judul_soal']").val(hasil.kode_judul_soal);
                     $(".judul-edit").text(hasil.judul);
                     $("[name='judul_update']").val(hasil.judul);
-                    $("[value='" + hasil.pelajaran_id +"']").attr("selected", "selected");
+                    $("[value='" + hasil.kode_mapel +"']").attr("selected", "selected");
+                    $("[name='kode_mapel_update']").val(hasil.kode_mapel);
                     $("[name='jumlah_soal']").val(hasil.jumlah_soal);
                     $("[name='tgl_mulai_update']").val(hasil.tanggal_mulai.substring(0, 10));
                     $("[name='tanggal_selesai_update']").val(hasil.tanggal_selesai.substring( 0, 10));

@@ -23,7 +23,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $mentor_id = Auth::guard('mentor')->user()->id;
+        $mentor_id = Auth::guard('mentor')->user()->id_mentor;
 
         $student = Mentor::find($mentor_id);
 
@@ -32,7 +32,7 @@ class StudentController extends Controller
 
     public function getDataStudent()
     {
-        $mentor_id = Auth::guard('mentor')->user()->id;
+        $mentor_id = Auth::guard('mentor')->user()->id_student;
 
 
         // return Datatables::of(Mentor::all()->where('mentor_id', $mentor_id)->student)->make(true);
@@ -122,7 +122,7 @@ class StudentController extends Controller
     {
 
 
-        $user_id = $req->id;
+        $user_id = $req->id_mentor;
 
         $mentor = Mentor::find(1);
 

@@ -8,12 +8,12 @@ class Mentors_student extends Model
 {
     // protected $table = 'mentors_student';
 
-    protected $fillable = ['date_follow'];
+    protected $fillable = ['id_mentor', 'id_student', 'date_follow'];
 
     public $timestamps = false;
 
     public function student()
     {
-        return $this->hasMany('App\Student');
+        return $this->hasMany('App\Student', "id_student", "id_student");
     }
 }

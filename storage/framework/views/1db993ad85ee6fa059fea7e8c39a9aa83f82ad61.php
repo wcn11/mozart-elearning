@@ -57,7 +57,7 @@
             <?php echo csrf_field(); ?>
 
             <div class="pesan-error"></div>
-            <input type="hidden" name="soal_judul_id" value="<?php echo e($soal_judul->id); ?>">
+            <input type="hidden" name="kode_judul_soal" value="<?php echo e($soal_judul->kode_judul_soal); ?>">
             <div class="card-body" id="container-soal">
 
             <br>

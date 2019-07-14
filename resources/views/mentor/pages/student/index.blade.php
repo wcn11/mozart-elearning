@@ -45,7 +45,7 @@
                             </td>
                             <td>
 
-                                <input type="hidden" id="id" value="{{ $dm->id }}">
+                                <input type="hidden" id="id" value="{{ $dm->id_student }}">
                                 <button class=" btn btn-info btn-delete">delete</button>
                             </td>
                         </tr>

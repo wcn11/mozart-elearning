@@ -39,7 +39,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text bg-info text-white">Kategori pelajaran</span>
                                         </div>
-                                        <select class="custom-select" name="pelajaran_id" required>
+                                        <select class="custom-select" name="kode_mapel" required>
                                                 @foreach ($pelajaran as $p)
                                                 <option value="{{ $p->id }}" {{ $m->pelajaran['id'] === $p->id ? "selected='selected'" : '' }}>{{ $p->nama_pelajaran }}</option>
                                             @endforeach

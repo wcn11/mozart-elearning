@@ -8,7 +8,7 @@ class Soal extends Model
 {
     protected $table = 'soal';
 
-    protected $fillable = ['id', 'soal_judul_id', 'mentor_id', 'pertanyaan', 'pilihan1', 'pilihan2', 'pilihan3', 'pilihan4', 'pilihan5', 'pilihan_benar'];
+    protected $fillable = ['id', 'kode_judul_soal', 'id_mentor', 'pertanyaan', 'pilihan1', 'pilihan2', 'pilihan3', 'pilihan4', 'pilihan5', 'pilihan_benar'];
 
     public function soal_pilihan()
     {
@@ -20,6 +20,6 @@ class Soal extends Model
     }
     public function Soal_judul()
     {
-        return $this->belongsTo('App\Soal_judul');
+        return $this->belongsTo('App\Soal_judul', "id", "id");
     }
 }

@@ -65,20 +65,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $m = Mentor::max("id");
+        $m = Mentor::max("id_mentor");
         $s = substr($m, 5)+1;
         $nomor = sprintf( "%04s", $s);
         return Mentor::create([
-            
-            'id' => 
-                1
-                .substr($data['tanggal_lahir'], 8)
-                .substr($data['tanggal_daftar'], 3, -5)
-                .$nomor,
+            'id_mentor' => "MNTR-".$s,
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'tanggal_lahir' => $data['tanggal_lahir']
         ]);
         
     }

@@ -8,7 +8,7 @@ class Nilai extends Model
 {
     protected $table = 'nilai';
 
-    protected $fillable  = ['student_id', 'soal_judul_id', 'nilai'];
+    protected $fillable  = ['id_student', 'kode_judul_id', 'nilai'];
 
     const CREATED_AT = "tanggal_selesai";
 

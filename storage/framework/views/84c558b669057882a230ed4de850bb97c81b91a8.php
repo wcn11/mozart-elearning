@@ -61,30 +61,34 @@
     $(document).ready(function(){
 
         $(".btn-selesai").click(function(){
-            $(".form-hasil").submit();
+            
+
+            Swal.fire({
+                title: 'Apakah anda yakin telah selesai?',
+                text: "Anda tidak akan bisa kembali lagi!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Batal',
+                confirmButtonText: 'Selesai'
+                }).then((result) => {
+                if (result.value) {
+
+                    $(".form-hasil").submit();
+
+                    Swal.fire({
+                        title: 'Berhasil',
+                        text: "Jawaban telah dihitung!",
+                        type: 'success',
+                        showCancelButton: false,
+                        showConfirmButton: false
+                    })
+
+                }
+                })
         });
 
-        // $(".btn-selesai").click(function(){
-
-        // Swal.fire({
-        //     title: 'Apakah anda yakin telah selesai?',
-        //     text: "Kamu tidak akan bisa kembali lagi!",
-        //     type: 'warning',
-        //     showCancelButton: true,
-        //     confirmButtonColor: '#3085d6',
-        //     cancelButtonColor: '#d33',
-        //     confirmButtonText: 'Ya, selesai!'
-        //     }).then((result) => {
-        //         if (result.value) {
-        //             Swal.fire(
-        //             'Tersimpan!',
-        //             'Hasil kamu telah di simpan, segera lihat atau cetak.',
-        //             'success'
-        //             )
-        //             alert("hasi");
-        //         }
-        //     })
-        // ;
     });
 </script>
 
