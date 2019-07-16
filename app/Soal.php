@@ -8,7 +8,11 @@ class Soal extends Model
 {
     protected $table = 'soal';
 
-    protected $fillable = ['id', 'kode_judul_soal', 'id_mentor', 'pertanyaan', 'pilihan1', 'pilihan2', 'pilihan3', 'pilihan4', 'pilihan5', 'pilihan_benar'];
+    protected $keyType = "string";
+    protected $primaryKey = "kode_soal";
+    public $incementing = false;
+
+    protected $fillable = ['kode_soal', 'kode_judul_soal', 'id_mentor', 'pertanyaan', 'pilihan1', 'pilihan2', 'pilihan3', 'pilihan4', 'pilihan5', 'pilihan_benar'];
 
     public function soal_pilihan()
     {

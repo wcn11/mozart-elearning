@@ -48,18 +48,10 @@
                             </td>
                             <td>{{ $m->pelajaran->nama_pelajaran }}</td>
 
-                            <td>{{ $m->created_at }}</td>
-                            @if (empty($m->updated_at))
-                            <td> Belum pernah</td>
-                            @else
-                            <td> {{ $m->updated_at }}</td>
-                            @endif
+                            <td>{{ $m->dibuat }}</td>
+                            <td> {{ $m->diupdate }}</td>
                             <td>
                                 <?php $id = Crypt::encrypt($m->kode_materi); ?>
-                                {{-- <button class="btn  btn-outline-danger btn-hapus"
-                                    >Hapus tugas</button> |
-                                <a class="btn  btn-outline-info" href="">Edit
-                                    tugas</a> --}}
                                 <div class="btn-group dropdown">
                                     <button class="btn btn-outline-dark dropdown-toggle" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"><i class="fas fa-cogs"></i></button>
                                     <div class="dropdown-menu shadow text-left rounded" style="background:mintcream;">

@@ -297,9 +297,96 @@
         $(".btn-update-title").click(function(){
 
             var judul = $("[name='judul_update']").val();
+            var tanggal_mulai = $("[name='tgl_mulai_update']").val();
+            var tanggal_selesai = $("[name='tanggal_selesai_update']").val();
+            var jam_mulai = $("[name='jam_mulai_update']").val();
+            var jam_selesai = $("[name='jam_selesai_update']").val();
 
             if(judul == ""){
                 $($("[name='judul_update']")).addClass("is-invalid");
+
+                Swal.fire({
+                    title: "Judul Kosong",
+                    text: "Harap tetapkan judul soal!",
+                    showConfirmButton: true,
+                    showCancelButton: false,
+                    confirmButtonText: "Mengerti",
+                    confirmButtonColor: "#dc3545",
+                    type: "warning",
+                    animation: false,
+                    customClass: {
+                        popup: "animated shake"
+                    }
+                });
+
+                }else if(tanggal_mulai == ""){
+
+                    $($("[name='tgl_mulai_update']")).addClass("is-invalid");
+                    Swal.fire({
+                        title: "Tanggal Mulai Kosong",
+                        text: "Harap tetapkan tanggal mulai soal!",
+                        showConfirmButton: true,
+                        showCancelButton: false,
+                        confirmButtonText: "Mengerti",
+                        confirmButtonColor: "#dc3545",
+                        type: "warning",
+                        animation: false,
+                        customClass: {
+                            popup: "animated shake"
+                        }
+                    });
+
+                }else if(tanggal_selesai == ""){
+                    $($("[name='tanggal_selesai_update']")).addClass("is-invalid");
+                    Swal.fire({
+                        title: "Tanggal Selesai Kosong",
+                        text: "Harap tetapkan tanggal selesai soal!",
+                        showConfirmButton: true,
+                        showCancelButton: false,
+                        confirmButtonText: "Mengerti",
+                        confirmButtonColor: "#dc3545",
+                        type: "warning",
+                        animation: false,
+                        customClass: {
+                            popup: "animated shake"
+                        }
+                    });
+
+                }else if(jam_mulai == ""){
+
+                    $($("[name='jam_mulai_update']")).addClass("is-invalid");
+
+                    Swal.fire({
+                        title: "Jam Mulai Kosong",
+                        text: "Harap tetapkan jam mulai soal!",
+                        showConfirmButton: true,
+                        showCancelButton: false,
+                        confirmButtonText: "Mengerti",
+                        confirmButtonColor: "#dc3545",
+                        type: "warning",
+                        animation: false,
+                        customClass: {
+                            popup: "animated shake"
+                        }
+                    });
+
+                }else if(jam_selesai == ""){
+
+                    $($("[name='jam_selesai_update']")).addClass("is-invalid");
+                    Swal.fire({
+                        title: "Jam Selesai Kosong",
+                        text: "Harap tetapkan jam selesai soal!",
+                        showConfirmButton: true,
+                        showCancelButton: false,
+                        confirmButtonText: "Mengerti",
+                        confirmButtonColor: "#dc3545",
+                        type: "warning",
+                        animation: false,
+                        customClass: {
+                            popup: "animated shake"
+                        }
+                    });
+
             }else{
                 $($("[name='judul_update']")).removeClass("is-invalid");
                 $(".form-update-judul").submit();
@@ -310,6 +397,8 @@
             var judul = $("[name='judul']").val();
             var jam_mulai = $("[name='jam_mulai']").val();
             var jam_selesai = $("[name='jam_selesai']").val();
+            var tanggal_mulai = $("[name='tanggal_mulai']").val();
+            var tanggal_selesai = $("[name='tanggal_selesai']").val();
 
             //cek jika field masih kosong
             if(jam_mulai == ""){
@@ -359,10 +448,42 @@
                         popup: "animated shake"
                     }
                 });
+            }else if(tanggal_mulai == ""){
+                $("[name='tanggal_mulai']").addClass("is-invalid");
+                Swal.fire({
+                    title: "Tanggal Mulai Kosong",
+                    text: "Harap isi tanggal mulai soal!",
+                    showConfirmButton: true,
+                    showCancelButton: false,
+                    confirmButtonText: "Mengerti",
+                    confirmButtonColor: "#dc3545",
+                    type: "warning",
+                    animation: false,
+                    customClass: {
+                        popup: "animated shake"
+                    }
+                });
+            }else if(tanggal_selesai == ""){
+                $("[name='tanggal_selesai']").addClass("is-invalid");
+                Swal.fire({
+                    title: "Tanggal Selesai Kosong",
+                    text: "Harap isi tanggal selesai soal!",
+                    showConfirmButton: true,
+                    showCancelButton: false,
+                    confirmButtonText: "Mengerti",
+                    confirmButtonColor: "#dc3545",
+                    type: "warning",
+                    animation: false,
+                    customClass: {
+                        popup: "animated shake"
+                    }
+                });
             }else{
                 $("[name='jam_mulai']").removeClass("is-invalid");
                 $("[name='jam_selesai']").removeClass("is-invalid");
                 $("[name='judul']").removeClass("is-invalid");
+                $("[name='tanggal_mulai']").removeClass("is-invalid");
+                $("[name='tanggal_selesai']").removeClass("is-invalid");
                 $(".form-tambah-soal").submit();
             }
         });

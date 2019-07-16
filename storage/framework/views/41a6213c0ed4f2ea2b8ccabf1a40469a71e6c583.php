@@ -187,7 +187,7 @@
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Profile
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item btn-logout" href="javascript:void(0)">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Logout
                                 </a>
                             </div>
@@ -228,31 +228,9 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Siap untuk pergi ?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-                </div>
-                <div class="modal-body">Pilih "Logout" dibawah jika anda ingin mengakhiri sesi ini.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="javascript::void()" onclick="event.preventDefault();document.getElementById('logout').submit();">Logout</a>
-                    <form id="logout" action="<?php echo e(route('mentor.logout')); ?>" method="POST">
-                        <?php echo csrf_field(); ?>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-    
+    <form class="form-logout" action="<?php echo e(route('mentor.logout')); ?>" method="POST">
+        <?php echo csrf_field(); ?>
+    </form>    
     <!-- Bootstrap core JavaScript-->
     <script src="<?php echo e(asset('vendor/jquery/jquery.min.js')); ?>"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -293,6 +271,34 @@
                   console.log('Email berhasil dikirim!');
                 }
             });
+        });
+
+        $(".btn-logout").click(function(){
+            Swal.fire({
+            title: 'Apakah anda yakin ingin logout?',
+            // text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#343a40',
+            confirmButtonText: 'Logout',
+            cancelButtonText: 'Batal',
+            animation: false,
+            customClass: {
+                popup: "animated jello",
+            }
+            }).then((result) => {
+                if (result.value) {
+
+                    $(".form-logout").submit();
+
+                    Swal.fire(
+                    'Logout!',
+                    'Anda telah logout.',
+                    'success'
+                    )
+                }
+            })
         });
         
     </script>

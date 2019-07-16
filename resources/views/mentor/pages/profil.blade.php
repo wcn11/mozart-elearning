@@ -98,7 +98,7 @@
                     
                     <span class=" current_password w-100 text-danger text-center">Password salah</span>
                     <div class="col-md-12">
-                        <input id="current_password" type="password" class="form-control" name="current_password" value="{{ $oldPassword ?? old('oldPassword') }}" required autofocus>
+                        <input id="current_password" type="password" class="form-control" name="current_password" value="" required autofocus>
                         
                     </div>
                 </div>

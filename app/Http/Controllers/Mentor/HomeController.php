@@ -43,22 +43,22 @@ class HomeController extends Controller
                 $request->session()->forget('pesan');
             }
         }
-        $request->session()->put('id_mentor', Auth::guard('mentor')->user()->id);
+        $request->session()->put('id_mentor', Auth::guard('mentor')->user()->id_mentor);
 
-        $mentor = Mentor::find(Auth::guard('mentor')->user()->id);
+        $mentor = Mentor::find(Auth::guard('mentor')->user()->id_mentor);
         return view('mentor.home', ['mentor' => $mentor]);
     }
 
     public function profil()
     {
-        $mentor = Mentor::find(Auth::guard('mentor')->user()->id);
+        $mentor = Mentor::find(Auth::guard('mentor')->user()->id_mentor);
         return view('mentor.pages.profil', compact('mentor'));
     }
 
     public function profil_update(Request $request)
     {
         // echo $request->foto;
-        $mentor = Mentor::find(Auth::guard('mentor')->user()->id);
+        $mentor = Mentor::find(Auth::guard('mentor')->user()->id_mentor);
         $mentor->name = $request->name;
         $mentor->email = $request->email;
         // menyimpan data file yang diupload ke variabel $file
@@ -87,7 +87,7 @@ class HomeController extends Controller
 
         if($request->password == $request->password_confirmation){
             if(Hash::check($request->current_password, $current_password)){
-                $user_id = Auth::guard('mentor')->user()->id;
+                $user_id = Auth::guard('mentor')->user()->id_mentor;
                 $user = Mentor::find($user_id);
                 $user->password = Hash::make($request->password);
                 $user->save();

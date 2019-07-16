@@ -25,9 +25,9 @@ class StudentController extends Controller
     {
         $mentor_id = Auth::guard('mentor')->user()->id_mentor;
 
-        $student = Mentor::find($mentor_id);
+        $student = Mentors_student::where("id_mentor", $mentor_id)->get();
 
-        return view('mentor.pages.student.index', compact('student'));
+        // return view('mentor.pages.student.index', compact('student', "js"));
     }
 
     public function getDataStudent()
@@ -38,61 +38,44 @@ class StudentController extends Controller
         // return Datatables::of(Mentor::all()->where('mentor_id', $mentor_id)->student)->make(true);
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function unfollow($id)
     {
-        //
+        $std = Mentors_student::where("id_mentor",Auth::guard('mentor')->user()->id_mentor)->where("id_student", $id)->get();
+
+        $std2 = Mentors_student::find($std[0]["kode_mengikuti"]);
+
+        $std2->delete();
+
+        Session::flash("berhasil_unfollow", "berhasil");
+
+        return back();
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function update_kuota(Request $request){
+        $kuota = $request->kuota;
+        
+        $mentor = Mentor::find(Auth::guard('mentor')->user()->id_mentor);
+
+        $js = Mentor::where("id_mentor", Auth::guard('mentor')->user()->id_mentor)->get();
+
+        if($kuota < count($js)){
+            Session::flash("gagal_update_kuota", "gagal");
+    
+            return back();
+        }else{
+            $mentor->kuota = $kuota;
+    
+            $mentor->update();
+    
+            Session::flash("berhasil_update_kuota", "berhasil");
+    
+            return back();
+        }
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
     public function addItem(Request $request, $id)
     {
         $rules = array(

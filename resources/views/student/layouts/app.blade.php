@@ -22,6 +22,17 @@
 @yield('scriptcss')
 <body id="page-top">
 
+    @if(Session::has("belum_verifikasi"))
+    <div class="alert alert-danger alert-dismissible fade show mb-0 text-center alert-konfirmasi" role="alert">
+        <strong>E-mail belum dikonfirmasi!</strong> Anda Harus Segera Mengkonfirmasi Alamat Email.
+        <a href="javascript:void(0)" class="font-weight-bold text-dangee btn-kirim-email">Kirim ulang</a> E-mail Konfirmasi.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> @csrf
+        <input type="hidden" name="email_mentor" value="{{ Auth::guard('student')->user()->email }}">
+    </div>
+  @endif
+
   <!-- Page Wrapper -->
   <div id="wrapper">
 
@@ -64,6 +75,20 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Akses data:</h6>
             <a class="collapse-item" href="{{ route('student.materi') }}">Materi</a>
+          </div>
+        </div>
+      </li>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pelajaran" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Pelajaran</span>
+        </a>
+        <div id="pelajaran" class="collapse" aria-labelledby="headingTwo">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Mata pelajaran:</h6>
+            <a class="collapse-item" href="{{ route('student.pelajaran') }}">Pelajaran</a>
           </div>
         </div>
       </li>
@@ -220,30 +245,10 @@
     </div>
   </div>
 
-  <!-- Logout Modal-->
-  <div class="modal fade modal-verifikasi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Verifikasi email</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          Harap segera mengecek email anda untuk segera teraktivasi!.
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Tutup</button>
-
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Bootstrap core JavaScript-->
   <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
   <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
   <!-- Core plugin JavaScript-->
   {{-- <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script> --}}
@@ -251,13 +256,37 @@
   <!-- Custom scripts for all pages-->
   <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
 
-  @if($pesan = Session::get('belum_verifikasi'))
   <script>
-    $(document).ready(function(){
-      $(".modal-verifikasi").modal();
-    });
+  
+  $(".btn-kirim-email").click(function() {
+      var email = $("[name='email_mentor']").val();
+      var token = $("[name='_token']").val()
+
+      Swal.fire(
+              'Berhasil!',
+              'Email Verifikasi telah dikirim ke alamat email ' + email + '!',
+              'success'
+            )
+
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+      });
+
+      $.ajax({
+          type: "get",
+          url: "{{ url('student/email/resend') }}",
+          data: {
+              email: email
+          },
+          succes: function(hasil) {
+            console.log('Email berhasil dikirim!');
+          }
+      });
+  });
+
   </script>
-  @endif
 
   @if($pesan = Session::get('nilai'))
   <script>
@@ -271,9 +300,26 @@
   </script>
   @endif
 
+  @if(Session::has('belum_mengikuti'))
+  <script>
+    Swal.fire({
+      title: 'Belum memilih!',
+      text: "Sebelum melanjutkan, anda harus mengikuti minimal salah satu mentor",
+      confirmButtonText: "Mengerti",
+      confirmButtonColor: "#721c24",
+      type: "warning",
+      animation: false,
+      customClass: {
+        popup: 'animated shake'
+      }
+    })
+  </script>
+  @endif
+
+  
+
   @yield('scriptjs')
 </body>
-
 </html>
 
 

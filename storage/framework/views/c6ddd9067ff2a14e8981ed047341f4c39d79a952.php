@@ -45,15 +45,10 @@
                             </td>
                             <td><?php echo e($m->pelajaran->nama_pelajaran); ?></td>
 
-                            <td><?php echo e($m->created_at); ?></td>
-                            <?php if(empty($m->updated_at)): ?>
-                            <td> Belum pernah</td>
-                            <?php else: ?>
-                            <td> <?php echo e($m->updated_at); ?></td>
-                            <?php endif; ?>
+                            <td><?php echo e($m->dibuat); ?></td>
+                            <td> <?php echo e($m->diupdate); ?></td>
                             <td>
                                 <?php $id = Crypt::encrypt($m->kode_materi); ?>
-                                
                                 <div class="btn-group dropdown">
                                     <button class="btn btn-outline-dark dropdown-toggle" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown"><i class="fas fa-cogs"></i></button>
                                     <div class="dropdown-menu shadow text-left rounded" style="background:mintcream;">

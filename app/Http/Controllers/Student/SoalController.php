@@ -20,8 +20,8 @@ class SoalController extends Controller
     {
         Session::forget("status_soal");
 
-        $mentor_id = Student::find(Auth::guard('student')->user()->id);
-        $soal = Soal_judul::where("mentor_id", $mentor_id->mentor_id)->get();
+        $mentor_id = Student::find(Auth::guard('student')->user()->id_student);
+        $soal = Soal_judul::where("id_mentor", $mentor_id->id_mentor)->get();
 
         date_default_timezone_set('Asia/Jakarta');
         
@@ -31,7 +31,7 @@ class SoalController extends Controller
 
         for($i = 0; $i < count($soal); $i++){
 
-            $nilai = Nilai::where("soal_judul_id", $soal[$i]['id'])->where('student_id', Auth::guard("student")->user()->id)->get();
+            $nilai = Nilai::where("kode_judul_soal", $soal[$i]['kode_judul_soal'])->where('id_student', Auth::guard("student")->user()->id_student)->get();
 
 
             if(now() > $soal[$i]['tanggal_selesai']){
@@ -93,7 +93,7 @@ class SoalController extends Controller
     public function soal_mengerjakan($id)
     {
         $kode = Crypt::decrypt($id);
-        $soal = Soal::where("soal_judul_id", $kode)->paginate(1);
+        $soal = Soal::where("kode_judul_soal", $kode)->paginate(1);
         $soal_judul = Soal_judul::find($kode);
         return view('student.soal_mengerjakan', compact('soal', 'soal_judul'));
     }
@@ -104,15 +104,15 @@ class SoalController extends Controller
         date_default_timezone_set('Asia/Jakarta');
         //masukkan ke tabel sementara
 
-        $id = $request->soal_judul_id;
+        $id = $request->kode_judul_soal;
 
-        $cek = Hasil::firstOrNew(array('soal_id' => $request->soal_id));
+        $cek = Hasil::firstOrNew(array('kode_soal' => $request->kode_soal));
 
-        $cek->soal_id = $request->soal_id;
+        $cek->kode_soal = $request->kode_soal;
         
-        $cek->soal_judul_id = $request->soal_judul_id;
+        $cek->kode_judul_soal = $request->kode_judul_soal;
 
-        $cek->student_id = Auth::guard('student')->user()->id;
+        $cek->id_student = Auth::guard('student')->user()->id_student;
 
         if(empty($request->jawaban)){
 
@@ -126,9 +126,9 @@ class SoalController extends Controller
 
         //buat atau update tabel nilai (untuk update status)
         
-        $soal = Soal::where('soal_judul_id',$id)->get();
-        $hasil = Hasil::where('soal_judul_id',$id)->get();
-        $jumlah = Hasil::where("soal_judul_id", $id)->count();
+        $soal = Soal::where('kode_judul_soal',$id)->get();
+        $hasil = Hasil::where('kode_judul_soal',$id)->get();
+        $jumlah = Hasil::where("kode_judul_soal", $id)->count();
 
         $nilai = 0;
         for($i = 0; $i < $jumlah; $i++){
@@ -136,13 +136,13 @@ class SoalController extends Controller
                 $nilai+=1;
             }
         }
-        $nilai2 = Nilai::firstOrNew(array('soal_judul_id' => $id));
+        $nilai2 = Nilai::firstOrNew(array('kode_judul_soal' => $id));
 
-        $nilai2->student_id = Auth::guard('student')->user()->id;
+        $nilai2->student_id = Auth::guard('student')->user()->id_student;
 
         $nilai2->nilai = $nilai;
 
-        $nilai2->soal_judul_id = $id;
+        $nilai2->kode_judul_soal = $id;
 
         $nilai2->tanggal_selesai = now();
 
@@ -153,15 +153,15 @@ class SoalController extends Controller
     }
 
     public function soal_edit($id){
-        $soal_judul_id = Crypt::decrypt($id);
+        $kode_judul_soal = Crypt::decrypt($id);
 
-        $hasil = Hasil::where('soal_judul_id', $soal_judul_id)->get();
+        $hasil = Hasil::where('kode_judul_soal', $kode_judul_soal)->get();
 
-        $mentor_id = Student::find(Auth::guard('student')->user()->id);
+        $mentor_id = Student::find(Auth::guard('student')->user()->id_student);
 
-        $soal_judul = Soal_judul::find($soal_judul_id);
+        $soal_judul = Soal_judul::find($kode_judul_soal);
 
-        $soal = Soal::where('soal_judul_id', $soal_judul_id)->orWhere('mentor_id', $mentor_id->mentor_id)->get();
+        $soal = Soal::where('kode_judul_soal', $kode_judul_soal)->orWhere('id_mentor', $mentor_id->id_mentor)->get();
 
         return view('student.soal_edit_semua', ['hasil' => $hasil, 'soal' => $soal, 'soal_judul' => $soal_judul]);
     }
@@ -171,9 +171,9 @@ class SoalController extends Controller
 
         $soal = Soal::find($soal_id);
 
-        $soal_judul = Soal_judul::find($soal->soal_judul_id);
+        $soal_judul = Soal_judul::find($soal->kode_judul_soal);
 
-        $hasil = Hasil::where('soal_judul_id', $soal->soal_judul_id)->where('soal_id', $soal_id)->get();
+        $hasil = Hasil::where('kode_judul_soal', $soal->kode_judul_soal)->where('kode_soal', $soal_id)->get();
 
         return view('student.soal_edit_persoal', compact('soal', 'soal_judul', 'nomor', 'hasil'));
 
@@ -184,9 +184,9 @@ class SoalController extends Controller
     {
         $id = Crypt::decrypt($id_decrypted);
 
-        $nilai = Nilai::where("soal_judul_id", $id)->get();
+        $nilai = Nilai::where("kode_judul_soal", $id)->get();
 
-        $nu = Nilai::find($nilai[0]['id']);
+        $nu = Nilai::find($nilai[0]['kode_soal']);
 
         $nu->status = "selesai";
 
@@ -202,15 +202,15 @@ class SoalController extends Controller
 
         $soal_judul = Soal_judul::find($id);
 
-        $soal = Soal::where('soal_judul_id', $id)->get();
+        $soal = Soal::where('kode_judul_soal', $id)->get();
 
-        $jj = Hasil::where("soal_judul_id", $id)->get();
+        $jj = Hasil::where("kode_judul_soal", $id)->get();
 
         $jumlah_jawaban = count($jj);
 
-        $hasil = Hasil::where("soal_judul_id", $id)->where('student_id', Auth::guard('student')->user()->id)->get();
+        $hasil = Hasil::where("kode_judul_soal", $id)->where('id_student', Auth::guard('student')->user()->id_student)->get();
 
-        $nilai = Nilai::where("soal_judul_id", $id)->where('student_id', Auth::guard('student')->user()->id)->get();
+        $nilai = Nilai::where("kode_judul_soal", $id)->where('id_student', Auth::guard('student')->user()->id_student)->get();
 
         return view('student.soal_nilai_review', compact('soal_judul', 'soal', 'hasil', 'nilai', 'jumlah_jawaban'));
 
@@ -220,13 +220,13 @@ class SoalController extends Controller
 
         $soal_judul = Soal_judul::find($id);
 
-        $soal = Soal::where('soal_judul_id', $id)->get();
+        $soal = Soal::where('kode_judul_soal', $id)->get();
 
-        $hasil = Hasil::where("soal_judul_id", $id)->where('student_id', Auth::guard('student')->user()->id)->get();
+        $hasil = Hasil::where("kode_judul_soal", $id)->where('id_student', Auth::guard('student')->user()->id_student)->get();
 
-        $nilai = Nilai::where("soal_judul_id", $id)->where('student_id', Auth::guard('student')->user()->id)->get();
+        $nilai = Nilai::where("kode_judul_soal", $id)->where('id_student', Auth::guard('student')->user()->id_student)->get();
 
-        $jj = Hasil::where("soal_judul_id", $id)->get();
+        $jj = Hasil::where("kode_judul_soal", $id)->get();
 
         $jumlah_jawaban = count($jj);
 

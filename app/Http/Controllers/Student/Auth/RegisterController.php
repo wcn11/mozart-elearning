@@ -67,13 +67,7 @@ class RegisterController extends Controller
         date_default_timezone_set('Asia/Jakarta');
 
         $m = Student::max("id_student");
-        $s = substr($m, 5)+1;
-        $nomor = sprintf( "%04s", $s);
-        
-        // 2
-        // .substr($data['tanggal_lahir'], 8)
-        // .substr($data['tanggal_daftar'], 3, -5)
-        // .$nomor,
+        $s = substr($m, strrpos($m, "-")+1)+1;
 
         return Student::create([
             'id_student' => 'STD-'.$s,

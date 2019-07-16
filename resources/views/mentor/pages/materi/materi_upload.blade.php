@@ -92,7 +92,8 @@
         <div class="card-body">
             <h4 class="card-title">Materi editor</h4>
             <textarea id="summernote" name="materi">
-                </textarea>
+            <br>
+            </textarea>
         </div>
     </div>
 </form>
@@ -134,14 +135,7 @@
             var judul = $("[name='judul']").val();
             var cover = $("[name='cover']").val();
 
-            if($("#summernote").summernote("isEmpty")){
-                Swal.fire(
-                    'Isi Materi Kosong!',
-                    'Anda harus mengisi setidaknya beberapa kalimat atau gambar atau video!',
-                    'warning'
-                );
-            }
-            else if(judul == ""){
+            if(judul == ""){
                 Swal.fire(
                     'Judul Kosong!',
                     'Anda harus mengisi judul materi!',

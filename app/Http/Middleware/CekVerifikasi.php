@@ -6,6 +6,8 @@ use Closure;
 use App\Mentor;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
+use App\Student;
+
 class CekVerifikasi
 {
     /**

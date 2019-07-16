@@ -31,7 +31,9 @@ Route::group(['namespace' => 'Mentor'], function () {
             Route::post('/password/change', 'HomeController@changePassword')->name('mentor.password.change');
 
             Route::get('student', "StudentController@index")->name('mentor.student');
-            Route::post('student/destroy', 'StudentController@destroy')->name('mentor.student_destroy');
+            // Route::post('student/destroy', 'StudentController@destroy')->name('mentor.student_destroy');
+            Route::post('student/unfollow/{id}', 'StudentController@unfollow')->name('mentor.unfollow');
+            Route::post('student/update_kuota', 'StudentController@update_kuota')->name('mentor.update_kuota');
 
             // Route::post('addItem', 'StudentController@addItem');
 

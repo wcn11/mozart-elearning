@@ -37,7 +37,7 @@
               <div class="col-lg-6">
                 <div class="p-5">
                   <div class="text-center">
-                                      <div class="card-body">
+                    <div class="card-body">
                     <?php if(session('status')): ?>
                         <div class="alert alert-success" role="alert">
                             <?php echo e(session('status')); ?>
@@ -52,17 +52,15 @@
                     <div class="form-group">
                       <input id="email" type="email" class="form-control<?php echo e($errors->has('email') ? ' is-invalid' : ''); ?>" name="email" value="<?php echo e(old('email')); ?>" required>
                     </div>
-                                                    
+                      <?php if($errors->has('email')): ?>
+                          <span class="invalid-feedback" role="alert">
+                              <strong><?php echo e($errors->first('email')); ?></strong>
+                          </span>
+                      <?php endif; ?>
+                      <button type="submit" class="btn btn-primary">
+                          <?php echo e(__('Send Password Reset Link')); ?>
 
-                                <?php if($errors->has('email')): ?>
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong><?php echo e($errors->first('email')); ?></strong>
-                                    </span>
-                                <?php endif; ?>
-                                 <button type="submit" class="btn btn-primary">
-                                    <?php echo e(__('Send Password Reset Link')); ?>
-
-                                </button>
+                      </button>
                   </form>
                   <hr>
                   <div class="text-center">

@@ -55,7 +55,7 @@ class HomeController extends Controller
     }
     public function ikuti($id)
     {
-        $student = Student::find(Auth::guard('student')->user()->id);
+        $student = Student::find(Auth::guard('student')->user()->id_student);
 
         $student->mentor_id = $id;
 
@@ -68,7 +68,7 @@ class HomeController extends Controller
 
     public function profil()
     {
-        $student = Student::find(Auth::guard('student')->user()->id);
+        $student = Student::find(Auth::guard('student')->user()->id_student);
 
         return view('student.profil', compact('student'));
     }
@@ -76,7 +76,7 @@ class HomeController extends Controller
     public function profil_update(Request $request)
     {
         // echo $request->foto;
-        $student = Student::find(Auth::guard('student')->user()->id);
+        $student = Student::find(Auth::guard('student')->user()->id_student);
         $student->name = $request->name;
         $student->email = $request->email;
         // menyimpan data file yang diupload ke variabel $file

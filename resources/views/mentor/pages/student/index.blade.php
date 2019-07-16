@@ -9,7 +9,10 @@
     <h1 class="h3 mb-2 text-gray-800">Daftar Murid</h1>
     <p class="mb-4">Murid yang ada pada daftar dibawah adalah murid yang mengikuti anda dan anda dapat <span
             class="badge badge-danger">mengeluarkan</span> murid anda.</p>
-
+            Kuota kelas anda : {{ $js }} / {{ Auth::guard("mentor")->user()->kuota }}
+    <div class="text-right p-2">
+        <button class="btn btn-outline-dark btn-kuota" data-id="{{ Auth::guard('mentor')->user()->kuota }}"><i class="fas fa-user-edit"></i> Edit Kuota Kelas</button>
+    </div>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -29,26 +32,31 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($student->student as $dm)
-                        <tr style="text-align:center;">
-                            <td>{{ HTML::image($dm->foto, 'Profile', array('class' => 'rounded-circle text-center img-fluid gambar')) }}
-                            </td>
-                            <td>{{ $dm->name }}</td>
-                            <td>{{ $dm->email }}</td>
-                            <td>{{ $dm->sekolah }}</td>
-                            <td>
-                                @if ( $dm->no_telepon == null)
-                                Data belum diisi
-                                @else
-                                {{ $dm->no_telepon }}
-                                @endif
-                            </td>
-                            <td>
+                        @foreach ($student as $std)
+                            @foreach ($std->student as $dm)
+                                
+                                <tr style="text-align:center;">
+                                    <td>{{ HTML::image($dm->foto, 'Profile', array('class' => 'rounded-circle text-center img-fluid gambar')) }}
+                                    </td>
+                                    <td>{{ $dm->name }}</td>
+                                    <td>{{ $dm->email }}</td>
+                                    <td>{{ $dm->sekolah }}</td>
+                                    <td>
+                                        @if ( $dm->no_telepon == null)
+                                        Data belum diisi
+                                        @else
+                                        {{ $dm->no_telepon }}
+                                        @endif
+                                    </td>
+                                    <td>
 
-                                <input type="hidden" id="id" value="{{ $dm->id_student }}">
-                                <button class=" btn btn-info btn-delete">delete</button>
-                            </td>
-                        </tr>
+                                        <button class=" btn btn-info btn-delete" data-id="{{ $dm->id_student }}">keluarkan</button>
+                                        <form class="form-keluar-{{ $dm->id_student }}" action="{{ route('mentor.unfollow', $dm->id_student) }}" method="post">
+                                            @csrf
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
                         @endforeach
                     </tbody>
                 </table>
@@ -56,6 +64,33 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade modal-kuota" tabindex="-1" role="dialog" aria-labelledby="modal-kuota" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-body">
+            <div class="w-100 p-2 mb-3">
+                
+                <form class="form-kuota" action="{{ route('mentor.update_kuota') }}" method="post">
+
+                    @csrf
+                    <label for="validationServer05 font-weight-bold">Kuota kelas anda : {{ $js }} / {{ Auth::guard("mentor")->user()->kuota }}</label>
+                    <input type="number" min="1" name="kuota" class="form-control input-kuota" value="{{ Auth::guard("mentor")->user()->kuota }}" id="input-kuota" placeholder="Kuota Kelas" required>
+                    <div class="text-kuota d-none">
+                        Harap isi kuota kelas
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+                <button class="btn btn-info btn-update">Update</button>
+                <button class="btn btn-dark" data-dismiss="modal">Batal</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 @endsection
 
@@ -72,7 +107,6 @@
 </style>
 @endsection
 
-
 @section('scriptjs')
 <!-- Page level plugins -->
 <script src="{{ asset('vendor/datatables/jquery.dataTables.min.js') }}"></script>
@@ -83,6 +117,22 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 <script>
     $(document).ready(function () {
+
+        $(".btn-kuota").click(function(){
+            var kuota = $(this).attr("data-id");
+            $(".modal-kuota").modal("show");
+            $(".input-kuota").val(kuota);
+        });
+
+        $(".btn-update").click(function(){
+            var kuota = $(".input-kuota").val();
+            if(kuota == ""){
+                $(this).addClass("is-invalid");
+            }else{
+                $(".form-kuota").submit();
+            }
+        });
+
         $("#tabel").DataTable();
         // $.ajaxSetup({
         //                 headers: {
@@ -110,58 +160,20 @@
 
         $(".btn-delete").click(function () {
 
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-success',
-                    cancelButton: 'btn btn-danger'
-                },
-                buttonsStyling: true,
-            })
-
-            swalWithBootstrapButtons.fire({
-                title: 'Apakah anda yakin ?',
-                text: "Anda tidak dapat mengulang kembali!",
+            var id = $(this).attr("data-id");
+            Swal.fire({
+                title: 'Apakah anda yakin',
+                text: "Seluruh data anda yang terkait dengan murid ini akan dihapus seluruhnya! Data anda tidak dapat dikembalikan!",
                 type: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Ya, hapus!',
-                cancelButtonText: 'Tidak, kembali!',
-                reverseButtons: true
-            }).then((result) => {
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Keluarkan!',
+                }).then((result) => {
                 if (result.value) {
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                'content')
-                        }
-                    });
-                    $.ajax({
-                        type: 'post',
-                        url: "http://127.0.0.1:8000/mentor/student/destroy",
-                        data: {
-                            // '_token': $('input[name=_token]').val(),
-                            'id': $("#id").val()
-                        },
-                        success: function (data) {
-                            // $('.item' + $('.did').text()).remove();
-                            console.log(data);
-                            location.reload();
-                        },
-                        error: function (er) {
-                            console.log(er.errors);
-                        }
-                    });
-
-                } else if (
-                    // Read more about handling dismissals
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-                    swalWithBootstrapButtons.fire(
-                        'Dibatalkan',
-                        'Murid tetap didalam kelas',
-                        'error'
-                    )
+                    $(".form-keluar-" + id).submit();
                 }
-            })
+            });
 
         });
         // $(".btn-delete").click(function(){
@@ -279,12 +291,42 @@
     });
 
 </script>
-@if ($pesan_hapus = Session::get('berhasil_dikeluarkan'))
+
+@if ($pesan_hapus = Session::get('berhasil_unfollow'))
 <script>
     Swal.fire(
         'Berhasil!',
         'Anda berhasil mengeluarkan seorang murid!',
         'success'
+    )
+
+</script>
+@endif
+
+@if (Session::has('berhasil_update_kuota'))
+<script>
+    Swal.fire(
+        'Berhasil!',
+        'Berhasil update jumlah kuota kelas!',
+        'success'
+    )
+
+</script>
+@endif
+
+@if (Session::has('gagal_update_kuota'))
+<script>
+    Swal.fire({
+        title: 'Gagal!',
+        text: 'Kuota kelas tidak boleh kurang dari jumlah murid yang sedang mengikuti anda!',
+        type:'error',
+        confirmButtonText: "Mengerti",
+        confirmButtonColor: "#343a40",
+        animation: false,
+        customClass: {
+            popup: "animated shake"
+        }
+    }
     )
 
 </script>

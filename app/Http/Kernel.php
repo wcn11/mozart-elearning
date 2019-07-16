@@ -76,6 +76,8 @@ class Kernel extends HttpKernel
         'student.status_soal' => \App\Http\Middleware\StatusSoal::class,
         'student.cek_selesai' => \App\Http\Middleware\CekSelesai::class,
         'student.anti_kembali' => \App\Http\Middleware\AntiKembali::class,
+        'student.verified' => \App\Http\Middleware\StudentVerified::class,
+        'student.cek_mengikuti' => \App\Http\Middleware\CekMengikuti::class,
     ];
 
     /**

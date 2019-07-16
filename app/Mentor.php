@@ -21,7 +21,7 @@ class Mentor extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'id_mentor','name', 'email', 'password', 'foto',
+        'id_mentor','name', 'email', "kuota", 'password', 'foto',
     ];
 
 
@@ -66,6 +66,16 @@ class Mentor extends Authenticatable implements MustVerifyEmail
 
     public function student()
     {
-        return $this->belongsToMany('App\Student', "mentor_student", "id_student", "id_student");
+        return $this->belongsToMany('App\Student', "App\Mentors_student", "id_mentor", "id_student");
     }
+
+    public function pelajaran()
+    {
+        return $this->hasMany('App\Pelajaran', "id_mentor");
+    }
+
+    // public function jumlah_student()
+    // {
+    //     return $this->belongsToMany('App\Student', "Mentor_student", "id_student", "id_student");
+    // }
 }

@@ -22,7 +22,6 @@ class MateriController extends Controller
         return view('mentor.pages.materi.daftar_materi', ['materi' => $materi]);
 
     }
-
     public function materi_upload()
     {
         $mapel = Pelajaran::all();

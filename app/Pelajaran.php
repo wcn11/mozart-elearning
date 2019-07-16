@@ -26,8 +26,18 @@ class Pelajaran extends Model
         return $this->hasOne('App\Soal');
     }
 
+    public function mentor()
+    {
+        return $this->belongsToMany('App\Mentor', "id_mentor");
+    }
+
     public function soal_judul()
     {
         return $this->belongsTo('App\Soal_judul', "kode_mapel", "kode_mapel");
+    }
+
+    public function student()
+    {
+        return $this->belongsToMany('App\Student', "App\Pelajaran_student", "kode_mapel", "id_student");
     }
 }

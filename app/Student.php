@@ -71,11 +71,20 @@ class Student extends Authenticatable implements MustVerifyEmail
 
     public function mentor()
     {
-        return $this->belongsToMany('App\Mentor', 'mentor_student', 'id_mentor', "id_student");
+        return $this->belongsToMany('App\Mentor',"App\Mentors_student", "id_student", "id_mentor");
+    }
+    // public function mentors_student()
+    // {
+    //     return $this->belongsToMany('App\Mentor_students');
+    // }
+
+    public function jumlah_student()
+    {
+        return $this->belongsToMany('App\Mentor', "Mentor_student", "id_student", "id_student");
     }
 
-    public function mentors_student()
+    public function pelajaran()
     {
-        return $this->belongsToMany('App\Mentor_students');
+        return $this->belongsToMany('App\Pelajaran', "App\Pelajaran_student", "id_student", "kode_mapel");
     }
 }

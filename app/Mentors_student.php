@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mentors_student extends Model
 {
-    // protected $table = 'mentors_student';
+    protected $table = 'mentor_student';
 
-    protected $fillable = ['id_mentor', 'id_student', 'date_follow'];
+    protected $fillable = ['kode_mengikuti','id_mentor', 'id_student', 'tanggal_mengikuti'];
 
+    protected $primaryKey = "kode_mengikuti";
+    protected $keyType = "string";
     public $timestamps = false;
 
     public function student()
