@@ -63,7 +63,7 @@
                 <h6 class="m-0 font-weight-bold text-info">Form Soal </h6>
             <?php for($i = 0; $i < $soal_judul->jumlah_soal; $i++): ?>
                 
-            <input type="hidden" name="soal_id[]" value="<?php echo e($soal[$i]['id']); ?>">
+            <input type="hidden" name="kode_soal[]" value="<?php echo e($soal[$i]['kode_soal']); ?>">
             <input type="hidden" name="kode_judul_soal" value="<?php echo e($soal_judul->kode_judul_soal); ?>">
                 
             <br> 

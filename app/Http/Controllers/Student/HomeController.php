@@ -8,6 +8,7 @@ use App\Student;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
 {
@@ -22,21 +23,6 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('student.auth:student');
-        // if (Auth::guard('student')->check()) {
-        //     $student = Student::find(Auth::guard('student')->user()->id);
-        //     if (empty($student->mentor_id)) {
-        //         return redirect()->route('student.mentor');
-        //     } elseif (!empty($student->mentor_id)) {
-        //         return redirect()->route('student.materi');
-        //     }
-        // }
-        // $mentor_id = Auth::guard('mentor')->user()->id;
-
-        // $mentor = Mentor::find($mentor_id);
-
-        // if($mentor->email_verified_at == null){
-        //     Session::put('belum_verifikasi', "Email anda harus diverifikasi terlebih dahulu");
-        // }
     }
 
     /**
@@ -97,4 +83,33 @@ class HomeController extends Controller
         Session::flash('update_profil', 'Update profil, berhasil!');
         return redirect()->back();
     }
+
+    public function changePassword(Request $request)
+    {
+        $current_password =  Auth::guard('student')->user()->password;
+
+        if(Hash::check($request->current_password, $current_password)){
+
+            if($request->password_baru === $request->password_confirmation){
+
+                if((Hash::check($request->password_baru, $current_password))){
+                    return array("status_password" => "password_sama_dengan_lama"); //benars
+                }else{
+                    $user_id = Auth::guard('student')->user()->id_student;
+                    $user = Student::find($user_id);
+                    $user->password = Hash::make($request->password_baru);
+                    $user->save();
+                    return array("status_password" => "berhasil");
+                }
+
+            }else{
+                return array("status_password" => "konfirmasi_tidak_sama");
+            }
+            
+        }else{
+            return array("status_password" => "salah");
+        }
+
+    }
 }
+

@@ -13,6 +13,7 @@ use App\Nilai;
 use Illuminate\Support\Facades\Crypt;
 use PDF;
 use Illuminate\Support\Facades\Session;
+use App\Mentor;
 
 class SoalController extends Controller
 {
@@ -20,8 +21,88 @@ class SoalController extends Controller
     {
         Session::forget("status_soal");
 
-        $mentor_id = Student::find(Auth::guard('student')->user()->id_student);
-        $soal = Soal_judul::where("id_mentor", $mentor_id->id_mentor)->get();
+        $mentor = Student::find(Auth::guard('student')->user()->id_student);
+
+        // foreach($mentor as $m){
+        //     echo $m['id_student'];
+        // }
+
+        return view("student.soal", compact('mentor'));
+
+        // $soal = Soal_judul::where("id_mentor", $mentor_id->id_mentor)->get();
+
+        // date_default_timezone_set('Asia/Jakarta');
+        
+        // $status_mengerjakan = [];
+
+        // $status_batas = [];
+
+        // for($i = 0; $i < count($soal); $i++){
+
+        //     $nilai = Nilai::where("kode_judul_soal", $soal[$i]['kode_judul_soal'])->where('id_student', Auth::guard("student")->user()->id_student)->get();
+
+
+        //     if(now() > $soal[$i]['tanggal_selesai']){
+
+        //         $status_batas[] = array(
+        //             'status'.$i => "lewat"
+        //         );
+
+                
+        //         if($nilai->isEmpty()){  
+        //             $status_mengerjakan[] = array(
+        //                 'status'.$i => "belum"
+        //             );             
+        //         }else{  
+        //             $status_mengerjakan[] = array(
+        //                 'status'.$i => "selesai"
+        //             );    
+        //         }
+
+        //     }elseif(now() > $soal[$i]['tanggal_mulai']){
+
+        //         $status_batas[] = array(
+        //             'status'.$i => "waktunya"
+        //         );
+
+        //         if($nilai->isEmpty()){  
+        //             $status_mengerjakan[] = array(
+        //                 'status'.$i => "belum"
+        //             );             
+        //         }else{  
+        //             $status_mengerjakan[] = array(
+        //                 'status'.$i => "selesai"
+        //             );    
+        //         }
+
+        //     }else{
+
+        //         $status_batas[] = array(
+        //             'status'.$i => "Belum waktunya"
+        //         );
+                
+        //         if($nilai->isEmpty()){  
+        //             $status_mengerjakan[] = array(
+        //                 'status'.$i => "belum"
+        //             );             
+        //         }else{  
+        //             $status_mengerjakan[] = array(
+        //                 'status'.$i => "selesai"
+        //             );    
+        //         }
+
+        //     }
+        // }
+
+        // return view('student.soal', ['soal' => $soal, 'status_mengerjakan' => $status_mengerjakan, 'status_batas' => $status_batas]);
+
+    }
+
+    public function soalpermentor($id_mentor){
+        
+        $id = Crypt::decrypt($id_mentor);
+
+        $soal = Soal_judul::where("id_mentor", $id)->get();
 
         date_default_timezone_set('Asia/Jakarta');
         
@@ -86,8 +167,7 @@ class SoalController extends Controller
             }
         }
 
-        return view('student.soal', ['soal' => $soal, 'status_mengerjakan' => $status_mengerjakan, 'status_batas' => $status_batas]);
-
+        return view("student.daftar_soal_mentor", ["soal" => $soal, 'status_mengerjakan' => $status_mengerjakan, 'status_batas' => $status_batas]);
     }
 
     public function soal_mengerjakan($id)
@@ -136,9 +216,34 @@ class SoalController extends Controller
                 $nilai+=1;
             }
         }
+
+        $kode_nilai = Nilai::max("kode_nilai");
+
+        $kode_nilai_slash = strrpos($kode_nilai, "-");
+
+        $kode_nilai_substr = substr($kode_nilai, $kode_nilai_slash+1)+1;
+
+        $mentor = Soal_judul::find($id)->id_mentor;
+
+        $mapel = Soal_judul::find($id)->kode_mapel;
+
+        $kode_judul_soal_slash = strrpos($id, "-");
+
+        $kode_judul_soal_substr = substr($id, $kode_judul_soal_slash+1);
+
+        $mapel_slash = strrpos($mapel, "-");
+
+        $mapel_substr = substr($mapel, $mapel_slash+1);
+
+        $mentor_slash = strrpos($mentor, "-");
+
+        $mentor_substr = substr($mentor, $mentor_slash+1);
+
         $nilai2 = Nilai::firstOrNew(array('kode_judul_soal' => $id));
 
-        $nilai2->student_id = Auth::guard('student')->user()->id_student;
+        $nilai2->id_student = Auth::guard('student')->user()->id_student;
+
+        $nilai2->kode_nilai = "NIL-".$mentor_substr."-".$mapel_substr."-".$kode_judul_soal_substr."-".$kode_nilai_substr;
 
         $nilai2->nilai = $nilai;
 
@@ -157,11 +262,9 @@ class SoalController extends Controller
 
         $hasil = Hasil::where('kode_judul_soal', $kode_judul_soal)->get();
 
-        $mentor_id = Student::find(Auth::guard('student')->user()->id_student);
-
         $soal_judul = Soal_judul::find($kode_judul_soal);
 
-        $soal = Soal::where('kode_judul_soal', $kode_judul_soal)->orWhere('id_mentor', $mentor_id->id_mentor)->get();
+        $soal = Soal::where('kode_judul_soal', $kode_judul_soal)->get();
 
         return view('student.soal_edit_semua', ['hasil' => $hasil, 'soal' => $soal, 'soal_judul' => $soal_judul]);
     }
@@ -183,17 +286,16 @@ class SoalController extends Controller
     public function soal_nilai($id_decrypted)
     {
         $id = Crypt::decrypt($id_decrypted);
+        
+        $nilai = Nilai::where("kode_judul_soal", $id)->where("id_student", Auth::guard('student')->user()->id_student)->get();
 
-        $nilai = Nilai::where("kode_judul_soal", $id)->get();
-
-        $nu = Nilai::find($nilai[0]['kode_soal']);
+        $nu = Nilai::find($nilai[0]['kode_nilai']);
 
         $nu->status = "selesai";
 
         $nu->update();
 
         return redirect()->route('student.nilai_review', [$id_decrypted, $id_param = $id_decrypted]);
-        
     }
 
     public function soal_nilai_review($id){

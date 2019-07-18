@@ -39,7 +39,8 @@ class BatasWaktu
                 if($request->ajax()){  
 
                     if(count($nilai_id) > 0){
-                        $nilai = Nilai::find($nilai_id[0]['id']);
+
+                        $nilai = Nilai::find($nilai_id[0]['kode_nilai']);
 
                         $nilai->status = "selesai";
                         
@@ -55,16 +56,16 @@ class BatasWaktu
                 }else{
 
                     if(count($nilai_id) > 0){
-                        $nilai = Nilai::find($nilai_id[0]['id']);
+                        $nilai = Nilai::find($nilai_id[0]['kode_nilai']);
 
                         $nilai->status = "selesai";
                         
                         $nilai->update();
     
-                        return redirect()->route('student.soal'); 
+                        return redirect()->route('student.soal_permentor', $param); 
 
                     }else{
-                        return redirect()->route('student.soal'); 
+                        return redirect()->route('student.soal_permentor', $param); 
                     }
 
                     

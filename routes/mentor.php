@@ -1,7 +1,7 @@
 <?php
 
 Route::group(['namespace' => 'Mentor'], function () {
-    Route::get('/', 'HomeController@index')->name('mentor.dashboard');
+    Route::get('/', 'HomeController@index')->name('mentor.dashboard')->middleware("mentor.verified");
 
     // Login
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('mentor.login');

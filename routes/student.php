@@ -21,19 +21,23 @@ Route::group(['namespace' => 'Student'], function () {
     Route::get('email/verify', 'Auth\VerificationController@show')->name('student.verification.notice');
     Route::get('email/verify/{id}', 'Auth\VerificationController@verify')->name('student.verification.verify');
     
-    Route::get("mentor/ambildata", "MentorController@ambildata");
+    Route::post("mentor/ambildata", "MentorController@ambildata");
+    Route::post("mentor/ambildatafull", "MentorController@ambildatafull");
     Route::get("mentor/ikuti/{id}", "MentorController@ikuti")->name("student.ikuti_mentor");
     Route::post("mentor/unfollow/{id}", "MentorController@unfollow")->name("student.unfollow");
 
     Route::get("mentor", "MentorController@index")->name("student.mentor")->middleware('student.auth', 'student.verified');
     // Students
     Route::group(['middleware' => ['student.auth', 'student.verified', "student.cek_mengikuti"]], function () {
+
+        Route::post('/password/change', 'HomeController@changePassword')->name('mentor.password.change');
         
         Route::get('/', 'HomeController@index')->name('student.dashboard')->middleware('student.status_soal', "student.cek_mengikuti");
         Route::get("profil", "HomeController@profil")->name('student.profil')->middleware("student.status_soal");
         Route::post("profil/update", "HomeController@profil_update")->name('student.profil_update');
 
         Route::get('materi', "MateriController@materi")->name('student.materi')->middleware("student.status_soal");
+        Route::get('daftar_materi/{id}', "MateriController@daftar_materi")->name('student.daftar_materi')->middleware("student.status_soal");
         Route::get('materi/read/{id}', "MateriController@materi_read")->name('student.materi_read')->middleware("student.status_soal");
 
         Route::get('soal', 'SoalController@index')->name('student.soal')->middleware("student.status_soal");
@@ -48,8 +52,11 @@ Route::group(['namespace' => 'Student'], function () {
             Route::get('soal/edit/persoal/{id}/{nomor}/{id_param}', 'SoalController@soal_edit_persoal')->name('student.soal_edit_persoal');
             Route::post('soal/update/{id_param}', 'SoalController@soal_update')->name('student.soal_update');
         });
+        Route::get("soalpermentor/{id_param}", "SoalController@soalpermentor")->name("student.soal_permentor");
 
-        Route::get("pelajaran", "PelajaranController@index")->name("student.pelajaran");
+
+        // Route::get("pelajaran", "PelajaranController@index")->name("student.pelajaran");
+        // Route::get("pelajaran/ambildata", "PelajaranController@ambildata");
 
         Route::get('soal/nilai/cetak/{id}', 'SoalController@soal_nilai_cetak')->name('student.soal_nilai_cetak');
 

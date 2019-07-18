@@ -74,6 +74,16 @@ class Mentor extends Authenticatable implements MustVerifyEmail
         return $this->hasMany('App\Pelajaran', "id_mentor");
     }
 
+    public function materi()
+    {
+        return $this->hasMany('App\Materi', "id_mentor");
+    }
+
+    public function judul_soal()
+    {
+        return $this->hasMany('App\Soal_judul', "id_mentor");
+    }
+
     // public function jumlah_student()
     // {
     //     return $this->belongsToMany('App\Student', "Mentor_student", "id_student", "id_student");

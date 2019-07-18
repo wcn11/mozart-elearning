@@ -11,24 +11,25 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h5 class="text-center"><?php echo e($soal_judul->judul); ?></h5>
+                Soal akan berakhir pada : <span class="text-danger"><?php echo e($soal_judul->tanggal_selesai); ?></span>
             <button class="btn btn-danger float-right btn-selesai text-white">Selesai</button>
-            <?php $id_url = Crypt::encrypt($soal_judul->id); $id_param = $id_url;?>
+            <?php $id_url = Crypt::encrypt($soal_judul->kode_judul_soal); $id_param = $id_url;?>
             <form class="form-hasil" action="<?php echo e(route('student.soal_nilai', [$id_url, $id_param])); ?>" method="post">
                 <?php echo csrf_field(); ?>
                 <input type="hidden" name="id_url" value="<?php echo e($id_url); ?>">
             </form>
 
             </div>
-            <input type="hidden" name="soal_judul_id" value="<?php echo e($soal_judul->id); ?>">
+            <input type="hidden" name="soal_judul_id" value="<?php echo e($soal_judul->kode_judul_soal); ?>">
             <div class="card-body">
 
                 <?php for($i = 0; $i < $soal_judul->jumlah_soal; $i++): ?>
                 
-                    <?php $id = Crypt::encrypt($soal[$i]['id']); $nomor = $i+1; ?>
+                    <?php $id = Crypt::encrypt($soal[$i]['kode_soal']); $nomor = $i+1; ?>
                     
                     <?php echo e($nomor); ?>. <?php echo e($soal[$i]['pertanyaan']); ?> <br>
                     
-                    <a class="btn btn-primary float-right mr-3" href="<?php echo e(route('student.soal_edit_persoal', [$id , $nomor, $id_param = Crypt::encrypt($soal_judul->id)])); ?>">edit</a>
+                    <a class="btn btn-primary float-right mr-3" href="<?php echo e(route('student.soal_edit_persoal', [$id , $nomor, $id_param = Crypt::encrypt($soal_judul->kode_judul_soal)])); ?>">edit</a>
 
                     <?php if($hasil[$i]['jawaban'] == 1): ?>
                         A. <?php echo e($soal[$i]['pilihan1']); ?> <br>

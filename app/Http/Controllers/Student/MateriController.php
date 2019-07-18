@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Student;
 use App\Mentor;
 use App\Materi;
+use App\Pelajaran;
 
 class MateriController extends Controller
 {
@@ -33,11 +34,14 @@ class MateriController extends Controller
     public function materi()
     {
         $id_student = Auth::guard('student')->user()->id_student;
-        // $materi = Materi::where('id_mentor', Auth::guard('student')->user()->id_student)->get();
-        // return view('student.materi', compact('materi'));
-        $mentor = Mentors_student::where("id_student", $id_student)->get();
 
-        // $materi = Materi::where("materi")
+        $std= Student::find($id_student);
+
+        // foreach($std->mentor as $m){
+        //     echo "nama mentor = ". $m->name. "<br>";
+        // }
+        // echo $materi->pelajaran->nama_pelajaran;
+        return view("student.materi", ["std" => $std->mentor]);
     }
 
     public function materi_read($id)
@@ -45,5 +49,12 @@ class MateriController extends Controller
         $materi = Materi::find($id);
 
         return view('student.materi_read', compact('materi'));
+    }
+
+    public function daftar_materi($id)
+    {
+        $materi = Materi::where("id_mentor", $id)->get();
+
+        return view('student.daftar_materi', compact('materi'));
     }
 }

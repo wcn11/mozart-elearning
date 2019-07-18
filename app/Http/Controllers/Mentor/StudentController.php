@@ -25,9 +25,13 @@ class StudentController extends Controller
     {
         $mentor_id = Auth::guard('mentor')->user()->id_mentor;
 
-        $student = Mentors_student::where("id_mentor", $mentor_id)->get();
+        $student = Mentor::find($mentor_id)->student;
 
-        // return view('mentor.pages.student.index', compact('student', "js"));
+        $js = Mentors_student::where("id_mentor", $mentor_id)->get()->count();
+
+        $tanggal_follow = Mentors_student::where("id_mentor", $mentor_id)->get();
+
+        return view('mentor.pages.student.index', compact('student', "js", "tanggal_follow"));
     }
 
     public function getDataStudent()

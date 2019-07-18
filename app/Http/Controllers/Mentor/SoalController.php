@@ -132,6 +132,8 @@ class SoalController extends Controller
     {
         $kode_judul_soal = $request->kode_judul_soal;
 
+
+
         $id_mentor = Auth::guard('mentor')->user()->id_mentor;
 
         $mentor_slash = strrpos($id_mentor, "-");
@@ -139,8 +141,14 @@ class SoalController extends Controller
         $mentor_substr = substr($id_mentor, $mentor_slash + 1);
 
         for ($i = 0; $i < count($request->pertanyaan); $i++) {
+            $soal = Soal::max("kode_soal");
+
+            $soal_slash = strrpos($soal, "-") + 1;
+    
+            $soal_substr = substr($soal , $soal_slash) + 1;
             Soal::create([
-                'id_mentor' => $mentor_substr,
+                'kode_soal' => "SOAL-".$mentor_substr."-".$soal_substr,
+                'id_mentor' => $id_mentor,
                 'kode_judul_soal' => $request->kode_judul_soal,
                 'pertanyaan' => $request->pertanyaan[$i],
                 'pilihan1' => $request->pilihan1[$i],
@@ -231,7 +239,7 @@ class SoalController extends Controller
         $id_mentor = Auth::guard('mentor')->user()->id_mentor;
 
         for ($i = 0; $i < count($request->pertanyaan); $i++) {
-            $soal = Soal::find($request->soal_id[$i]);
+            $soal = Soal::find($request->kode_soal[$i]);
             $soal->kode_judul_soal = $request->kode_judul_soal;
             $soal->pertanyaan = $request->pertanyaan[$i];
             $soal->pilihan1  = $request->pilihan1[$i];

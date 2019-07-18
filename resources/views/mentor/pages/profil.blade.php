@@ -17,7 +17,7 @@
             <h6 class="m-0 font-weight-bold text-primary">Data diri</h6>
         </div>
         <div class="card-body">
-            <div class="table-responsive w-100">
+            <div class="table-responsive w-100 overflow-hidden">
 
                 <form class="form-update" action="{{ route('mentor.profil_update')}}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -40,6 +40,30 @@
                                             </div>
                                             <input type="text" class="form-control" name="email" placeholder="Email anda" value="{{$mentor->email}}" required>
                                         </div>
+                                    
+                                        <div class="col-md-12 mb-3">
+                                            
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text bg-info text-white">Status e-mail</span>
+                                                </div>
+                                                @if($mentor->email_verified_at == "")
+                                                    <h5 class="bg-danger rounded w-50 p-2 mt-2 text-white text-center">Belum di verifikasi <i class="fas fa-exclamation-circle"></i></h5>
+                                                    <em class="text-dark-50"><a class="font-weight-bold text-danger  btn-kirim-email" href="javascript:void(0)">Klik disini</a> untuk kirim ulang email verifikasi.</em>
+                                                @else
+                                                    <h5 class="rounded w-50 p-2 mt-2 text-white text-center" style="background-color:#4dbea5;">Telah di verifikasi <i class="fas fa-check-circle"></i></h5>
+                                                @endif
+                                            </div>
+                                    
+                                            <div class="col-md-12 mb-3">
+                                                
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text bg-info text-white">Ubah password</span>
+                                                    </div>
+                                                    
+                                                    <input type="password" style="background-color: #4dbea5;" class="password" readonly data-target=".modal-ganti-password" value="password" type="button" data-toggle="modal">
+                                                    <br>
+                                                    <em class="text-dark-50 mt-5"><sup>Klik <span class="badge badge-info text-white" data-toggle="modal" data-target=".modal-ganti-password" style="color:#4dbea5;">ubah password</span> untuk ganti password anda</sup></em>
+                                                </div>
                                     </div>
                                 </div>
                             </div>
@@ -49,20 +73,17 @@
                                 <div class="card-body">
                                     <div class="form-row">
                                         <div class="col-md-12 mb-3">
-                                            <label for="inputFile">Foto profil :  </label><br>
-                                            <input type='file' name="file" value="{{$mentor->foto}}" id="inputFile" /> {{-- {!! HTML::image($mentor->foto, 'Foto Profil', array('class' => 'rounded-circle text-center img-fluid gambar')) !!} --}}
-                                            <img id="image_upload_preview" src="{{url('images/'. $mentor->foto)}}" class="rounded-circle gambar" alt="your image" />
+                                                <div class="input-group-prepend mb-2">
+                                                    <span class="input-group-text bg-info text-white">Foto Profil</span>
+                                                </div>
+                                            <input type='file' name="file" value="{{$mentor->foto}}" class="fom-control w-100 text-center text-white" id="inputFile" style="background-color:#4dbea5; padding:20px; border-radius:25px;" />
+                                            {{-- <img id="image_upload_preview" src="{{url('images/'. $mentor->foto)}}" class="rounded-circle gambar" alt="your image" /> --}}
 
                                         </div>
-
-
-
-                                        <div class="col-md-12 mb-3">
-
-                                            <button class="btn btn-primary" data-target=".modal-ganti-password" type="button" data-toggle="modal">Ubah Password</button>
-
+                                        <div class="col-md-12 p-2 text-center mt-3">
+        
+                                            <img id="image_upload_preview" src="{{url('images/'. $mentor->foto)}}" class="rounded gambar border-success border border-20" alt="your image" />
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -96,7 +117,7 @@
                 <div class="form-group row">
                     <label for="oldPassword" class="col-md-5 col-form-label text-md-right">{{ __('Password lama') }}</label>
                     
-                    <span class=" current_password w-100 text-danger text-center">Password salah</span>
+                    <span class="password-salah w-100 text-danger text-center">Password yang anda masukkan saat ini salah</span>
                     <div class="col-md-12">
                         <input id="current_password" type="password" class="form-control" name="current_password" value="" required autofocus>
                         
@@ -106,10 +127,10 @@
                 <div class="form-group row">
                     <label for="password" class="col-md-5 col-form-label text-md-right">{{ __('Password baru') }}</label>
 
-                    <span class=" current_password w-100 text-danger text-center password_sama text-center">Password baru anda tidak boleh sama dengan password lama!</span>
-                    <span class=" current_password w-100 text-danger password_tidak_sama text-center">Password baru anda tidak sama dengan password Konfirmasi!</span>
+                    <span class=" w-100 text-danger text-center password_sama text-center">Password baru anda tidak boleh sama dengan password lama anda!</span>
+                    <span class=" password_tidak_sama w-100 text-danger password_tidak_sama text-center">Password baru anda tidak sama dengan password Konfirmasi!</span>
                     <div class="col-md-12">
-                        <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+                        <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password_baru" required>
                     </div>
                 </div>
 
@@ -139,20 +160,25 @@
 
 <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 <style>
+    .password {
+	background-color: #4dbea5;
+	border: 0px;
+	border-radius: 5px;
+	padding: 2px;
+	font-size: 20px;
+    color: white;
+    text-align: center;
+    margin-top: 2px;
+}
     .gambar {
-        width: 20%;
+        width: 100%;
         height: auto;
+        min-height: 200px;
     }
     
-    .current_password {
-        display: none;
-    }
-    
-    .password_sama {
-        display: none;
-    }
-    
-    .password_tidak_sama {
+    .password-salah,
+    .password_tidak_sama,
+    .password_sama{
         display: none;
     }
 </style>
@@ -197,6 +223,7 @@
         $(".current_password").hide();
         $(".password_sama").hide()
         $(".password_tidak_sama").hide();
+        // $("#current_password").val("");
 
         $.ajaxSetup({
             headers: {
@@ -209,25 +236,30 @@
             url: "{{ url('/mentor/password/change') }}",
             data: {
                 current_password: $("[name='current_password']").val(),
-                password: $("[name='password']").val(),
+                password_baru: $("[name='password_baru']").val(),
                 password_confirmation: $("[name='password_confirmation']").val()
             },
             success: function(hasil) {
-                if (hasil.password_salah) {
-                    $(".current_password").show();
-                } else if (hasil.password_sama) {
-                    $(".password_sama").show();
-                } else if (hasil.password_tidak_sama) {
+                // console.log(hasil.stat/sus_password);
+                if(hasil.status_password == "salah"){
+                    $(".password-salah").show();
+                    $(".password_tidak_sama").hide();
+                    $(".password_sama").hide();
+                }else if(hasil.status_password == "konfirmasi_tidak_sama"){
                     $(".password_tidak_sama").show();
-                } else if (hasil.password_berhasil) {
-                    $(".modal-ganti-password").modal("hide");
+                    $(".password-salah").hide();
+                    $(".password_sama").hide();
+                }else if(hasil.status_password == "password_sama_dengan_lama"){
+                    $(".password_sama").show();
+                    $(".password_tidak_sama").hide();
+                    $(".password-salah").hide();
+                }else if(hasil.status_password == "berhasil"){
                     Swal.fire(
                         'Berhasil!',
-                        'Berhasil mengubah password!',
+                        'Berhasil ubah password!',
                         'success'
                     )
-                } else {
-                    console.log("");
+                    location.reload();
                 }
             }
         });

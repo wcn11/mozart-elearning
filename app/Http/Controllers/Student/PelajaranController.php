@@ -15,14 +15,23 @@ class PelajaranController extends Controller
     public function index(){
         $id_std = Auth::guard("student")->user()->id_student;
 
-        $mntr = Mentors_student::where("id_student", $id_std)->get();
+        $mentor = Mentors_student::where("id_student", $id_std)->get();
 
-        // foreach($mntr as $m){
-        //     $mapel = Pelajaran::where("id_mentor", $m->id_mentor)->get();
-        //     echo $mapel."<br>";
-        // }
+        $data = [];
+        for($i = 0; $i < count($mentor); $i++){
+            $data[] = array(Mentor::find($mentor[$i]["id_mentor"]));
+            // echo $data[$i][0]["name"]."<br>";
+        }
+        $jumlah = count($mentor);
         
-        
-        // return view("student.pelajaran", compact("mntr"));
+        return view("student.pelajaran", compact("data", "jumlah"));
+    }
+
+    public function ambildata(Request $request){
+        $id = $request->id_mentor;
+
+        $mentor = Mentor::find($id);
+
+        return $mentor->pelajaran;
     }
 }

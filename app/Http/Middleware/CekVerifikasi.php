@@ -19,12 +19,16 @@ class CekVerifikasi
      */
     public function handle($request, Closure $next)
     {   
-        $mentor_id = Auth::guard('mentor')->user()->id_mentor;
+        if(Auth::guard("mentor")->check()){
 
-        $mentor = Mentor::find($mentor_id);
+            $mentor_id = Auth::guard('mentor')->user()->id_mentor;
 
-        if($mentor->email_verified_at == null){
-            Session::flash('belum_verifikasi', "Email anda harus diverifikasi terlebih dahulu");
+            $mentor = Mentor::find($mentor_id);
+
+            if($mentor->email_verified_at == null){
+                Session::flash('belum_verifikasi', "Email anda harus diverifikasi terlebih dahulu");
+            }
+            
         }
         return $next($request);
     }

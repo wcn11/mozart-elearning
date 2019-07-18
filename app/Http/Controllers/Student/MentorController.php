@@ -14,70 +14,36 @@ use App\Student;
 class MentorController extends Controller
 {
     public function index(){
-        $mentor = Student::all();
-        
-        foreach($mentor as $m){
-            echo $m->pelajaran;
-            
-        }
+        $mentor = Mentor::all();
 
-        // for($i; $i < count($mentor); $i++){
-        //     echo $mentor[$i]['name']."<br>";
-        //     if($i < $ji){
-        //         if($ikut[$i]["id_mentor"] == $mentor[$i]['id_mentor']){
-        //             echo "ikut.<br>";
-        //         }else{
-        //             echo "kaga.<br>";
-        //         }
-        //     }else{
-        //         echo "kaga2.<br>";
-        //     }
-        //     }
-        
-        // $js = [];
-
-        // for($i = 0; $i < count($mentor); $i++){
-        //     $js2 = Mentors_student::where("id_mentor", $mentor[$i]['id_mentor'])->get();
-
-        //     $js[] = array(
-        //         $mentor[$i]['id_mentor'] => count($js2)
-        //     );
-        // }
-        // print_r(array_keys($js[0])[0]);
-
-        // $pelajaran = Pelajaran::where("id_student", Auth::guard("student")->user()->id_student)->get();
-
-        // if($pelajaran < 0){
-        //     $mapel = Pelajaran::all();
-        // }else{
-        //     // $mapel = $pelajaran;
-        //     $mentor = Me
-        // }
-
-
-        // return view("student.mentor", compact('mentor',"js"));
+        return view("student.mentor", compact('mentor'));
     }
 
     public function ambildata(Request $request){
 
-        $id_mentor = $request->id_mentor;
+        $id = Auth::guard("student")->user()->id_student;
 
-        $jumlah_student = count(Mentors_student::where("id_mentor", $id_mentor)->get());
+        $std = Student::find($id);
 
-        if($jumlah_student > 0){
-            
-            $mentor = Mentor::find($id_mentor);
+        return $std->mentor;
+    }
 
-            $jumlah_kuota = $mentor->kuota;
+    public function ambildatafull(){ // mentor dengan kuota yang sudah penuh
 
-            return response()->json(
-                array(
-                    "kuota" => "ada", "jumlah_kuota" => $jumlah_kuota, "jumlah_student" => $jumlah_student
-                    )
-                );
-        }else{
-            return response()->json(array("kuota" => "kosong"));
+        $k = Mentor::all();
+
+        $b = [];
+        foreach($k as $a){
+            $b[] = 
+            array(
+                "id_mentor" => $a->id_mentor, 
+                "kuota-kini" => count($a->student), 
+                "kuota" => $a->kuota
+            );
         }
+
+        return $b;
+
     }
 
     
@@ -85,6 +51,12 @@ class MentorController extends Controller
         date_default_timezone_set("Asia/Jakarta");
 
         $id_mentor = $id;
+
+        $mentor_student = Mentors_student::max("kode_mengikuti");
+
+        $mentor_student_slash = strrpos($mentor_student, "-");
+
+        $mentor_student_substr = substr($mentor_student, $mentor_student_slash + 1)+1;
 
         $mentor = Mentor::find($id);
 
@@ -97,7 +69,7 @@ class MentorController extends Controller
         $student_substr = substr(Auth::guard("student")->user()->id_student, $student_slash + 1);
 
         Mentors_student::firstOrCreate([
-            "kode_mengikuti" => "IKT-".$mentor_substr."-".$student_substr,
+            "kode_mengikuti" => "IKT-".$mentor_substr."-".$student_substr."-".$mentor_student_substr,
             "id_mentor" => $id,
             "id_student" => Auth::guard("student")->user()->id_student,
             "tanggal_mengikuti" => now()

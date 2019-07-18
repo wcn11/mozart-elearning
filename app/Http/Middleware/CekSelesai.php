@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Support\Facades\Crypt;
 use App\Nilai;
 use Illuminate\Support\Facades\Session;
+use App\Soal_judul;
 
 class CekSelesai
 {
@@ -24,6 +25,8 @@ class CekSelesai
 
         $nilai = Nilai::where("kode_judul_soal", $id)->get();
 
+        $id_mentor = Soal_judul::where("kode_judul_soal", $id)->get();
+
         if(count($nilai) > 0){
 
             if($nilai[0]['status'] == "selesai"){
@@ -31,7 +34,7 @@ class CekSelesai
                 if($request->ajax()){
                     return response()->json(array("telah_selesai" => "selesai"));
                 }else{
-                    return redirect()->route("student.soal");
+                    return redirect()->route("student.soal_permentor", Crypt::encrypt($id_mentor[0]['id_mentor']));
                 }
 
             }

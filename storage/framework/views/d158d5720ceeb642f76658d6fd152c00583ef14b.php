@@ -25,7 +25,7 @@
     <?php if(Session::has("belum_verifikasi")): ?>
     <div class="alert alert-danger alert-dismissible fade show mb-0 text-center alert-konfirmasi" role="alert">
         <strong>E-mail belum dikonfirmasi!</strong> Anda Harus Segera Mengkonfirmasi Alamat Email.
-        <a href="javascript:void(0)" class="font-weight-bold text-dangee btn-kirim-email">Kirim ulang</a> E-mail Konfirmasi.
+        <a href="javascript:void(0)" class="font-weight-bold text-danger btn-kirim-email">Kirim ulang</a> E-mail Konfirmasi.
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button> <?php echo csrf_field(); ?>
@@ -79,19 +79,6 @@
         </div>
       </li>
 
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pelajaran" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>Pelajaran</span>
-        </a>
-        <div id="pelajaran" class="collapse" aria-labelledby="headingTwo">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Mata pelajaran:</h6>
-            <a class="collapse-item" href="<?php echo e(route('student.pelajaran')); ?>">Pelajaran</a>
-          </div>
-        </div>
-      </li>
 
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
@@ -247,6 +234,7 @@
 
   <!-- Bootstrap core JavaScript-->
   <script src="<?php echo e(asset('vendor/jquery/jquery.min.js')); ?>"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="<?php echo e(asset('vendor/bootstrap/js/bootstrap.bundle.min.js')); ?>"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
@@ -257,6 +245,10 @@
   <script src="<?php echo e(asset('js/sb-admin-2.min.js')); ?>"></script>
 
   <script>
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
   
   $(".btn-kirim-email").click(function() {
       var email = $("[name='email_mentor']").val();
@@ -313,6 +305,12 @@
         popup: 'animated shake'
       }
     })
+  </script>
+  <?php endif; ?>
+
+  <?php if(Session::has('id')): ?>
+  <script>
+    console.log("<?php echo e(Session::get('id')); ?>");
   </script>
   <?php endif; ?>
 

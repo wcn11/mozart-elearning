@@ -24,40 +24,45 @@
                     <thead>
                         <tr style="text-align:center; text-transform:uppercase;">
                             <th>Foto</th>
+                            <th>ID</th>
                             <th>Nama</th>
                             <th>Email</th>
-                            <th>Sekolah</th>
-                            <th>Nomor Telepon</th>
-                            <th>Pilihan</th>
+                            <th>Telepon</th>
+                            <th>Tanggal Mengkuti</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($student as $std)
-                            @foreach ($std->student as $dm)
+                        @for ($i = 0; $i < count($student); $i++)
                                 
-                                <tr style="text-align:center;">
-                                    <td>{{ HTML::image($dm->foto, 'Profile', array('class' => 'rounded-circle text-center img-fluid gambar')) }}
-                                    </td>
-                                    <td>{{ $dm->name }}</td>
-                                    <td>{{ $dm->email }}</td>
-                                    <td>{{ $dm->sekolah }}</td>
+                                <tr class="text-center">
                                     <td>
-                                        @if ( $dm->no_telepon == null)
-                                        Data belum diisi
+                                        <div class="profil p-2">
+                                            <img src="{{ url('images/'.$student[$i]['foto']) }}" class="rounded text-center gambar border-success border border-20" alt="your image">
+                                        </div>
+                                    </td>
+                                    <td>{{ $student[$i]['id_student'] }}</td>
+                                    <td>{{ $student[$i]['name'] }}</td>
+                                    <td>{{ $student[$i]['email'] }}</td>
+                                    <td>
+                                        @if ( $student[$i]['no_telepon'] == null)
+                                            belum diisi
                                         @else
-                                        {{ $dm->no_telepon }}
+                                        {{ $student[$i]['no_telepon'] }}
                                         @endif
                                     </td>
                                     <td>
+                                        {{ $tanggal_follow[$i]['tanggal_mengikuti'] }}
+                                    </td>
+                                    <td>
 
-                                        <button class=" btn btn-info btn-delete" data-id="{{ $dm->id_student }}">keluarkan</button>
-                                        <form class="form-keluar-{{ $dm->id_student }}" action="{{ route('mentor.unfollow', $dm->id_student) }}" method="post">
+                                        <button class=" btn btn-danger btn-delete" data-id="{{ $student[$i]['id_student'] }}">keluarkan</button>
+                                        <form class="form-keluar-{{ $student[$i]['id_student'] }}" action="{{ route('mentor.unfollow', $student[$i]['id_student']) }}" method="post">
                                             @csrf
                                         </form>
                                     </td>
                                 </tr>
-                            @endforeach
-                        @endforeach
+                        @endfor
                     </tbody>
                 </table>
             </div>
@@ -99,9 +104,17 @@
 
 <style>
     .gambar {
-        width: 30%;
+        width: 100%;
         height: auto;
+        /* min-height: 200px; */
         text-align: center;
+    }
+    .profil{
+        width: 100%;
+        text-align: center !important;
+    }
+    .sorting_1{
+        width: 20%;
     }
 
 </style>
@@ -134,29 +147,6 @@
         });
 
         $("#tabel").DataTable();
-        // $.ajaxSetup({
-        //                 headers: {
-        //                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-        //                         'content')
-        //                 }
-        //             });
-        // $.ajax({
-        //     type: "post",
-        //     url: "http://127.0.0.1:8000/mentor/data",
-        //     dataType: "json",
-        //     success: function(hasil){
-        //         console.log(hasil);
-        //         // var data = "";
-        //         // hasil.forEach(function(entry) {
-
-        //         //         $("#dataTable tbody").append(
-        //         //         "<tr>" +
-        //         //         "<td>"+ entry.name +"</td>" +
-        //         //         "</tr>"
-        //         //     );
-        //         // });
-        //     }
-        // });
 
         $(".btn-delete").click(function () {
 

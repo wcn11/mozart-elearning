@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Nilai extends Model
 {
     protected $table = 'nilai';
+    protected $primaryKey = 'kode_nilai';
+    public $keyType = 'string';
 
-    protected $fillable  = ['id_student', 'kode_judul_id', 'nilai'];
+    protected $fillable  = ['kode_nilai','id_student', 'kode_judul_soal', 'nilai', "status"];
 
     const CREATED_AT = "tanggal_selesai";
 

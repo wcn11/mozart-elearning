@@ -23,6 +23,11 @@ class Soal_judul extends Model
         return $this->belongsTo('App\Pelajaran', "kode_mapel", "kode_mapel");
     }
 
+    public function mentor()
+    {
+        return $this->belongsTo('App\Mentor', "kode_judul_soal");
+    }
+
     public function Soal()
     {
         return $this->hasMany('App\Soal', "id", "id");

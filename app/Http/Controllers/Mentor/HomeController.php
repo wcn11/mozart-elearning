@@ -34,19 +34,19 @@ class HomeController extends Controller
     public function index(Request $request)
     {
 
-        $cek_email = Mentor::select('email_verified_at')->where('email', Auth::guard('mentor')->user()->email)->get();
+        // $cek_email = Mentor::select('email_verified_at')->where('email', Auth::guard('mentor')->user()->email)->get();
 
-        foreach ($cek_email as $t) {
-            if ($t->email_verified_at == null) {
-                Session::flash('belum_verifikasi', 'Kamu harus segera mengkonfirmasi email kamu');
-            } else {
-                $request->session()->forget('pesan');
-            }
-        }
-        $request->session()->put('id_mentor', Auth::guard('mentor')->user()->id_mentor);
+        // foreach ($cek_email as $t) {
+        //     if ($t->email_verified_at == null) {
+        //         Session::flash('belum_verifikasi', 'Kamu harus segera mengkonfirmasi email kamu');
+        //     } else {
+        //         $request->session()->forget('pesan');
+        //     }
+        // }
+        // $request->session()->put('id_mentor', Auth::guard('mentor')->user()->id_mentor);
 
-        $mentor = Mentor::find(Auth::guard('mentor')->user()->id_mentor);
-        return view('mentor.home', ['mentor' => $mentor]);
+        // $mentor = Mentor::find(Auth::guard('mentor')->user()->id_mentor);
+        return view('mentor.home');
     }
 
     public function profil()
@@ -85,18 +85,26 @@ class HomeController extends Controller
     {
         $current_password =  Auth::guard('mentor')->user()->password;
 
-        if($request->password == $request->password_confirmation){
-            if(Hash::check($request->current_password, $current_password)){
-                $user_id = Auth::guard('mentor')->user()->id_mentor;
-                $user = Mentor::find($user_id);
-                $user->password = Hash::make($request->password);
-                $user->save();
-                return array("password_berhasil" => "password_berhasil");
+        if(Hash::check($request->current_password, $current_password)){
+
+            if($request->password_baru === $request->password_confirmation){
+
+                if((Hash::check($request->password_baru, $current_password))){
+                    return array("status_password" => "password_sama_dengan_lama"); //benars
+                }else{
+                    $user_id = Auth::guard('mentor')->user()->id_mentor;
+                    $user = Mentor::find($user_id);
+                    $user->password = Hash::make($request->password_baru);
+                    $user->save();
+                    return array("status_password" => "berhasil");
+                }
+
             }else{
-                return array("password_salah" => "password_salah");
+                return array("status_password" => "konfirmasi_tidak_sama");
             }
+            
         }else{
-            return array("password_tidak_sama" => "password_tidak_sama");
+            return array("status_password" => "salah");
         }
 
     }

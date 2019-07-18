@@ -13,81 +13,33 @@
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-info text-center"></h6>
+                <h6 class="m-0 font-weight-bold text-info text-center">Pilih mentor untuk melihat daftar soal</h6>
             </div>
-            <div class="card-body">
-            <div class="table-responsive w-100">
-                    <table class="table table-bordered" id="tabel" width="100%" cellspacing="0">
-                        <thead>
-                            <tr style="text-align:center;">
-                                <th>Judul Soal</th>
-                                <th><sup>Jumlah</sup> Soal</th>
-                                <th>Pelajaran</th>
-                                <th>waktu</th>
-                                <th><sup>Status</sup> Waktu</th>
-                                <th><sup>Status</sup> Mengerjakan</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if(empty($soal))
-                                <tr>
-                                    <td colspan="6" style="text-align:center;">Mentor belum membuat soal</td>
-                                </tr>
-                            @else
-                            @for ($i = 0; $i < count($soal); $i++)
-                            <tr style="text-align:center;" class="data-soal-{{ $i }}" data-id="{{ $soal[$i]['id'] }}">
-                                <td style="width: 35%; text-align:left;">{{ $soal[$i]['judul'] }}</td>
-                                <td>{{ $soal[$i]['jumlah_soal'] }}</td>
-                                <td>{{ $soal[$i]['pelajaran']['nama_pelajaran'] }}</td>
-                                <td>{{ $soal[$i]['tanggal_mulai'] }} - {{ $soal[$i]['tanggal_selesai'] }}</td>
-                                <td>{{ $status_batas[$i]['status'.$i] }}</td>
-                                @if($status_batas[$i]['status'.$i] == "lewat" && $status_mengerjakan[$i]['status'.$i] == "belum")
-                                    <td>
-                                        <span class="badge badge-danger">Tidak Mengerjakan</span>
-                                    </td>
-                                    
-                                    <td>
-                                        <span class="badge badge-danger">Tidak Mengerjakan</span>
-                                    </td>
-                                @elseif($status_batas[$i]['status'.$i] == "lewat" && $status_mengerjakan[$i]['status'.$i] == "selesai")
-                                    <td>
-                                        <span class="badge badge-success">Selesai</span>
-                                    </td>
-                                    
-                                    <td>
-                                        <a class="btn btn-outline-info" href="{{ route('student.soal_nilai_cetak', $soal[$i]['id']) }}"> <i class="fas fa-print"></i> Cetak</a>
-                                    </td>
-                                @elseif($status_batas[$i]['status'.$i] == "waktunya" && $status_mengerjakan[$i]['status'.$i] == "belum")
-                                    <td>
-                                        <span class="badge badge-warning">Waktunya</span>
-                                    </td>
-                                    <td>
-                                        <?php $id = Crypt::encrypt($soal[$i]['id']); ?>
-                                        
-                                        <form method="get" action="{{ route('student.soal_mengerjakan', [$id, $id_param = $id]) }}">
-                                            <button class="btn btn-info text-white" >Kerjakan</button>
-                                        </form>
-                                    </td>
-                                @elseif($status_batas[$i]['status'.$i] == "waktunya" && $status_mengerjakan[$i]['status'.$i] == "selesai")
-                                    <td>
-                                        <span class="badge badge-success">Selesai</span>
-                                    </td>
-                                    <td>
-                                        <?php $id = Crypt::encrypt($soal[$i]['id']); ?>
-                                        <a class="btn btn-outline-info" href="{{ route('student.soal_nilai_cetak', $soal[$i]['id']) }}"> <i class="fas fa-print"></i> Cetak</a>
-                                    </td>
-                                @elseif($status_batas[$i]['status'.$i] == "Belum waktunya")
-                                    <td><span class="badge badge-secondary">Belum waktunya</span></td>
-                                    <td><span class="badge badge-secondary">Belum waktunya</span></td>
-                                @endif
-                            </tr>
-                            @endfor
-                            @endif
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <div class="card-body container-utama overflow-auto" style="min-height:390px;">
+                <div class="row ">
+
+                    
+
+                        @foreach ($mentor->mentor as $m)
+
+                        <div class="col-md-3">
+                            <?php $id = Crypt::encrypt($m->id_mentor) ?>
+                                <a href="{{ route('student.soal_permentor', $id_mentor = $id, $id_param = $id) }}"><div class="flip-card p-2 m-2" data-toggle="tooltip" data-placement="top" title="{{ $m->name }}">
+                                        <div class="flip-card-inner">
+                                            <div class="flip-card-front">
+                                                <img class="rounded" src="{{ url('/images/'.$m->foto) }}" alt="{{ $m->name }}" style="width:100%;height:100%;">
+                                                
+                                                <div class="nama bg-white rounded" style="width:88%;">
+                                                    <p class="text-dark text-capitalize text-left m-2">{{ $m->name }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+        
+                        @endforeach
+                    </div>
         </div>
     </div>
     
@@ -103,8 +55,54 @@
 @section('scriptcss')
 <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 <style>
-    .session{
-        display: none;
+
+.container-utama{
+    height: auto;
+}
+.nama {
+        position: absolute;
+        bottom: 8px;
+        left: 16px;
+    }
+    .badge-keterangan{
+        position: absolute;
+        bottom: 25%;
+    }
+    
+    .flip-card {
+        background-color: transparent;
+        width: 300px;
+        height: 300px;
+        perspective: 1000px;
+    }
+    
+    .flip-card-inner {
+        position: relative;
+        width: 90%;
+        height: 90%;
+        text-align: center;
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+    
+    .flip-card-front,
+    .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+    }
+    
+    .flip-card-front {
+        background-color: #bbb;
+        color: black;
+    }
+    
+    .flip-card-back {
+        background-color: #2980b9;
+        color: white;
+        transform: rotateY(180deg);
     }
 </style>
 @endsection

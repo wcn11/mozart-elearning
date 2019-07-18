@@ -20,13 +20,13 @@
                 <br>
                 <div class="row justify-content-end">
                     
-                    <a class="btn btn-info btn-md btn-selesai text-white m-2" href="{{ route('student.soal_nilai_cetak', $soal_judul->id) }}"><i class="fas fa-print"></i> Cetak</a>
+                    <a class="btn btn-info btn-md btn-selesai text-white m-2" href="{{ route('student.soal_nilai_cetak', $soal_judul->kode_judul_soal) }}"><i class="fas fa-print"></i> Cetak</a>
 
                     <a class="btn btn-secondary text-white m-2" href="{{ route('student.soal') }}"><i class="fas fa-stream"></i> Kembali</a>
                 </div>
 
             </div>
-            <?php $id = Crypt::encrypt($soal_judul->id) ?>
+            <?php $id = Crypt::encrypt($soal_judul->kode_judul_soal) ?>
             <input type="hidden" name="soal_judul_id" value="{{$id}}">
             <div class="card-body">
 
