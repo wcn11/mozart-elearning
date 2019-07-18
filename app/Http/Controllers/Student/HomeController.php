@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Nilai;
+use App\Soal_judul;
+use Illuminate\Support\Facades\DB;
+use App\Pelajaran;
 
 class HomeController extends Controller
 {
@@ -32,7 +36,43 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('student.home');
+        $jumlah_mentor = Student::find(Auth::guard('student')->user()->id_student)->mentor;
+
+        $mentor = $jumlah_mentor->count();
+        
+        $materi = 0;
+
+        $soal = 0;
+        foreach($jumlah_mentor as $m){
+            $materi += count($m->materi);
+            $soal += count($m->judul_soal);
+        }
+        $nilai = Nilai::where("id_student", Auth::guard('student')->user()->id_student)->where("status", "selesai")->get();
+        
+        $total_nilai = $nilai->count();
+        
+        $kjs = [];
+        foreach($nilai as $n){
+            $kjs[] = array($n->kode_judul_soal);
+        }
+
+        // foreach($kjs as $k_key => $k_value){
+        //     $idm =  Soal_judul::find($k_value[0])->kjs_ke_mentor;
+        //     $idn =  Soal_judul::find($k_value[0])->nilai;
+        //     $sp =  Soal_judul::where("kode_judul_soal",$k_value[0])->get();
+        //     $mapel = Pelajaran::find($sp[0]["kode_mapel"]);
+
+        //     // echo $mapel->nama_pelajaran."<br>";
+        //     // echo $sl[0]["kode_mapel"]."<br>";
+        //     // for($i = 0; $i < count($idm) ;$i++){
+        //     //     echo "mapel =".$mapel->nama_pelajaran."<br>";
+        //     //     echo "soal =".$sp[0]["kode_mapel"]."<br>";
+        //     //     // echo "Mentor = " .$idm[$i]["name"]."<br>";
+        //     //     // echo "Nilai = ". $idn[$i]["kode_judul_soal"]."<br>";
+        //     // }
+        // }
+
+        return view('student.home', compact("kjs", "mentor", "total_nilai", "materi", "soal"));
     }
     public function mentor()
     {

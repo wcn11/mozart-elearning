@@ -32,4 +32,12 @@ class Soal_judul extends Model
     {
         return $this->hasMany('App\Soal', "id", "id");
     }
+
+    public function Nilai()
+    {
+        return $this->hasMany('App\Nilai',"kode_judul_soal");
+    }
+    public function kjs_ke_mentor(){
+        return $this->hasMany("App\Mentor", "id_mentor", "id_mentor");
+    }
 }

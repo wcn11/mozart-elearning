@@ -59,6 +59,12 @@ class LoginController extends Controller
         return view('master.auth.login');
     }
 
+    
+    public function username()
+    {
+        return 'username';
+    }
+
     /**
      * Log the user out of the application.
      *

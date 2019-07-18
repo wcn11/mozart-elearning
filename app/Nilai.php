@@ -15,4 +15,8 @@ class Nilai extends Model
     const CREATED_AT = "tanggal_selesai";
 
     const UPDATED_AT = "tanggal_update";
+
+    public function judul_soal(){
+        return $this->belongsTo("App\Soal_judul", "kode_judul_soal");
+    }
 }

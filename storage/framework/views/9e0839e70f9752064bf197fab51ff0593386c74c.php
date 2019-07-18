@@ -4,18 +4,19 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Daftar Materi</h1>
+    <h1 class="h3 mb-2 text-gray-800"><img src="https://img.icons8.com/color/48/000000/todo-list.png" style="width:30px;"> Daftar Materi</h1>
      <p class="mb-4">Murid yang ada pada daftar dibawah adalah murid yang mengikuti anda dan anda dapat <span
             class="badge badge-danger">mengeluarkan</span> murid anda.</p>  
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Murid</h6>
+            <h6 class="m-0 font-weight-bold text-primary"><img src="https://img.icons8.com/color/48/000000/student-male.png" width="30px"/>Murid</h6>
         </div>
-        <div class="card-body text-left">
+        <div class="card-body container-utama text-left">
 
             <div class="row">
+                
                 <?php $__currentLoopData = $materi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $m): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     
                     <div class="col-md-3">
@@ -24,10 +25,10 @@
                                 <img src="<?php echo e(url('/images/'.$m->cover)); ?>" alt="John" style="width:100%"  data-toggle="tooltip" data-placement="top" title="<?php echo e($m->judul_materi); ?>">
                                 <p class="title p-2" data-toggle="tooltip" data-placement="top" title="<?php echo e($m->judul_materi); ?>"><?php echo e($m->judul_materi); ?></p>
                             </a>
-                            <p><?php echo e($m->pelajaran->nama_pelajaran); ?></p>
+                            <p><img src="https://img.icons8.com/color/48/000000/math.png" class="icon-colored"> <?php echo e($m->pelajaran->nama_pelajaran); ?></p>
                             <p>
                                 <p class="badge badge-info"><?php echo e($m->dibuat); ?></p>
-                                <a href="<?php echo e(route('student.materi_read', $m->kode_materi)); ?>"><button class="baca rounded">Baca</button></a>
+                                <a href="<?php echo e(route('student.materi_read', $m->kode_materi)); ?>"><button class="baca rounded"><img src="https://img.icons8.com/color/48/000000/reading-ebook.png" style="width:30px;"> Baca</button></a>
                             </p>
                         </div>
                     </div>
@@ -52,6 +53,9 @@
 <link rel="stylesheet" href="<?php echo e(asset('tooltip/css/animate.css')); ?>">
 
 <style>
+.container-utama{
+    height: auto;
+}
 .materi {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   max-width: 300px;

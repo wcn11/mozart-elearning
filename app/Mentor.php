@@ -83,6 +83,10 @@ class Mentor extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany('App\Soal_judul', "id_mentor");
     }
+    
+    public function kjs_ke_mentor(){
+        return $this->belongsTo("App\Soal_judul","id_mentor");
+    }
 
     // public function jumlah_student()
     // {
