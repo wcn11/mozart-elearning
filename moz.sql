@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 04, 2019 at 12:55 PM
--- Server version: 10.1.37-MariaDB
--- PHP Version: 7.3.0
+-- Waktu pembuatan: 19 Jul 2019 pada 08.21
+-- Versi server: 10.1.37-MariaDB
+-- Versi PHP: 7.3.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,33 +25,56 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `hasil`
+-- Struktur dari tabel `hasil`
 --
 
 CREATE TABLE `hasil` (
-  `id` int(11) NOT NULL,
-  `soal_id` int(11) NOT NULL,
-  `soal_judul_id` int(11) NOT NULL,
-  `student_id` int(11) NOT NULL,
+  `kode_soal` varchar(30) NOT NULL,
+  `kode_judul_soal` varchar(25) NOT NULL,
+  `id_student` varchar(25) NOT NULL,
   `jawaban` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `hasil`
---
-
-INSERT INTO `hasil` (`id`, `soal_id`, `soal_judul_id`, `student_id`, `jawaban`) VALUES
-(36, 1, 1, 1, 1),
-(37, 2, 1, 1, 3),
-(38, 3, 1, 1, 3),
-(39, 4, 1, 1, 2),
-(40, 5, 1, 1, 5),
-(41, 6, 1, 1, 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `masters`
+-- Struktur dari tabel `judul_soal`
+--
+
+CREATE TABLE `judul_soal` (
+  `kode_judul_soal` varchar(25) NOT NULL,
+  `id_mentor` varchar(25) NOT NULL,
+  `kode_mapel` varchar(25) NOT NULL,
+  `judul` varchar(191) NOT NULL,
+  `jumlah_soal` int(11) NOT NULL,
+  `tanggal_mulai` varchar(20) DEFAULT NULL,
+  `tanggal_selesai` varchar(20) DEFAULT NULL,
+  `dibuat` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `diupdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `master`
+--
+
+CREATE TABLE `master` (
+  `username` varchar(25) NOT NULL,
+  `password` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `master`
+--
+
+INSERT INTO `master` (`username`, `password`) VALUES
+('master', '$2y$10$.wFhvEMf8OSZqeSVulvfcO8iixNvHjubfY/O7JGDnXHinD6gbFw4C');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `masters`
 --
 
 CREATE TABLE `masters` (
@@ -68,129 +91,158 @@ CREATE TABLE `masters` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `materi`
+-- Struktur dari tabel `materi`
 --
 
 CREATE TABLE `materi` (
-  `id` int(11) NOT NULL,
-  `mentor_id` int(11) NOT NULL,
-  `pelajaran_id` int(11) NOT NULL,
-  `materi` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `judul_materi` varchar(191) NOT NULL,
-  `cover` varchar(255) NOT NULL DEFAULT 'materi_default.jpg',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `materi`
---
-
-INSERT INTO `materi` (`id`, `mentor_id`, `pelajaran_id`, `materi`, `judul_materi`, `cover`, `created_at`, `updated_at`) VALUES
-(34010001, 124030092, 401, 'asd', 'asd', '1562119575_1649750473.jpeg', '2019-07-02 19:06:15', '2019-07-02 19:06:15');
+  `kode_materi` varchar(25) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_mentor` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kode_mapel` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `judul_materi` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cover` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'cover_materi/cover_materi_default.jpg',
+  `materi` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `dibuat` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `diupdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mentors`
+-- Struktur dari tabel `mentors`
 --
 
 CREATE TABLE `mentors` (
-  `id` int(20) NOT NULL,
+  `id_mentor` varchar(25) NOT NULL,
   `name` varchar(191) NOT NULL,
   `foto` varchar(191) NOT NULL DEFAULT 'user/mentor_default.jpg',
   `email` varchar(191) NOT NULL,
-  `tanggal_lahir` date NOT NULL,
   `password` varchar(191) NOT NULL,
+  `kuota` int(10) NOT NULL DEFAULT '30',
   `email_verified_at` varchar(191) DEFAULT NULL,
   `remember_token` varchar(191) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `mentors`
---
-
-INSERT INTO `mentors` (`id`, `name`, `foto`, `email`, `tanggal_lahir`, `password`, `email_verified_at`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1240391, 'qweqwe', 'user/mentor_default.jpg', 'wahyuchandra110we9@gmail.com', '1997-06-24', '$2y$10$ZYgKdFt.3AjQ0S0RZcZsFeXMWN38hU..d2/LJqlSfNDUHxa/2QFfG', NULL, NULL, '2019-07-03 00:57:33', '2019-07-02 17:43:47'),
-(124030092, 'qweqwe', 'user/mentor_default.jpg', 'admin@mozart.com', '2019-07-24', '$2y$10$lxiwBve64CB97lwdjSYXXewatXKTa5uf9VJYEBO2WfNDtcAlnjNDa', NULL, NULL, '2019-07-02 18:02:02', '2019-07-02 18:02:02'),
-(125040093, 'wahyu chandra nugroho', 'user/mentor_default.jpg', 'wahyuchandra1109@gmail.com', '2019-07-25', '$2y$10$pHwzQkK2NXI/G2qtvPGwFeES.Xvsu/fF.XzQhXsjdzajmfFND.VOm', NULL, NULL, '2019-07-03 19:09:40', '2019-07-03 19:09:40');
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mentor_student`
+-- Struktur dari tabel `mentor_student`
 --
 
 CREATE TABLE `mentor_student` (
-  `id` int(11) NOT NULL,
-  `mentor_id` int(11) NOT NULL,
-  `student_id` int(11) NOT NULL,
-  `date_follow` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `kode_mengikuti` varchar(25) NOT NULL,
+  `id_mentor` varchar(25) NOT NULL,
+  `id_student` varchar(25) NOT NULL,
+  `tanggal_mengikuti` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `mentor_student`
+-- Dumping data untuk tabel `mentor_student`
 --
 
-INSERT INTO `mentor_student` (`id`, `mentor_id`, `student_id`, `date_follow`) VALUES
-(1, 1, 1, '2019-06-29 05:00:42');
+INSERT INTO `mentor_student` (`kode_mengikuti`, `id_mentor`, `id_student`, `tanggal_mengikuti`) VALUES
+('IKT-2-1-1', 'MNTR-2', 'STD-1', '2019-07-19 05:56:29');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `nilai`
+-- Struktur dari tabel `migrations`
+--
+
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `migrations`
+--
+
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(9, '2014_10_12_100000_create_password_resets_table', 1),
+(10, '2019_06_20_044229_create_materi_table', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `nilai`
 --
 
 CREATE TABLE `nilai` (
-  `id` int(11) NOT NULL,
-  `soal_judul_id` int(11) NOT NULL,
-  `nilai` int(11) NOT NULL,
-  `student_id` int(11) NOT NULL,
+  `kode_nilai` varchar(25) NOT NULL,
+  `kode_judul_soal` varchar(25) NOT NULL,
+  `nilai` int(20) NOT NULL,
+  `id_student` varchar(25) NOT NULL,
+  `status` varchar(20) DEFAULT NULL,
   `tanggal_selesai` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `tanggal_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `nilai`
+-- Struktur dari tabel `password_resets`
 --
 
-INSERT INTO `nilai` (`id`, `soal_judul_id`, `nilai`, `student_id`, `tanggal_selesai`, `tanggal_update`) VALUES
-(4, 1, 4, 1, '2019-07-01 00:59:55', '2019-07-01 01:00:21');
+CREATE TABLE `password_resets` (
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `password_resets`
+--
+
+INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
+('wa@gmail.com', '$2y$10$8Y6XU4S1/D3MGTNt.fNCCeBC966BgDECzg3GgoEY5TRRyW7DHqVQ2', '2019-07-18 22:52:06');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pelajaran`
+-- Struktur dari tabel `pelajaran`
 --
 
 CREATE TABLE `pelajaran` (
-  `id` int(11) NOT NULL,
-  `materi_id` int(11) NOT NULL,
+  `kode_mapel` varchar(25) NOT NULL,
+  `id_mentor` varchar(25) NOT NULL,
   `nama_pelajaran` varchar(191) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `pelajaran`
+-- Dumping data untuk tabel `pelajaran`
 --
 
-INSERT INTO `pelajaran` (`id`, `materi_id`, `nama_pelajaran`, `created_at`, `updated_at`) VALUES
-(401, 1, 'Matematika', '2019-07-03 02:01:24', '2019-06-29 04:41:07'),
-(402, 2, 'IPA', '2019-07-03 02:01:43', '2019-06-29 04:41:29');
+INSERT INTO `pelajaran` (`kode_mapel`, `id_mentor`, `nama_pelajaran`, `created_at`, `updated_at`) VALUES
+('MPL-1-1', 'MNTR-1', 'Matematika', '2019-07-18 23:14:31', '2019-07-18 23:14:31');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `soal`
+-- Struktur dari tabel `pelajaran_student`
+--
+
+CREATE TABLE `pelajaran_student` (
+  `kode_join_pelajaran_student` int(25) NOT NULL,
+  `id_mentor` varchar(25) NOT NULL,
+  `id_student` varchar(25) NOT NULL,
+  `kode_mapel` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `soal`
 --
 
 CREATE TABLE `soal` (
-  `id` int(11) NOT NULL,
-  `mentor_id` int(11) NOT NULL,
-  `soal_judul_id` bigint(20) NOT NULL,
+  `kode_soal` varchar(30) NOT NULL,
+  `id_mentor` varchar(25) NOT NULL,
+  `kode_judul_soal` varchar(25) NOT NULL,
   `pertanyaan` varchar(191) NOT NULL,
   `pilihan1` varchar(191) NOT NULL,
   `pilihan2` varchar(191) NOT NULL,
@@ -202,51 +254,14 @@ CREATE TABLE `soal` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `soal`
---
-
-INSERT INTO `soal` (`id`, `mentor_id`, `soal_judul_id`, `pertanyaan`, `pilihan1`, `pilihan2`, `pilihan3`, `pilihan4`, `pilihan5`, `pilihan_benar`, `created_at`, `updated_at`) VALUES
-(7, 1, 50092010001, 'apakah', '11', '12', '13', '14', '15', '1', '2019-07-03 04:49:05', '2019-07-02 21:00:35'),
-(8, 1, 50092010001, 'pertanyaan2', '21', '22', '23', '24', '25', '2', '2019-07-03 04:49:08', '2019-07-02 21:00:35'),
-(9, 1, 50092010001, 'pertanyaan3', '31', '32', '33', '34', '35', '3', '2019-07-03 04:49:11', '2019-07-02 21:00:35'),
-(10, 1, 50092010001, 'pertanyaan4', '41', '42', '43', '44', '45', '4', '2019-07-03 04:49:14', '2019-07-02 21:00:35'),
-(11, 1, 50092010001, 'pertanyaan5', '51', '52', '53', '54', '55', '5', '2019-07-03 04:49:17', '2019-07-02 21:00:35');
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `soal_judul`
---
-
-CREATE TABLE `soal_judul` (
-  `id` bigint(20) NOT NULL,
-  `mentor_id` int(11) NOT NULL,
-  `pelajaran_id` int(11) NOT NULL,
-  `judul` varchar(191) NOT NULL,
-  `jumlah_soal` int(11) NOT NULL,
-  `waktu_pengerjaan` int(11) NOT NULL,
-  `dibuat` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `diupdate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `soal_judul`
---
-
-INSERT INTO `soal_judul` (`id`, `mentor_id`, `pelajaran_id`, `judul`, `jumlah_soal`, `waktu_pengerjaan`, `dibuat`, `diupdate`) VALUES
-(50092010001, 124030092, 401, 'Quiz IPA 1', 5, 30, '2019-07-03 04:46:43', '2019-07-02 20:58:18'),
-(5009340110002, 125040093, 401, 'quiz', 5, 30, '2019-07-03 19:32:27', '2019-07-03 19:32:27'),
-(5009340140110003, 125040093, 401, 'quiz', 5, 30, '2019-07-03 19:33:34', '2019-07-03 19:33:34');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `students`
+-- Struktur dari tabel `students`
 --
 
 CREATE TABLE `students` (
-  `id` int(20) NOT NULL,
+  `id_student` varchar(25) NOT NULL,
   `mentor_id` int(11) DEFAULT NULL,
   `socialite_id` int(11) DEFAULT NULL,
   `socialite_name` varchar(191) DEFAULT NULL,
@@ -255,116 +270,115 @@ CREATE TABLE `students` (
   `email` varchar(191) NOT NULL,
   `no_telepon` varchar(191) DEFAULT NULL,
   `password` varchar(191) NOT NULL,
-  `email_verified_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `email_verified_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `remember_token` varchar(191) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT '0000-00-00 00:00:00',
-  `updated_at` timestamp NULL DEFAULT NULL
+  `tanggal_daftar` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `diupdate` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `students`
---
-
-INSERT INTO `students` (`id`, `mentor_id`, `socialite_id`, `socialite_name`, `name`, `foto`, `email`, `no_telepon`, `password`, `email_verified_at`, `remember_token`, `created_at`, `updated_at`) VALUES
-(211040001, NULL, NULL, NULL, 'wahyu chandra nugroho', 'user/user_default.png', 'wahyuchandra1109@gmail.com', NULL, '$2y$10$Hibtnr2FCEJ8bg7YUzxNRezox4dtKy12h/GJAGO.svDWg0GoznDay', '2019-07-04 03:04:20', NULL, '2019-07-03 20:04:20', '2019-07-03 20:04:20');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `hasil`
+-- Indeks untuk tabel `hasil`
 --
 ALTER TABLE `hasil`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`kode_soal`);
 
 --
--- Indexes for table `masters`
+-- Indeks untuk tabel `judul_soal`
+--
+ALTER TABLE `judul_soal`
+  ADD PRIMARY KEY (`kode_judul_soal`);
+
+--
+-- Indeks untuk tabel `master`
+--
+ALTER TABLE `master`
+  ADD PRIMARY KEY (`username`);
+
+--
+-- Indeks untuk tabel `masters`
 --
 ALTER TABLE `masters`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `materi`
+-- Indeks untuk tabel `materi`
 --
 ALTER TABLE `materi`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`kode_materi`);
 
 --
--- Indexes for table `mentors`
+-- Indeks untuk tabel `mentors`
 --
 ALTER TABLE `mentors`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id_mentor`);
 
 --
--- Indexes for table `mentor_student`
+-- Indeks untuk tabel `mentor_student`
 --
 ALTER TABLE `mentor_student`
+  ADD PRIMARY KEY (`kode_mengikuti`);
+
+--
+-- Indeks untuk tabel `migrations`
+--
+ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `nilai`
+-- Indeks untuk tabel `nilai`
 --
 ALTER TABLE `nilai`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`kode_nilai`);
 
 --
--- Indexes for table `pelajaran`
+-- Indeks untuk tabel `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD KEY `password_resets_email_index` (`email`);
+
+--
+-- Indeks untuk tabel `pelajaran`
 --
 ALTER TABLE `pelajaran`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`kode_mapel`);
 
 --
--- Indexes for table `soal`
+-- Indeks untuk tabel `pelajaran_student`
+--
+ALTER TABLE `pelajaran_student`
+  ADD PRIMARY KEY (`kode_join_pelajaran_student`);
+
+--
+-- Indeks untuk tabel `soal`
 --
 ALTER TABLE `soal`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`kode_soal`);
 
 --
--- Indexes for table `soal_judul`
---
-ALTER TABLE `soal_judul`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `students`
+-- Indeks untuk tabel `students`
 --
 ALTER TABLE `students`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id_student`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `hasil`
+-- AUTO_INCREMENT untuk tabel `migrations`
 --
-ALTER TABLE `hasil`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `mentor_student`
+-- AUTO_INCREMENT untuk tabel `pelajaran_student`
 --
-ALTER TABLE `mentor_student`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `nilai`
---
-ALTER TABLE `nilai`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `pelajaran`
---
-ALTER TABLE `pelajaran`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=403;
-
---
--- AUTO_INCREMENT for table `soal`
---
-ALTER TABLE `soal`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+ALTER TABLE `pelajaran_student`
+  MODIFY `kode_join_pelajaran_student` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Socialite;
+use App\Student;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 class LoginController extends Controller
 {
     /*
@@ -76,5 +79,48 @@ class LoginController extends Controller
 
         return redirect($this->redirectTo);
     }
+
+    public function redirectToProvider($driver){
+        return Socialite::driver($driver)->redirect();
+    }
+
+    public function handleProviderCallback($driver){
+        try {
+            date_default_timezone_set('Asia/Jakarta');
+
+            $m = Student::max("id_student");
+            $s = substr($m, strrpos($m, "-")+1)+1;
+
+            $std = Socialite::driver($driver)->user();
+
+            $create = Student::firstOrCreate([
+                'email' => $std->getEmail()
+            ],[
+                'id_student' => "STD-".$s,
+                'socialite_id' => $std->getId(),
+                'socialite_name' => $driver,
+                'name' => $std->getName(),
+                'foto' => $std->getAvatar(),
+                'email_verified_at' => now()
+            ]
+        );
+
+        Auth::guard('student')->login($create, true);
+        Session::flash("login", auth()->login($create, true));
+        return redirect()->route("student.dashboard");
+        
+        
+        } catch (\Exception $e) {
+            return $e;
+        }
+    }
+    // public function redirectPath()
+    // {
+    //     if (method_exists($this, 'redirectTo')) {
+    //         return $this->redirectTo();
+    //     }
+
+    //     return property_exists($this, 'redirectTo') ? $this->redirectTo : '/student';
+    // }
 
 }

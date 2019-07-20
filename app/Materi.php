@@ -27,4 +27,9 @@ class Materi extends Model
     {
         return $this->belongsTo('App\Pelajaran', "id_mentor");
     }
+
+    public function materi_ke_mentor()
+    {
+        return $this->belongsTo('App\Mentor', "id_mentor");
+    }
 }

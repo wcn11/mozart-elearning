@@ -1,22 +1,16 @@
-<div class="col-lg-3 col-md-4 col-xs-6 thumb m-3">
-    <div class="flip-card">
-        <div class="flip-card-inner">
-            <div class="flip-card-front">
-                <img class="rounded" src="{{ url('/images/'.$m->foto) }}" alt="Avatar" style="width:100%;height:100%;">
-                <div class="kiri-bawah bg-white rounded" style="width:88%;">
-                    <p class="text-dark text-capitalize text-left m-2">{{ $m->name }}</p>
+@extends('master.layouts.app') @section('main-content')
+<div class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card">
+            <div class="wrapper">
 
-                </div>
-            </div>
-            <div class="flip-card-back p-3">
-                <h4 class="font-weight-bold text-capitalize">{{ $m->name }}</h4>
-                <p>{{ $m->email }}</p>
-                <p>Pekerjaan</p>
-                <p>We love that guy</p>
-                <a href="#" class="btn btn-danger btn-sm btn-unfollow"><i class="fa fa-sign-out-alt"></i> Berhenti ikuti mentor</a>
+
+                @for ($i = 0; $i
+                < $soal_judul->jumlah_soal; $i++) {{ $i +1 }}. {{ $soal[$i]['pertanyaan']}}
+                    <br><br> 1 .{{ $soal[$i]['pilihan1']}}<br> 2. {{ $soal[$i]['pilihan2']}}<br> 3. {{ $soal[$i]['pilihan3']}}<br> 4. {{ $soal[$i]['pilihan4']}}<br> 5. {{ $soal[$i]['pilihan5']}}<br> Pilihan benar : {{ $soal[$i]['pilihan_benar']}}<br><br>                    @endfor
             </div>
         </div>
-
-        <a href="javascript:void(0)"><button class="btn btn-outline-success text-center shadow" style="width:90%;"><i class="fas fa-map-pin"></i> Diikuti</button></a>
     </div>
+
 </div>
+@endsection

@@ -80,9 +80,9 @@ class SoalController extends Controller
 
         $sj = new Soal_judul;
 
-        $sj->kode_judul_soal = 5
-                .$mid
-                .$request->kode_mapel
+        $sj->kode_judul_soal = "KJS-"
+                .$mid. "-"
+                .$request->kode_mapel . "-"
                 .$nomor;
 
         $sj->kode_mapel = $request->kode_mapel;

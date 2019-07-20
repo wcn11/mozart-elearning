@@ -19,7 +19,7 @@ class Master extends Authenticatable
     protected $keyType = "string";
 
     protected $primaryKey = "username";
-    public $timestamp = false;
+    public $timestamps = false;
     public $incrementing = false;
 
     protected $table = "master";

@@ -23,4 +23,18 @@ Route::group(['namespace' => 'Master'], function() {
     Route::get('email/verify','Auth\VerificationController@show')->name('master.verification.notice');
     Route::get('email/verify/{id}','Auth\VerificationController@verify')->name('master.verification.verify');
 
+    Route::get("mentor", "MentorController@mentor")->name("master.mentor");
+    Route::post("mentor/delete/{id}", "MentorController@delete_mentor")->name("master.delete_mentor");
+    Route::get("student", "StudentController@index")->name("master.student");
+    Route::post("student/delete/{id}", "StudentController@delete_student")->name("master.delete_student");
+
+    Route::get("materi", "MateriController@index")->name("master.materi");
+    Route::post("materi/delete/{id}", "MateriController@delete_materi")->name("master.delete_materi");
+    Route::get("materi/baca/{id}", "MateriController@baca_materi")->name("master.baca_materi");
+
+    Route::get("soal", "SoalController@index")->name("master.soal");
+    Route::get("soal/lihat/{id}", "SoalController@lihat_soal")->name("master.lihat_soal");
+    Route::post("soal/delete/{id}", "SoalController@delete_soal")->name("master.delete_soal");
+    
+    Route::post('/password/change', 'HomeController@changePassword')->name('master.password.change');
 });

@@ -46,7 +46,7 @@ class HomeController extends Controller
         // $request->session()->put('id_mentor', Auth::guard('mentor')->user()->id_mentor);
 
         // $mentor = Mentor::find(Auth::guard('mentor')->user()->id_mentor);
-        return view('mentor.home');
+        return view('mentor.student');
     }
 
     public function profil()

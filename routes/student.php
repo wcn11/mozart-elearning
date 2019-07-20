@@ -26,13 +26,16 @@ Route::group(['namespace' => 'Student'], function () {
     Route::get("mentor/ikuti/{id}", "MentorController@ikuti")->name("student.ikuti_mentor");
     Route::post("mentor/unfollow/{id}", "MentorController@unfollow")->name("student.unfollow");
 
+    Route::get("redirect/{driver}", "Auth\LoginController@redirectToProvider")->name("login.provider");
+    Route::get('{driver}/callback', 'Auth\LoginController@handleProviderCallback')->name('login.callback');
+
     Route::get("mentor", "MentorController@index")->name("student.mentor")->middleware('student.auth', 'student.verified');
     // Students
     Route::group(['middleware' => ['student.auth', 'student.verified', "student.cek_mengikuti"]], function () {
 
         Route::post('/password/change', 'HomeController@changePassword')->name('mentor.password.change');
         
-        Route::get('/', 'HomeController@index')->name('student.dashboard')->middleware('student.status_soal', "student.cek_mengikuti");
+        Route::get('/', 'HomeController@index')->name('student.dashboard');
         Route::get("profil", "HomeController@profil")->name('student.profil')->middleware("student.status_soal");
         Route::post("profil/update", "HomeController@profil_update")->name('student.profil_update');
 
