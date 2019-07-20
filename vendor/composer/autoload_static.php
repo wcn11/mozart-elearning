@@ -577,6 +577,7 @@ class ComposerStaticInit46bb84a4ac149cf8b8cb78cfa3591fd2
         'App\\Soal' => __DIR__ . '/../..' . '/app/Soal.php',
         'App\\Soal_judul' => __DIR__ . '/../..' . '/app/Soal_judul.php',
         'App\\Student' => __DIR__ . '/../..' . '/app/Student.php',
+        'App\\Traits\\CanBuildSocialProvider' => __DIR__ . '/../..' . '/app/Traits/CanBuildSocialProvider.php',
         'Barryvdh\\DomPDF\\Facade' => __DIR__ . '/..' . '/barryvdh/laravel-dompdf/src/Facade.php',
         'Barryvdh\\DomPDF\\PDF' => __DIR__ . '/..' . '/barryvdh/laravel-dompdf/src/PDF.php',
         'Barryvdh\\DomPDF\\ServiceProvider' => __DIR__ . '/..' . '/barryvdh/laravel-dompdf/src/ServiceProvider.php',

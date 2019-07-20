@@ -26,8 +26,8 @@ Route::group(['namespace' => 'Student'], function () {
     Route::get("mentor/ikuti/{id}", "MentorController@ikuti")->name("student.ikuti_mentor");
     Route::post("mentor/unfollow/{id}", "MentorController@unfollow")->name("student.unfollow");
 
-    Route::get("redirect/{driver}", "Auth\LoginController@redirectToProvider")->name("login.provider");
-    Route::get('{driver}/callback', 'Auth\LoginController@handleProviderCallback')->name('login.callback');
+    Route::get("redirect/{driver}", "Auth\LoginController@redirectToProvider")->name("login.student.provider");
+    Route::get('{driver}/callback', 'Auth\LoginController@handleProviderCallback')->name('login.student.callback');
 
     Route::get("mentor", "MentorController@index")->name("student.mentor")->middleware('student.auth', 'student.verified');
     // Students

@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,3 +14,4 @@
 Route::get('/', function () {
     return view('student.auth.login');
 });
+

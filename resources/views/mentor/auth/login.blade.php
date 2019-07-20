@@ -59,6 +59,9 @@
 									Lupa password
 									<i class="fa fa-long-arrow-right m-l-5"></i>
 								</a>
+								
+								{{-- <a href="{{ route('login.mentor.provider', 'google') }}" class="btn btn-danger">{{ __('Google Sign in') }}</a>
+								<a href="{{ route('login.mentor.provider', 'facebook') }}" class="btn btn-danger">{{ __('Facebook Sign in') }}</a> --}}
 					</div>
 					
 				</form>

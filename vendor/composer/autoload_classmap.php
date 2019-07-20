@@ -89,6 +89,7 @@ return array(
     'App\\Soal' => $baseDir . '/app/Soal.php',
     'App\\Soal_judul' => $baseDir . '/app/Soal_judul.php',
     'App\\Student' => $baseDir . '/app/Student.php',
+    'App\\Traits\\CanBuildSocialProvider' => $baseDir . '/app/Traits/CanBuildSocialProvider.php',
     'Barryvdh\\DomPDF\\Facade' => $vendorDir . '/barryvdh/laravel-dompdf/src/Facade.php',
     'Barryvdh\\DomPDF\\PDF' => $vendorDir . '/barryvdh/laravel-dompdf/src/PDF.php',
     'Barryvdh\\DomPDF\\ServiceProvider' => $vendorDir . '/barryvdh/laravel-dompdf/src/ServiceProvider.php',

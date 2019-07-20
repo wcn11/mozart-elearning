@@ -59,7 +59,8 @@
 									Lupa password
 									<i class="fa fa-long-arrow-right m-l-5"></i>
 								</a>
-								<a href="<?php echo e(route('login.provider', 'google')); ?>" class="btn btn-danger"><?php echo e(__('Google Sign in')); ?></a>
+								<a href="<?php echo e(route('login.student.provider', 'google')); ?>" class="btn btn-danger"><?php echo e(__('Google Sign in')); ?></a>
+								<a href="<?php echo e(route('login.student.provider', 'facebook')); ?>" class="btn btn-danger"><?php echo e(__('Facebook Sign in')); ?></a>
 					</div>
 					
 				</form>

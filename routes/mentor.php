@@ -23,6 +23,8 @@ Route::group(['namespace' => 'Mentor'], function () {
     Route::get('email/verify', 'Auth\VerificationController@show')->name('mentor.verification.notice');
     Route::get('email/verify/{id}', 'Auth\VerificationController@verify')->name('mentor.verification.verify');
 
+    // Route::get("redirect/{driver}", "Auth\LoginController@redirectToProvider")->name("login.mentor.provider");
+    // Route::get('{driver}/callback', 'Auth\LoginController@handleProviderCallback')->name('login.mentor.callback');
     // Students
     Route::group(['middleware' => ['mentor.auth', 'mentor.verified']], function () {
 

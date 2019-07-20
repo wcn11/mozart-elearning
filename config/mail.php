@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'system@mozart.com'),
-        'name' => env('MAIL_FROM_NAME', 'Mozart elearning'),
+        'address' => env('MAIL_FROM_ADDRESS', 'system@saunghusen.com'),
+        'name' => env('MAIL_FROM_NAME', 'Mozart E-learning'),
     ],
 
     /*
@@ -71,7 +71,7 @@ return [
     |
     */
 
-    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+    'encryption' => env('MAIL_ENCRYPTION', 'ssl'),
 
     /*
     |--------------------------------------------------------------------------
