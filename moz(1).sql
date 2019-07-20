@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 19 Jul 2019 pada 08.21
--- Versi server: 10.1.37-MariaDB
--- Versi PHP: 7.3.0
+-- Generation Time: Jul 21, 2019 at 01:57 AM
+-- Server version: 10.1.37-MariaDB
+-- PHP Version: 7.3.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `hasil`
+-- Table structure for table `hasil`
 --
 
 CREATE TABLE `hasil` (
@@ -38,7 +38,7 @@ CREATE TABLE `hasil` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `judul_soal`
+-- Table structure for table `judul_soal`
 --
 
 CREATE TABLE `judul_soal` (
@@ -56,7 +56,7 @@ CREATE TABLE `judul_soal` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `master`
+-- Table structure for table `master`
 --
 
 CREATE TABLE `master` (
@@ -65,7 +65,7 @@ CREATE TABLE `master` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `master`
+-- Dumping data for table `master`
 --
 
 INSERT INTO `master` (`username`, `password`) VALUES
@@ -74,7 +74,7 @@ INSERT INTO `master` (`username`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `masters`
+-- Table structure for table `masters`
 --
 
 CREATE TABLE `masters` (
@@ -91,7 +91,7 @@ CREATE TABLE `masters` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `materi`
+-- Table structure for table `materi`
 --
 
 CREATE TABLE `materi` (
@@ -108,15 +108,17 @@ CREATE TABLE `materi` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `mentors`
+-- Table structure for table `mentors`
 --
 
 CREATE TABLE `mentors` (
   `id_mentor` varchar(25) NOT NULL,
+  `socialite_id` varchar(255) DEFAULT NULL,
+  `socialie_name` varchar(255) DEFAULT NULL,
   `name` varchar(191) NOT NULL,
   `foto` varchar(191) NOT NULL DEFAULT 'user/mentor_default.jpg',
   `email` varchar(191) NOT NULL,
-  `password` varchar(191) NOT NULL,
+  `password` varchar(191) DEFAULT NULL,
   `kuota` int(10) NOT NULL DEFAULT '30',
   `email_verified_at` varchar(191) DEFAULT NULL,
   `remember_token` varchar(191) DEFAULT NULL,
@@ -127,7 +129,7 @@ CREATE TABLE `mentors` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `mentor_student`
+-- Table structure for table `mentor_student`
 --
 
 CREATE TABLE `mentor_student` (
@@ -138,7 +140,7 @@ CREATE TABLE `mentor_student` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `mentor_student`
+-- Dumping data for table `mentor_student`
 --
 
 INSERT INTO `mentor_student` (`kode_mengikuti`, `id_mentor`, `id_student`, `tanggal_mengikuti`) VALUES
@@ -147,7 +149,7 @@ INSERT INTO `mentor_student` (`kode_mengikuti`, `id_mentor`, `id_student`, `tang
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `migrations`
+-- Table structure for table `migrations`
 --
 
 CREATE TABLE `migrations` (
@@ -157,7 +159,7 @@ CREATE TABLE `migrations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data untuk tabel `migrations`
+-- Dumping data for table `migrations`
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
@@ -167,7 +169,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `nilai`
+-- Table structure for table `nilai`
 --
 
 CREATE TABLE `nilai` (
@@ -183,7 +185,7 @@ CREATE TABLE `nilai` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `password_resets`
+-- Table structure for table `password_resets`
 --
 
 CREATE TABLE `password_resets` (
@@ -193,7 +195,7 @@ CREATE TABLE `password_resets` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data untuk tabel `password_resets`
+-- Dumping data for table `password_resets`
 --
 
 INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
@@ -202,7 +204,7 @@ INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pelajaran`
+-- Table structure for table `pelajaran`
 --
 
 CREATE TABLE `pelajaran` (
@@ -214,7 +216,7 @@ CREATE TABLE `pelajaran` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `pelajaran`
+-- Dumping data for table `pelajaran`
 --
 
 INSERT INTO `pelajaran` (`kode_mapel`, `id_mentor`, `nama_pelajaran`, `created_at`, `updated_at`) VALUES
@@ -223,7 +225,7 @@ INSERT INTO `pelajaran` (`kode_mapel`, `id_mentor`, `nama_pelajaran`, `created_a
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pelajaran_student`
+-- Table structure for table `pelajaran_student`
 --
 
 CREATE TABLE `pelajaran_student` (
@@ -236,7 +238,7 @@ CREATE TABLE `pelajaran_student` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `soal`
+-- Table structure for table `soal`
 --
 
 CREATE TABLE `soal` (
@@ -257,19 +259,17 @@ CREATE TABLE `soal` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `students`
+-- Table structure for table `students`
 --
 
 CREATE TABLE `students` (
   `id_student` varchar(25) NOT NULL,
-  `mentor_id` int(11) DEFAULT NULL,
-  `socialite_id` int(11) DEFAULT NULL,
+  `socialite_id` varchar(255) DEFAULT NULL,
   `socialite_name` varchar(191) DEFAULT NULL,
   `name` varchar(191) NOT NULL,
   `foto` varchar(191) DEFAULT 'user/user_default.png',
   `email` varchar(191) NOT NULL,
-  `no_telepon` varchar(191) DEFAULT NULL,
-  `password` varchar(191) NOT NULL,
+  `password` varchar(191) DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `remember_token` varchar(191) DEFAULT NULL,
   `tanggal_daftar` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -277,108 +277,115 @@ CREATE TABLE `students` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Dumping data for table `students`
+--
+
+INSERT INTO `students` (`id_student`, `socialite_id`, `socialite_name`, `name`, `foto`, `email`, `password`, `email_verified_at`, `remember_token`, `tanggal_daftar`, `diupdate`) VALUES
+('STD-1', '110084344871768341865', 'google', 'wahyu chandra', 'https://lh6.googleusercontent.com/-TzAT7EIcbHs/AAAAAAAAAAI/AAAAAAAAABU/tLKisLXH9iE/photo.jpg', 'wahyuchandra1109@gmail.com', NULL, '2019-07-20 13:41:04', 'aUhAR36FWqBHkXlQdTLNOfMIceKSNvlPgmyAnWpuIjV9vTRyDPBQW7jxiI9E', '2019-07-20 13:26:33', '2019-07-20 13:26:33');
+
+--
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `hasil`
+-- Indexes for table `hasil`
 --
 ALTER TABLE `hasil`
   ADD PRIMARY KEY (`kode_soal`);
 
 --
--- Indeks untuk tabel `judul_soal`
+-- Indexes for table `judul_soal`
 --
 ALTER TABLE `judul_soal`
   ADD PRIMARY KEY (`kode_judul_soal`);
 
 --
--- Indeks untuk tabel `master`
+-- Indexes for table `master`
 --
 ALTER TABLE `master`
   ADD PRIMARY KEY (`username`);
 
 --
--- Indeks untuk tabel `masters`
+-- Indexes for table `masters`
 --
 ALTER TABLE `masters`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `materi`
+-- Indexes for table `materi`
 --
 ALTER TABLE `materi`
   ADD PRIMARY KEY (`kode_materi`);
 
 --
--- Indeks untuk tabel `mentors`
+-- Indexes for table `mentors`
 --
 ALTER TABLE `mentors`
   ADD PRIMARY KEY (`id_mentor`);
 
 --
--- Indeks untuk tabel `mentor_student`
+-- Indexes for table `mentor_student`
 --
 ALTER TABLE `mentor_student`
   ADD PRIMARY KEY (`kode_mengikuti`);
 
 --
--- Indeks untuk tabel `migrations`
+-- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `nilai`
+-- Indexes for table `nilai`
 --
 ALTER TABLE `nilai`
   ADD PRIMARY KEY (`kode_nilai`);
 
 --
--- Indeks untuk tabel `password_resets`
+-- Indexes for table `password_resets`
 --
 ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
 
 --
--- Indeks untuk tabel `pelajaran`
+-- Indexes for table `pelajaran`
 --
 ALTER TABLE `pelajaran`
   ADD PRIMARY KEY (`kode_mapel`);
 
 --
--- Indeks untuk tabel `pelajaran_student`
+-- Indexes for table `pelajaran_student`
 --
 ALTER TABLE `pelajaran_student`
   ADD PRIMARY KEY (`kode_join_pelajaran_student`);
 
 --
--- Indeks untuk tabel `soal`
+-- Indexes for table `soal`
 --
 ALTER TABLE `soal`
   ADD PRIMARY KEY (`kode_soal`);
 
 --
--- Indeks untuk tabel `students`
+-- Indexes for table `students`
 --
 ALTER TABLE `students`
   ADD PRIMARY KEY (`id_student`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `migrations`
+-- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT untuk tabel `pelajaran_student`
+-- AUTO_INCREMENT for table `pelajaran_student`
 --
 ALTER TABLE `pelajaran_student`
-  MODIFY `kode_join_pelajaran_student` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `kode_join_pelajaran_student` int(25) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
