@@ -17,7 +17,7 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Buat soal</h6>
         </div>
-        
+
         <div class="card-body">
             <div class="table-responsive w-100" style="overflow:hidden;">
                 <form class="form form-tambah-soal" action="{{ route('mentor.question_create_title') }}" method="POST">
@@ -49,30 +49,30 @@
                         <span id="pesan_error_waktu" class="text-danger"></span>
                         <br>
                         <p class="font-italic text-grey">Masukkan Waktu, Tanggal mulai dan batas waktu</p>
-                        
+
                         <div class="row">
                             <div class="input-group mb-2 col-xs-12 col-sm-6 col-md-3" data-toggle="tooltip" data-placement="top" title="Tanggal mulai">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text bg-info text-white"> <i class="fas fa-calendar-alt"></i></div>
                                 </div>
                                 <input type="date" name="tanggal_mulai" class="form-control" placeholder="tanggal mulai" required><br>
-                                
+
                             </div>
-                            
+
                             <div class="input-group mb-2 col-xs-12 col-sm-6 col-md-3" data-toggle="tooltip" data-placement="top" title="Jam mulai">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text bg-info text-white"> <i class="fas fa-clock"></i></div>
                                 </div>
                                 <input type="text" name="jam_mulai" class="form-control clockpicker" data-placement="bottom" placeholder="waktu mulai" data-autoclose="true" readonly required>
                             </div>
-                            
+
                             <div class="input-group mb-2 col-xs-12 col-sm-6 col-md-3" data-toggle="tooltip" data-placement="top" title="Tanggal selesai">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text bg-info text-white"> <i class="fas fa-calendar-day"></i></div>
                                 </div>
                                 <input type="date" name="tanggal_selesai" class="form-control" placeholder="tanggal selesai" required>
                             </div>
-                            
+
                             <div class="input-group mb-2 col-xs-12 col-sm-6 col-md-3" data-toggle="tooltip" data-placement="top" title="Jam selesai">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text bg-info text-white"> <i class="fas fa-stopwatch"></i></div>
@@ -184,7 +184,7 @@
               <div class="modal-header judul-edit">
               </div>
               <div class="modal-body">
-              
+
             <form class="form form-update-judul" action="{{ route('mentor.question_update_title') }}" method="POST">
                         @csrf
                         <input type="hidden" name="kode_judul_soal">
@@ -203,19 +203,19 @@
                                 @endforeach
                             </select>
                         </div>
-    
+
                         <div class="form-group">
                             <label for="exampleInputEmail1">Jumlah soal<span class="text-danger">*</span></label>
                             <span id="pesan_error" class="text-danger"></span>
                             <input type="number" name="jumlah_soal_update" class="form-control" min="5" max="20" value="5" id="jumlah_soal">
                         </div>
-    
+
                         <div class="form-group">
                             <label for="exampleInputEmail1">Waktu mengerjakan<span class="text-danger">*</span></label>
                             <span id="pesan_error_waktu" class="text-danger"></span>
                             <br>
                             <p class="font-italic text-grey">Masukkan Waktu, Tanggal mulai dan batas waktu</p>
-                            
+
                             <div class="row">
                                 <div class="input-group mb-2 col-xs-12 col-sm-6 col-md-3" data-toggle="tooltip" data-placement="top" title="Tanggal mulai">
                                     <div class="input-group-prepend">
@@ -224,21 +224,21 @@
                                     <input type="date" name="tgl_mulai_update" class="form-control" placeholder="tanggal mulai" required>
 
                                 </div>
-                                
+
                                 <div class="input-group mb-2 col-xs-12 col-sm-6 col-md-3" data-toggle="tooltip" data-placement="top" title="Jam mulai">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text bg-info text-white"> <i class="fas fa-clock"></i></div>
                                     </div>
                                     <input type="text" name="jam_mulai_update" class="form-control clockpicker" data-placement="bottom" placeholder="waktu mulai" data-autoclose="true" readonly required>
                                 </div>
-                                
+
                                 <div class="input-group mb-2 col-xs-12 col-sm-6 col-md-3" data-toggle="tooltip" data-placement="top" title="Tanggal selesai">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text bg-info text-white"> <i class="fas fa-calendar-day"></i></div>
                                     </div>
                                     <input type="date" name="tanggal_selesai_update" class="form-control" placeholder="tanggal selesai" required>
                                 </div>
-                                
+
                                 <div class="input-group mb-2 col-xs-12 col-sm-6 col-md-3" data-toggle="tooltip" data-placement="top" title="Jam selesai">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text bg-info text-white"> <i class="fas fa-stopwatch"></i></div>
@@ -247,7 +247,7 @@
                                 </div>
                             </div>
                         </div>
-    
+
                         <button type="button" class="btn btn-info text-right btn-update-title">Update</button>
                     </form>
                 </div>
@@ -291,9 +291,9 @@
     );
     </script>
 <script>
-    
+
     $(document).ready(function() {
-    
+
         $(".btn-update-title").click(function(){
 
             var judul = $("[name='judul_update']").val();
@@ -490,7 +490,7 @@
 
         $(".btn-modal-edit-judul").click(function(){
             var id = $(this).attr("data-id");
-            
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -603,7 +603,7 @@
 <script>
     Swal.fire(
         'Berhasil!',
-        'Anda telah berhasil mengubah soal!',
+        'Berhasil update soal!',
         'success'
     )
 

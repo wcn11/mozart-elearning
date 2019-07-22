@@ -28,7 +28,7 @@ Route::group(['namespace' => 'Mentor'], function () {
     // Students
     Route::group(['middleware' => ['mentor.auth', 'mentor.verified']], function () {
 
-        Route::group(['middleware' => ['mentor.cek_mapel']], function(){
+        Route::group(['middleware' => ['mentor.cek_mapel']], function () {
 
             Route::post('/password/change', 'HomeController@changePassword')->name('mentor.password.change');
 
@@ -51,17 +51,26 @@ Route::group(['namespace' => 'Mentor'], function () {
             Route::post('soal/create/title', 'SoalController@question_create_title')->name('mentor.question_create_title');
             Route::post('soal/update/title', 'SoalController@question_update_title')->name('mentor.question_update_title');
             Route::post('soal/datapersoal', 'SoalController@data_persoal')->name('mentor.soal_data_persoal');
-            Route::post('soal/create/question', 'SoalController@question_create_questions')->name('mentor.question_create_questions');
             Route::get('soal/read/{id}', 'SoalController@soal_read')->name('mentor.soal_read');
             Route::get('soal/edit/{id}', 'SoalController@soal_edit')->name('mentor.soal_edit');
             Route::post('soal/update', 'SoalController@soal_update')->name('mentor.soal_update');
             Route::get('soal/hapus/{id}', 'SoalController@soal_hapus')->name('mentor.soal_hapus');
             Route::post('soal/delete/{id}', 'SoalController@soal_delete')->name('mentor.soal_delete');
+            Route::get("soal/buat_soal/{kode_judul_soal}", "SoalController@buat_soal_view")->name("mentor.buat_soal");
 
             Route::get('profil', 'HomeController@profil')->name('mentor.profil');
             Route::post('profil/update', 'HomeController@profil_update')->name('mentor.profil_update');
 
-            Route::any('ViewerJS/{all?}', function(){
+            //auto save
+            Route::post("soal/autosave/pertanyaan", "SoalController@autosave_pertanyaan");
+            Route::post("soal/autosave/pilihan1", "SoalController@autosave_pilihan1");
+            Route::post("soal/autosave/pilihan2", "SoalController@autosave_pilihan2");
+            Route::post("soal/autosave/pilihan3", "SoalController@autosave_pilihan3");
+            Route::post("soal/autosave/pilihan4", "SoalController@autosave_pilihan4");
+            Route::post("soal/autosave/pilihan5", "SoalController@autosave_pilihan5");
+            Route::post("soal/autosave/pilihan_benar", "SoalController@autosave_pilihan_benar");
+
+            Route::any('ViewerJS/{al l? }', function () {
 
                 return View::make('ViewerJS.index');
             });
@@ -73,6 +82,5 @@ Route::group(['namespace' => 'Mentor'], function () {
         Route::post("pelajaran/ambil_data", "PelajaranController@ambilData");
         Route::post("pelajaran/hapus/{id}", "PelajaranController@hapus");
         Route::get("pelajaran/cetak/{id}", 'PelajaranController@cetak');
-
     });
 });

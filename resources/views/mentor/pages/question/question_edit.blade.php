@@ -9,7 +9,7 @@
 
         <div class="clearfix">
 
-            <button class="btn btn-success btn-lg mb-4 mr-4 btn-upload float-right">Upload soal</button>
+            <button class="btn btn-success btn-lg mb-4 mr-4 btn-upload float-right">Update soal</button>
         
         </div>
 
@@ -98,13 +98,14 @@
                             <label for="exampleInputtext1">Pilihan Benar<span class="text-danger">*</span></label> 
                             <select class="form-control" name="pilihan_benar[]" required="required"> 
                                 @for($a = 0; $a < 5; $a++)
-                                    <option value="{{ $a+1 }}"  {{ $soal[$a]['pilihan_benar'] === $a+1 ? "selected='selected'" : '' }}>Pilihan {{ $a+1 }}</option>
+                                    {{--  <option value="{{ $a+1 }}"  {{ $soal[$a]['pilihan_benar'] === $a+1 ? "selected='selected'" : '' }}>Pilihan {{ $a+1 }}</option>  --}}
+                                    <option value="{{ $a+1 }}" @if($soal[$i]['pilihan_benar'] == $a+1) selected="selected" @endif > Pilihan {{ $a + 1 }} </option>
                                 @endfor
                             </select> 
                             <p class="help-block"></p> 
                         </div> 
                     </div> 
-                    <div class="col-md-6 grid-margin"> 
+                    {{--  <div class="col-md-6 grid-margin"> 
                         <div class="card shadow"> 
                             <div class="card-body"> 
                                 <h4 class="card-title">Penjelasan Jawaban Benar soal ke {{$i +1}}  </h4> 
@@ -113,7 +114,7 @@
                                         </textarea> 
                             </div> 
                         </div> 
-                    </div> 
+                    </div>   --}}
                 <br>
                 </div>
             @endfor
